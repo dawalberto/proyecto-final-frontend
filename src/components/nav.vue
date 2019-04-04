@@ -1,13 +1,11 @@
 <template>
-    <nav>
-        <ul>
-            <li><router-link to="/">Home</router-link></li>
-            <li><router-link to="/guitarristas">Guitarristas</router-link></li>
-            <li><router-link to="/conciertos">Conciertos</router-link></li>
-            <li><router-link to="/login" v-if="!userLogin">Login</router-link></li>
-            <li><router-link to="/registro" v-if="!userLogin">Registro</router-link></li>
-        </ul>
-    </nav>
+    <div>
+        <router-link to="/">Home</router-link>
+        <router-link to="/guitarristas">Guitarristas</router-link>
+        <router-link to="/conciertos">Conciertos</router-link>
+        <router-link to="/login" v-if="!userLogin">Login</router-link>
+        <router-link to="/registro" v-if="!userLogin">Registro</router-link>
+    </div>
 </template>
 
 <script>
