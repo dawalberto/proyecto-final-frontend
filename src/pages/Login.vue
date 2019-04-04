@@ -1,12 +1,12 @@
 <template>
     <div>
+        <input type="text" id="email" placeholder="email">
+        <input type="password" id="password" placeholder="password">
         <button @click="login">login</button>
     </div>
 </template>
 
 <script>
-/* eslint-disable */
-
 import axios from 'axios'
 import qs from 'qs'
 
@@ -22,13 +22,25 @@ export default {
     },
     methods: {
         login () {
+            let email = document.querySelector('#email').value
+            let password = document.querySelector('#password').value
+
             let user = {
-                email: 'front@front.com',
-                password: '123456'
+                email,
+                password
             }
-            axios.post('http://192.168.56.101:3000/login', qs.stringify(user))
-                .then( (res) => { console.log(res.data) } )
-                .catch( (err) => { console.log(err) } )
+
+            axios.post(`${ this.$store.state.urlBackend }/login`, qs.stringify(user))
+                .then((res) => { 
+                    this.$store.commit('login', res.data.usuario)
+                    this.$store.commit('setTokenLogin', res.data.token)
+                    // eslint-disable-next-line
+                    console.log('Login ok')
+                })
+                .catch((err) => { 
+                    // eslint-disable-next-line
+                    console.log(err)
+                })
         }
     }
 }

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import axios from 'axios'
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
@@ -17,7 +18,7 @@ export default {
     }
   },
   beforeMount () {
-    axios.get('http://192.168.56.101:3000/usuarios')
+    axios.get(`${ this.$store.state.urlBackend }/usuarios`)
       .then( res => { console.log(res.data) })
       .catch( err => { console.log(err) })
   }
