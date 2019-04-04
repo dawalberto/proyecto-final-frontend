@@ -1,18 +1,15 @@
 <template>
   <div>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/guitarristas">Guitarristas</router-link> |
-    <router-link to="/conciertos">Conciertos</router-link> |
-    <router-link to="/login">Login</router-link> |
-    <router-link to="/registro">Registro</router-link>
+    <vueNav></vueNav>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import vueNav from '@/components/nav'
 export default {
   name: 'app',
-
+  components: { vueNav }
 }
 </script>
 

@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     urlBackend: 'http://192.168.56.101:3000',
-    user: {}
+    user: {},
+    login: false
   },
   mutations: {
     login: (state, user) => {
@@ -27,6 +28,8 @@ export default new Vuex.Store({
       state.user.rol = user.rol
       state.user.google = user.google
       state.user.fechaRegistro = user.fechaRegistro
+      
+      state.login = true
     },
     setTokenLogin: (state, token) => {
       state.user.token = token
