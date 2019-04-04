@@ -5,9 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    urlBackend: 'http://192.168.56.101:3000',
+    urlBackend: 'http://localhost:3000',
     user: {},
-    login: false
+    login: false,
+    token: null
   },
   mutations: {
     login: (state, user) => {
@@ -32,7 +33,7 @@ export default new Vuex.Store({
       state.login = true
     },
     setTokenLogin: (state, token) => {
-      state.user.token = token
+      state.token = token
     }
   },
   actions: {

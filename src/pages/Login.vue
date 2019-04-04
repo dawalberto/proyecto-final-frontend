@@ -10,7 +10,7 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
-                  <v-text-field id="email" prepend-icon="email" name="login" label="email" type="text"></v-text-field>
+                  <v-text-field id="email" prepend-icon="email" name="login" label="email" type="text" required></v-text-field>
                   <v-text-field id="password" prepend-icon="lock" name="password" label="password" type="password"></v-text-field>
                 </v-form>
               </v-card-text>
@@ -53,6 +53,7 @@ export default {
                 .then((res) => { 
                     this.$store.commit('login', res.data.usuario)
                     this.$store.commit('setTokenLogin', res.data.token)
+                    this.$router.push('/')
                     // eslint-disable-next-line
                     console.log('Login ok')
                 })
