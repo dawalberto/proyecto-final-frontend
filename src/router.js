@@ -29,6 +29,11 @@ export default new Router({
       path: '/registro',
       name: 'registro',
       component: () => import('./pages/Registro.vue')
+    },
+    {
+      path: '/edit-perfil',
+      name: 'edit-perfil',
+      component: () => import('./pages/Edit-perfil.vue')
     }
   ]
 })
