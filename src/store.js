@@ -5,14 +5,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    urlBackend: 'http://192.168.56.101:3000',
+    urlBackend: 'http://localhost:3000',
     user: {},
     login: false,
     token: null
   },
   mutations: {
     login: (state, user) => {
-      state.user.id = user._id
+      state.user._id = user._id
       state.user.email = user.email
       state.user.nomUsuario = user.nomUsuario
       state.user.estado = user.estado
