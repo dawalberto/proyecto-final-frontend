@@ -10,13 +10,13 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
-                  <v-text-field id="email" prepend-icon="email" name="login" label="Email" type="text" required></v-text-field>
-                  <v-text-field id="password" prepend-icon="lock" name="password" label="Contraseña" type="password"></v-text-field>
+                  <v-text-field id="email" @keyup.enter="login" v-model="email" prepend-icon="email" name="login" label="Email" type="text" required></v-text-field>
+                  <v-text-field id="password" @keyup.enter="login" v-model="password" prepend-icon="lock" name="password" label="Contraseña" type="password"></v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn dark color="grey darken-3" @click="login">Login</v-btn>
+                <v-btn dark color="grey darken-3" @click="login" :disable="loading" :loading="loading">entrar</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -33,7 +33,9 @@ export default {
     name: 'login',
     data () {
         return {
-
+          email: '',
+          password: '',
+          loading: false
         }
     },
     computed: {
@@ -41,8 +43,10 @@ export default {
     },
     methods: {
         login () {
-            let email = document.querySelector('#email').value
-            let password = document.querySelector('#password').value
+            this.loading = true
+
+            let email = this.email
+            let password = this.password
 
             let user = {
                 email,
@@ -53,11 +57,13 @@ export default {
                 .then((res) => { 
                     this.$store.commit('login', res.data.usuario)
                     this.$store.commit('setTokenLogin', res.data.token)
-                    this.$router.push('/')
+                    this.$router.push('/edit-perfil')
+                    this.loading = false
                     // eslint-disable-next-line
                     console.log('Login ok')
                 })
                 .catch((err) => { 
+                  this.loading = false
                     // eslint-disable-next-line
                     console.log(err)
                 })

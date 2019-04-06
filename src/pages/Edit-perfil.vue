@@ -1,7 +1,48 @@
 <template>
     <div class="containerGrid">
-        <v-avatar class="imgUser" color="brown lighten-1" size="200">
-            <img id="imgUserId" src="http://simpleicon.com/wp-content/uploads/user1.png" alt="avatar">
+        <v-dialog v-model="dialog" dark max-width="400">
+            <v-card>
+                <croppa
+                    id="croppaId"
+                    v-model="croppa"
+                    placeholder="Haz clic aquí para subir una imagen"
+                    :placeholder-font-size="16"
+                    :show-remove-button="false"
+                    :prevent-white-space="true"
+                    :zoom-speed="5"
+                    :width="400"
+                    :height="400"
+                    :quality="1"
+                ></croppa>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="light-blue accent-4"
+                    flat
+                    @click="croppaChoseFile"
+                >
+                    <v-icon class="mr-3">fas fa-cloud-upload-alt</v-icon> SUBIR
+                </v-btn>
+                <v-btn
+                    color="red"
+                    flat
+                    @click="dialog = false"
+                >
+                    CANCELAR
+                </v-btn>
+                <v-btn
+                    color="green accent-4"
+                    flat
+                    @click="generateImage"
+                >
+                    ACEPTAR
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+        <v-avatar class="imgUser" @click="dialog = true" color="grey darken-3" size="200">
+            <img id="imgUserId" :src="imgUrl" alt="">
         </v-avatar>
         <label for="inputNomId" class="labelNom">NOMBRE</label>
         <v-text-field v-model="user.nom" class="inputNom" id="inputNomId" type="text" placeholder="Nombre"></v-text-field>
@@ -60,7 +101,7 @@
             box
             auto-grow
         ></v-textarea>
-        <v-btn @click="updateUser" dark color="grey darken-3" id="btnUpdate"><v-icon class="mr-3">fas fa-edit</v-icon>EDITAR</v-btn>
+        <v-btn @click="updateUser" :disable="loading" :loading="loading" dark color="grey darken-3" id="btnUpdate"><v-icon class="mr-3">fas fa-edit</v-icon>EDITAR</v-btn>
     </div>
 </template>
 
@@ -84,7 +125,11 @@ export default {
             landscape: true,
             breakpoint: this.$vuetify.breakpoint,
             datePicker: this.getDatePicker,
-            menuPicker: false
+            menuPicker: false,
+            loading: false,
+            dialog: false,
+            croppa: {},
+            imgUrl: ''
         }
     },
     created() {
@@ -101,7 +146,8 @@ export default {
     },
     methods: {
         updateUser() {
-            // let img = document.querySelector('#imgUserId').value
+            this.loading = true
+
             let nombre = this.user.nom
             let apellidos = this.user.ape
             let nacionalidad = this.user.nacionalidad
@@ -111,7 +157,6 @@ export default {
             let biografia = this.user.biografia
 
             let updatedUser = {
-                // img,
                 nombre,
                 apellidos,
                 sexo,
@@ -125,12 +170,12 @@ export default {
 
             axios.put(`${ this.$store.state.urlBackend }/usuarios/${ this.$store.state.user._id }`, qs.stringify(updatedUser))
                 .then((res) => { 
-                    // eslint-disable-next-line
-                    console.log('updated ok', res)
+                    console.log('Updated ok', res)
+                    this.loading = false
                 })
                 .catch((err) => { 
-                    // eslint-disable-next-line
                     console.log(err)
+                    this.loading = false
                 })
         },
         getUser() {
@@ -144,7 +189,6 @@ export default {
                 })
         },
         fillDataUser(user) {
-            // document.querySelector('#imgUserId').value
             this.user.nom = user.nombre
             this.user.ape = user.apellidos
             this.user.sexo = user.sexo
@@ -152,6 +196,49 @@ export default {
             this.datePicker = user.fechaNac.substr(0, 10)
             this.user.guitarra = user.guitarra
             this.user.biografia = user.biografia
+        },
+        croppaChoseFile() {
+            this.croppa.chooseFile()
+        },
+        generateImage() {
+            this.dialog = false
+
+            this.croppa.generateBlob((blob) => {
+
+                // let url = URL.createObjectURL(blob)
+                let url = blob
+                console.log(url)
+                this.imgUrl = url
+                this.subirImagenUsuario()
+
+            })
+        },
+        subirImagenUsuario() {
+            let bodyFormData = new FormData()
+            bodyFormData.append('archivo', this.imgUrl)
+
+            // axios.put(`${ this.$store.state.urlBackend }/uploads/imgusuarios/${ this.$store.state.user._id }`, bodyFormData)
+            //     .then((res) => { 
+            //         console.log('Imagen ok', res)
+            //     })
+            //     .catch((err) => { 
+            //         console.log('Error imagen', err.data)
+            //     })
+
+            axios({
+                method: 'put',
+                url: `${ this.$store.state.urlBackend }/uploads/imgusuarios/${ this.$store.state.user._id }`,
+                data: bodyFormData,
+                config: { headers: {'Content-Type': 'multipart/form-data' }}
+                })
+                .then(function (response) {
+                    //handle success
+                    console.log(response);
+                })
+                .catch(function (response) {
+                    //handle error
+                    console.log(response);
+                });
         }
     }
 }

@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './plugins/vuetify'
+import './plugins/vue-croppa'
 
 Vue.config.productionTip = false
 

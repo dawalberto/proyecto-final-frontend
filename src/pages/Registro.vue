@@ -17,7 +17,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="grey darken-3" dark @click="registrar">Sign up</v-btn>
+                <v-btn color="grey darken-3" dark @click="registrar" :disable="loading" :loading="loading">registrar</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -35,11 +35,13 @@ export default {
     name: 'registro',
     data () {
         return {
-            
+            loading: false
         }
     },
     methods: {
         registrar () {
+            this.loading = true
+
             let email = document.querySelector('#email').value
             let password = document.querySelector('#password').value
             let nomUsuario = document.querySelector('#nomUsuario').value
@@ -51,8 +53,14 @@ export default {
             }
 
             axios.post(`${ this.$store.state.urlBackend }/usuarios`, qs.stringify(newUser))
-                .then(res => console.log(res.data))
-                .catch(err => console.log(err.data))
+                .then(res => {
+                  console.log(res.data)
+                  this.loading = false
+                })
+                .catch(err => {
+                  console.log(err.data)
+                  this.loading = false
+                })
         }
     }
 }
