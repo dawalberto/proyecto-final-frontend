@@ -22,21 +22,21 @@
                     flat
                     @click="croppaChoseFile"
                 >
-                    <v-icon :class="[!mobile ? 'mr-3' : '']">fas fa-cloud-upload-alt</v-icon><span v-if="!mobile">SUBIR</span>
+                    <v-icon :class="[!mobile ? 'mr-3' : '']" v-show="mobile">fas fa-cloud-upload-alt</v-icon><span v-show="!mobile">SUBIR</span>
                 </v-btn>
                 <v-btn
                     color="red"
                     flat
                     @click="dialog = false"
                 >
-                    <v-icon :class="[!mobile ? 'mr-3' : '']">fas fa-times-circle</v-icon><span v-if="!mobile">CANCELAR</span>
+                    <v-icon :class="[!mobile ? 'mr-3' : '']" v-show="mobile">fas fa-times-circle</v-icon><span v-if="!mobile">CANCELAR</span>
                 </v-btn>
                 <v-btn
                     color="green accent-4"
                     flat
                     @click="generateImage"
                 >
-                    <v-icon :class="[!mobile ? 'mr-3' : '']">fas fa-check-circle</v-icon><span v-if="!mobile">ACEPTAR</span>
+                    <v-icon :class="[!mobile ? 'mr-3' : '']" v-show="mobile">fas fa-check-circle</v-icon><span v-if="!mobile">ACEPTAR</span>
                 </v-btn>
                 </v-card-actions>
             </v-card>
