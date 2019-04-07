@@ -5,7 +5,8 @@
                 <croppa
                     id="croppaId"
                     v-model="croppa"
-                    placeholder="Haz clic aquí para subir una imagen"
+                    placeholder="Haz zoom para recortar la imagen"
+                    accept=".jpg,.jpeg,.png"
                     :placeholder-font-size="16"
                     :show-remove-button="false"
                     :prevent-white-space="true"
@@ -21,21 +22,21 @@
                     flat
                     @click="croppaChoseFile"
                 >
-                    <v-icon class="mr-3">fas fa-cloud-upload-alt</v-icon> SUBIR
+                    <v-icon :class="[!mobile ? 'mr-3' : '']">fas fa-cloud-upload-alt</v-icon><span v-if="!mobile">SUBIR</span>
                 </v-btn>
                 <v-btn
                     color="red"
                     flat
                     @click="dialog = false"
                 >
-                    CANCELAR
+                    <v-icon :class="[!mobile ? 'mr-3' : '']">fas fa-times-circle</v-icon><span v-if="!mobile">CANCELAR</span>
                 </v-btn>
                 <v-btn
                     color="green accent-4"
                     flat
                     @click="generateImage"
                 >
-                    ACEPTAR
+                    <v-icon :class="[!mobile ? 'mr-3' : '']">fas fa-check-circle</v-icon><span v-if="!mobile">ACEPTAR</span>
                 </v-btn>
                 </v-card-actions>
             </v-card>
@@ -45,13 +46,13 @@
             <img id="imgUserId" :src="imgUrl" alt="">
         </v-avatar>
         <label for="inputNomId" class="labelNom">NOMBRE</label>
-        <v-text-field v-model="user.nom" class="inputNom" id="inputNomId" type="text" placeholder="Nombre"></v-text-field>
+        <v-text-field v-model="user.nom" class="inputNom" id="inputNomId" type="text" :label="mobile ? 'Nombre' : ''"></v-text-field>
         <label for="inputApesId" class="labelApes">APELLIDOS</label>
-        <v-text-field v-model="user.ape" class="inputApes" id="inputApesId" type="text" placeholder="Apellidos"></v-text-field>
+        <v-text-field v-model="user.ape" class="inputApes" id="inputApesId" type="text" :label="mobile ? 'Apellidos' : ''"></v-text-field>
         <label for="radioSexId" class="labelSex">GENERO</label>
         <v-radio-group row v-model="user.sexo" class="radioSex" id="radioSexId">
-            <v-radio label="HOMBRE" :value="false" id="radioHombre"></v-radio>
-            <v-radio label="MUJER" :value="true" id="radioMujer"></v-radio>
+            <v-radio label="Hombre" :value="false" id="radioHombre"></v-radio>
+            <v-radio label="Mujer" :value="true" id="radioMujer"></v-radio>
         </v-radio-group>
         <label for="selectNacionalidadId" class="labelSelectNacionalidades">NACIONALIDAD</label>
         <v-select
@@ -92,7 +93,7 @@
             </v-menu>
         </div>
         <label for="inputGuitarraId" class="labelinputGuitarra">GUITARRA ACTUAL</label>
-        <v-text-field v-model="user.guitarra" class="inputGuitarra" id="inputGuitarraId" type="text" placeholder="Guitarra"></v-text-field>
+        <v-text-field v-model="user.guitarra" class="inputGuitarra" id="inputGuitarraId" type="text" :label="mobile ? 'Guitarra' : ''"></v-text-field>
         <label for="inputBiografiaId" class="labelinputBiografia">TRAYECTORIA</label>
         <v-textarea
             v-model="user.biografia"
@@ -101,7 +102,7 @@
             box
             auto-grow
         ></v-textarea>
-        <v-btn @click="updateUser" :disable="loading" :loading="loading" dark color="grey darken-3" id="btnUpdate"><v-icon class="mr-3">fas fa-edit</v-icon>EDITAR</v-btn>
+        <v-btn @click="updateUser" :disable="loading" :loading="loading" dark color="grey darken-3" id="btnUpdate"><v-icon class="mr-3">fas fa-edit</v-icon>CONFIRMAR CAMBIOS</v-btn>
     </div>
 </template>
 
@@ -122,14 +123,14 @@ export default {
                 biografia: ''
             },
             nationalities: require('../assets/nationalities.js'),
-            landscape: true,
             breakpoint: this.$vuetify.breakpoint,
             datePicker: this.getDatePicker,
             menuPicker: false,
             loading: false,
             dialog: false,
             croppa: {},
-            imgUrl: ''
+            imgUrl: '',
+            mobile: true
         }
     },
     created() {
@@ -137,7 +138,7 @@ export default {
         this.getUser()
     },
     mounted() {
-        this.breakpoint.smAndDown ? this.landscape = false : this.landscape = true
+        this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
     },
     computed: {
         getDatePicker () {
@@ -252,18 +253,19 @@ export default {
 <style scoped>
     .containerGrid {
         display: grid;
+        grid-template-columns: auto auto auto;
         grid-template:
-        '....... ....... imgUser ....... .......'
-        '....... ....... imgUser ....... .......'
-        'inputNom inputNom inputNom inputNom inputNom'
-        'inputApes inputApes inputApes inputApes inputApes'
-        'radioSex radioSex radioSex radioSex radioSex'
-        'selectNacionalidades selectNacionalidades selectNacionalidades selectNacionalidades selectNacionalidades'
-        'calendarFechaNac calendarFechaNac calendarFechaNac calendarFechaNac calendarFechaNac'
-        'inputGuitarra inputGuitarra inputGuitarra inputGuitarra inputGuitarra'
-        'labelinputBiografia labelinputBiografia labelinputBiografia labelinputBiografia labelinputBiografia'
-        'inputBiografia inputBiografia inputBiografia inputBiografia inputBiografia'
-        'btnUpdate btnUpdate btnUpdate btnUpdate btnUpdate';
+        'imgUser imgUser imgUser'
+        'imgUser imgUser imgUser'
+        'inputNom inputNom inputNom'
+        'inputApes inputApes inputApes'
+        'radioSex radioSex radioSex'
+        'selectNacionalidades selectNacionalidades selectNacionalidades'
+        'calendarFechaNac calendarFechaNac calendarFechaNac'
+        'inputGuitarra inputGuitarra inputGuitarra'
+        'labelinputBiografia labelinputBiografia labelinputBiografia'
+        'inputBiografia inputBiografia inputBiografia'
+        'btnUpdate btnUpdate btnUpdate';
     }
     .imgUser {
         grid-area: imgUser;
@@ -324,12 +326,13 @@ export default {
         grid-area: btnUpdate
     }
 
+
     @media (min-width: 960px) {
         .containerGrid {
             grid-gap: 0.9rem;
             grid-template:
-            'imgUser ....... ....... ....... .......'
-            'imgUser ....... ....... ....... .......'
+            'imgUser imgUser imgUser imgUser imgUser'
+            'imgUser imgUser imgUser imgUser imgUser'
             'labelNom inputNom inputNom ....... .......'
             'labelApes inputApes inputApes ....... .......'
             'labelSex radioSex radioSex ....... .......'
