@@ -196,6 +196,7 @@ export default {
             this.datePicker = user.fechaNac.substr(0, 10)
             this.user.guitarra = user.guitarra
             this.user.biografia = user.biografia
+            this.getImage(user)
         },
         croppaChoseFile() {
             this.croppa.chooseFile()
@@ -204,26 +205,14 @@ export default {
             this.dialog = false
 
             this.croppa.generateBlob((blob) => {
-
-                // let url = URL.createObjectURL(blob)
-                let url = blob
-                console.log(url)
-                this.imgUrl = url
+                this.imgUrl = blob
                 this.subirImagenUsuario()
-
+                this.imgUrl = URL.createObjectURL(blob)
             })
         },
         subirImagenUsuario() {
             let bodyFormData = new FormData()
             bodyFormData.append('archivo', this.imgUrl)
-
-            // axios.put(`${ this.$store.state.urlBackend }/uploads/imgusuarios/${ this.$store.state.user._id }`, bodyFormData)
-            //     .then((res) => { 
-            //         console.log('Imagen ok', res)
-            //     })
-            //     .catch((err) => { 
-            //         console.log('Error imagen', err.data)
-            //     })
 
             axios({
                 method: 'put',
@@ -232,13 +221,29 @@ export default {
                 config: { headers: {'Content-Type': 'multipart/form-data' }}
                 })
                 .then(function (response) {
-                    //handle success
                     console.log(response);
                 })
                 .catch(function (response) {
-                    //handle error
                     console.log(response);
                 });
+        },
+        getImage(user) {
+            let self = this
+
+            axios.get(`${ this.$store.state.urlBackend }/imagenes/imgusuarios/${ user.img }`, {
+                responseType: 'blob'
+            })
+                .then((res) => {
+                    let reader = new FileReader()
+                    reader.readAsDataURL(res.data)
+                    reader.onload = function() {
+                        let url = reader.result
+                        self.imgUrl = url
+                    }
+                })
+                .catch((err) => {
+                    console.log('error imagen ', err)
+                })
         }
     }
 }
