@@ -111,18 +111,19 @@
 
         <v-dialog v-model="dialogRedes" persistent max-width="400">
             <v-card>
-              <v-card-title class="headline">Indique el enlace para ver el perfil de su red</v-card-title>
-              <v-card-text>
-                <v-text-field type="text" label="Enlace" placeholder="https://faceb..."></v-text-field>
+                <v-card-title class="headline">Indique el enlace para ver el perfil de su red</v-card-title>
+                <v-card-text>
+                    <v-text-field type="text" v-model="enlaceRed" label="Enlace" placeholder="https://..."></v-text-field>
                 </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn flat color="grey darken-3" @click="dialogRedes = false">aceptar</v-btn>
-              </v-card-actions>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn flat color="grey darken-3" @click="dialogRedes = false">cancelar</v-btn>
+                    <v-btn flat color="grey darken-3" @click="addEnlaceRed">aceptar</v-btn>
+                </v-card-actions>
             </v-card>
         </v-dialog>
         <v-combobox
-          v-model="user.redes"
+          v-model="userRedes"
           :items="itemsRedes"
           label="Selecciona tus redes sociales"
           id="inputRedesId"
@@ -130,6 +131,7 @@
           multiple
           small-chips
           solo
+          return-object
           @input="dialogRedes = true"
         >
             <template slot="item" slot-scope="data">
@@ -155,11 +157,12 @@ export default {
                 nom: null,
                 ape: null,
                 sexo: null,
-                redes: [],
                 nacionalidad: 'Spanish',
                 guitarra: null,
                 biografia: null
             },
+            userRedes: [],
+            userRedesObjects: [],
             nationalities: require('../assets/nationalities.js'),
             breakpoint: this.$vuetify.breakpoint,
             datePicker: this.getDatePicker,
@@ -171,7 +174,26 @@ export default {
             imgUrl: '',
             mobile: true,
             itemsRedes: ['Facebook', 'Instagram', 'Twitter'],
+            enlaceRed: null
         }
+    },
+    watch: {
+        userRedes(newValue, prevValue) {
+            if (newValue.length < prevValue.length) {
+                this.dialogRedes = false
+            }
+
+            // this.userRedesObjects = newValue
+
+            let self = this
+            let redesObjects = newValue.map(r => {
+                return { red: r, link: self.getLinkRed(r) }
+            })
+
+            console.log('WATCH redesObjects ', redesObjects)
+
+            this.userRedesObjects = redesObjects
+        },
     },
     created() {
         axios.defaults.headers.common['token'] = this.$store.state.token
@@ -196,6 +218,7 @@ export default {
             let fechaNac = this.datePicker
             let guitarra = this.user.guitarra
             let biografia = this.user.biografia
+            let redes = JSON.stringify(this.userRedesObjects)
 
             let updatedUser = {
                 nombre,
@@ -204,7 +227,8 @@ export default {
                 nacionalidad,
                 fechaNac,
                 guitarra,
-                biografia
+                biografia,
+                redes
             }
 
             console.log(updatedUser)
@@ -238,6 +262,7 @@ export default {
             this.user.guitarra = user.guitarra
             this.user.biografia = user.biografia
             this.getImage(user)
+            this.getUserRedes(user)
         },
         croppaChoseFile() {
             this.croppa.chooseFile()
@@ -285,6 +310,34 @@ export default {
                 .catch((err) => {
                     console.log('error imagen ', err)
                 })
+        },
+        addEnlaceRed() {
+            if (this.enlaceRed !== '' || this.enlaceRed !== null) {
+                this.userRedesObjects[this.userRedesObjects.length - 1].link = this.enlaceRed
+            }
+            this.enlaceRed = null
+            this.dialogRedes = false
+            console.log('addEnlaceRed ', this.userRedesObjects[this.userRedesObjects.length - 1].link)
+        },
+        getUserRedes(user) {
+            let redes = user.redes.map(r => r.red)
+            
+            console.log('getUserRedes', redes)
+            this.userRedes = redes
+
+            this.userRedesObjects = user.redes
+        },
+        getLinkRed(red) {
+            let res = '';
+
+            for (let i = 0; i < this.userRedesObjects.length; i++) {
+                if (this.userRedesObjects[i].red === red) {
+                    res = this.userRedesObjects[i].link
+                }
+            }
+
+            console.log('getLinkRed', res)
+            return res
         }
     }
 }
