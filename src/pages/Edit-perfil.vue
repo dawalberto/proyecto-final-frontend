@@ -107,8 +107,11 @@
             box
             auto-grow
         ></v-textarea>
-        <label for="inputRedesId" class="labelRedes">REDES SOCIALES</label>
 
+        <label for="inputWebPageId" class="labelWebPage">PÁGINA WEB</label>
+        <v-text-field v-model="user.webpage" class="inputWebPage" id="inputWebPageId" type="text" :label="mobile ? 'Página web' : ''" placeholder="https://mi-pagina-web.com"></v-text-field>
+
+        <label for="inputRedesId" class="labelRedes">REDES SOCIALES</label>
         <v-dialog v-model="dialogRedes" persistent max-width="400">
             <v-card>
                 <v-card-title class="headline">Indique el enlace para ver el perfil de su red</v-card-title>
@@ -122,17 +125,17 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-combobox
-          v-model="userRedes"
-          :items="itemsRedes"
-          label="Selecciona tus redes sociales"
-          id="inputRedesId"
-          class="inputRedes"
-          multiple
-          small-chips
-          solo
-          return-object
-          @input="dialogRedes = true"
+        <v-select
+            v-model="userRedes"
+            :items="itemsRedes"
+            label="Selecciona tus redes sociales"
+            id="inputRedesId"
+            class="inputRedes"
+            multiple
+            chips
+            solo
+            return-object
+            @input="dialogRedes = true"
         >
             <template slot="item" slot-scope="data">
                 <v-icon class="mr-2" v-show="data.item == 'Facebook'">fab fa-facebook</v-icon>
@@ -140,7 +143,7 @@
                 <v-icon class="mr-2" v-show="data.item == 'Twitter'">fab fa-twitter-square</v-icon>
                 {{ data.item }}
             </template>
-        </v-combobox>
+        </v-select>
         <v-btn @click="updateUser" :disable="loading" :loading="loading" dark color="grey darken-3" id="btnUpdate"><v-icon class="mr-3">fas fa-edit</v-icon>CONFIRMAR CAMBIOS</v-btn>
     </div>
 </template>
@@ -159,7 +162,8 @@ export default {
                 sexo: null,
                 nacionalidad: 'Spanish',
                 guitarra: null,
-                biografia: null
+                biografia: null,
+                webpage: null
             },
             userRedes: [],
             userRedesObjects: [],
@@ -219,6 +223,7 @@ export default {
             let guitarra = this.user.guitarra
             let biografia = this.user.biografia
             let redes = JSON.stringify(this.userRedesObjects)
+            let webpage = this.user.webpage
 
             let updatedUser = {
                 nombre,
@@ -228,7 +233,8 @@ export default {
                 fechaNac,
                 guitarra,
                 biografia,
-                redes
+                redes,
+                webpage
             }
 
             console.log(updatedUser)
@@ -263,12 +269,13 @@ export default {
             this.user.biografia = user.biografia
             this.getImage(user)
             this.getUserRedes(user)
+            this.user.webpage = user.webpage
         },
         croppaChoseFile() {
             this.croppa.chooseFile()
         },
         generateImage() {
-            this.dialog = false
+            this.dialogImg = false
 
             this.croppa.generateBlob((blob) => {
                 this.imgUrl = blob
@@ -362,6 +369,7 @@ export default {
         'inputGuitarra inputGuitarra inputGuitarra'
         'labelinputBiografia labelinputBiografia labelinputBiografia'
         'inputBiografia inputBiografia inputBiografia'
+        'inputWebPage inputWebPage inputWebPage'
         'inputRedes inputRedes inputRedes'
         'btnUpdate btnUpdate btnUpdate';
     }
@@ -429,6 +437,13 @@ export default {
     .inputRedes {
         grid-area: inputRedes;
     }
+    .labelWebPage {
+        display: none;
+        grid-area: labelWebPage
+    }
+    .inputWebPage {
+        grid-area: inputWebPage
+    }
     #btnUpdate {
         grid-area: btnUpdate
     }
@@ -448,10 +463,11 @@ export default {
             'labelinputGuitarra inputGuitarra inputGuitarra ....... .......'
             'labelinputBiografia labelinputBiografia labelinputBiografia labelinputBiografia labelinputBiografia'
             'inputBiografia inputBiografia inputBiografia inputBiografia inputBiografia'
+            'labelWebPage inputWebPage inputWebPage inputWebPage .......'
             'labelRedes inputRedes inputRedes inputRedes .......'
             'btnUpdate ....... ....... ....... .......';
         }
-        .labelNom, .labelApes, .labelSex, .labelSelectNacionalidades, .labelCalendarFechaNac, .labelinputGuitarra, .labelRedes {
+        .labelNom, .labelApes, .labelSex, .labelSelectNacionalidades, .labelCalendarFechaNac, .labelinputGuitarra, .labelRedes, .labelWebPage {
             display: inline-block;
             align-self: center;
             text-align: right;
