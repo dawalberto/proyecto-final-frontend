@@ -2,6 +2,17 @@
     <v-content>
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
+          <v-dialog v-model="dialog" persistent max-width="400">
+            <v-card>
+              <v-card-title class="headline">Usuario registrado correctamente</v-card-title>
+              <v-card-text>A continuación será redirigido a la página de inicio de sesión.</v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn flat color="grey darken-3" @click="redirectToPerfil">aceptar</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
               <v-toolbar dark color="grey darken-3">
@@ -9,10 +20,39 @@
                 <v-spacer></v-spacer>
               </v-toolbar>
               <v-card-text>
-                <v-form>
-                  <v-text-field id="email" prepend-icon="email" name="login" label="Email" type="text"></v-text-field>
-                  <v-text-field id="nomUsuario" prepend-icon="person" name="login" label="Nombre de usuario" type="text"></v-text-field>
-                  <v-text-field id="password" prepend-icon="lock" name="password" label="Contraseña" type="password"></v-text-field>
+                <v-form
+                  ref="form"
+                  v-model="formValid"
+                >
+                  <v-text-field
+                    v-model="email"
+                    id="email" 
+                    prepend-icon="email" 
+                    name="login" 
+                    label="Email" 
+                    type="text"
+                    :error-messages="msgRegistroEmail"
+                    :rules="[v => !!v || 'El email es obligatorio']">
+                  </v-text-field>
+                  <v-text-field
+                    v-model="nomUsuario"
+                    id="nomUsuario" 
+                    prepend-icon="person" 
+                    name="login" 
+                    label="Nombre de usuario" 
+                    type="text"
+                    :error-messages="msgRegistroNomUsuario"
+                    :rules="[v => !!v || 'El nombre de usuario es obligatorio']">
+                  </v-text-field>
+                  <v-text-field
+                    v-model="password"
+                    id="password" 
+                    prepend-icon="lock" 
+                    name="password" 
+                    label="Contraseña" 
+                    type="password"                   
+                    :rules="[v => !!v || 'La contraseña es obligatoria']">
+                  </v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
@@ -35,16 +75,24 @@ export default {
     name: 'registro',
     data () {
         return {
-            loading: false
+          formValid: true,
+          email: null,
+          password: null,
+          nomUsuario: null,
+          loading: false,
+          msgRegistroEmail: null,
+          msgRegistroNomUsuario: null,
+          dialog: false
         }
     },
     methods: {
         registrar () {
-            this.loading = true
+          this.msgRegistroEmail = null
+          this.msgRegistroNomUsuario = null
 
-            let email = document.querySelector('#email').value
-            let password = document.querySelector('#password').value
-            let nomUsuario = document.querySelector('#nomUsuario').value
+            let email = this.email
+            let password = this.password
+            let nomUsuario = this.nomUsuario
 
             let newUser = {
                 email,
@@ -52,15 +100,31 @@ export default {
                 nomUsuario
             }
 
-            axios.post(`${ this.$store.state.urlBackend }/usuarios`, qs.stringify(newUser))
-                .then(res => {
-                  console.log(res.data)
-                  this.loading = false
-                })
-                .catch(err => {
-                  console.log(err.data)
-                  this.loading = false
-                })
+            if (this.$refs.form.validate()) {
+              console.log('validado')
+              this.loading = true
+
+              axios.post(`${ this.$store.state.urlBackend }/usuarios`, qs.stringify(newUser))
+                  .then(res => {
+                    console.log(res.data)
+                    this.dialog = true
+                    this.loading = false
+                  })
+                  .catch(err => {
+                    if (err.response.data.err.errors.email) {
+                      this.msgRegistroEmail = 'Este email ya está registrado'
+                    }
+                    if (err.response.data.err.errors.nomUsuario) {
+                      this.msgRegistroNomUsuario = 'El nombre de usuario ya existe'
+                    }
+                    console.log(err.response)
+                    this.loading = false
+                  })
+            }
+        },
+        redirectToPerfil() {
+          this.dialog = false
+          this.$router.push('/login')
         }
     }
 }

@@ -27,8 +27,8 @@ export default {
   @media (min-width: 960px) {
     #router {
       padding: 3rem;
-      margin-left: 15rem;
-      margin-right: 15rem;
+      margin-left: 10rem;
+      margin-right: 10rem;
     }
   }
 </style>

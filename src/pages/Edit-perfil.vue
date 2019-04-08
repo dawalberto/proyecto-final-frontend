@@ -1,6 +1,6 @@
 <template>
     <div class="containerGrid">
-        <v-dialog v-model="dialog" dark max-width="400">
+        <v-dialog v-model="dialogImg" dark max-width="400">
             <v-card>
                 <croppa
                     id="croppaId"
@@ -27,7 +27,7 @@
                 <v-btn
                     color="red"
                     flat
-                    @click="dialog = false"
+                    @click="dialogImg = false"
                 >
                     <v-icon :class="[!mobile ? 'mr-3' : '']" v-show="mobile">fas fa-times-circle</v-icon><span v-if="!mobile">CANCELAR</span>
                 </v-btn>
@@ -42,7 +42,12 @@
             </v-card>
         </v-dialog>
 
-        <v-avatar class="imgUser" @click="dialog = true" color="grey darken-3" size="200">
+        <v-avatar 
+            class="imgUser" 
+            @click="dialogImg = true" 
+            color="grey darken-3" 
+            size="200"
+        >
             <img id="imgUserId" :src="imgUrl" alt="">
         </v-avatar>
         <label for="inputNomId" class="labelNom">NOMBRE</label>
@@ -102,6 +107,38 @@
             box
             auto-grow
         ></v-textarea>
+        <label for="inputRedesId" class="labelRedes">REDES SOCIALES</label>
+
+        <v-dialog v-model="dialogRedes" persistent max-width="400">
+            <v-card>
+              <v-card-title class="headline">Indique el enlace para ver el perfil de su red</v-card-title>
+              <v-card-text>
+                <v-text-field type="text" label="Enlace" placeholder="https://faceb..."></v-text-field>
+                </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn flat color="grey darken-3" @click="dialogRedes = false">aceptar</v-btn>
+              </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-combobox
+          v-model="user.redes"
+          :items="itemsRedes"
+          label="Selecciona tus redes sociales"
+          id="inputRedesId"
+          class="inputRedes"
+          multiple
+          small-chips
+          solo
+          @input="dialogRedes = true"
+        >
+            <template slot="item" slot-scope="data">
+                <v-icon class="mr-2" v-show="data.item == 'Facebook'">fab fa-facebook</v-icon>
+                <v-icon class="mr-2" v-show="data.item == 'Instagram'">fab fa-instagram</v-icon>
+                <v-icon class="mr-2" v-show="data.item == 'Twitter'">fab fa-twitter-square</v-icon>
+                {{ data.item }}
+            </template>
+        </v-combobox>
         <v-btn @click="updateUser" :disable="loading" :loading="loading" dark color="grey darken-3" id="btnUpdate"><v-icon class="mr-3">fas fa-edit</v-icon>CONFIRMAR CAMBIOS</v-btn>
     </div>
 </template>
@@ -115,22 +152,25 @@ export default {
     data () {
         return {
             user: {
-                nom: '',
-                ape: '',
-                sexo: '',
+                nom: null,
+                ape: null,
+                sexo: null,
+                redes: [],
                 nacionalidad: 'Spanish',
-                guitarra: '',
-                biografia: ''
+                guitarra: null,
+                biografia: null
             },
             nationalities: require('../assets/nationalities.js'),
             breakpoint: this.$vuetify.breakpoint,
             datePicker: this.getDatePicker,
             menuPicker: false,
             loading: false,
-            dialog: false,
+            dialogImg: false,
+            dialogRedes: false,
             croppa: {},
             imgUrl: '',
-            mobile: true
+            mobile: true,
+            itemsRedes: ['Facebook', 'Instagram', 'Twitter'],
         }
     },
     created() {
@@ -265,11 +305,14 @@ export default {
         'inputGuitarra inputGuitarra inputGuitarra'
         'labelinputBiografia labelinputBiografia labelinputBiografia'
         'inputBiografia inputBiografia inputBiografia'
+        'inputRedes inputRedes inputRedes'
         'btnUpdate btnUpdate btnUpdate';
     }
     .imgUser {
         grid-area: imgUser;
         justify-self: center;
+        cursor: pointer;
+        margin-bottom: 2rem;
     }
     .labelNom {
         display: none;
@@ -322,6 +365,13 @@ export default {
     .inputBiografia {
         grid-area: inputBiografia;
     }
+    .labelRedes {
+        display: none;
+        grid-area: labelRedes;
+    }
+    .inputRedes {
+        grid-area: inputRedes;
+    }
     #btnUpdate {
         grid-area: btnUpdate
     }
@@ -341,9 +391,10 @@ export default {
             'labelinputGuitarra inputGuitarra inputGuitarra ....... .......'
             'labelinputBiografia labelinputBiografia labelinputBiografia labelinputBiografia labelinputBiografia'
             'inputBiografia inputBiografia inputBiografia inputBiografia inputBiografia'
+            'labelRedes inputRedes inputRedes inputRedes .......'
             'btnUpdate ....... ....... ....... .......';
         }
-        .labelNom, .labelApes, .labelSex, .labelSelectNacionalidades, .labelCalendarFechaNac, .labelinputGuitarra {
+        .labelNom, .labelApes, .labelSex, .labelSelectNacionalidades, .labelCalendarFechaNac, .labelinputGuitarra, .labelRedes {
             display: inline-block;
             align-self: center;
             text-align: right;
@@ -352,6 +403,9 @@ export default {
         .labelinputBiografia {
             align-self: center;
             text-align: center;
+        }
+        .imgUser {
+            justify-self: start;
         }
     }
 </style>
