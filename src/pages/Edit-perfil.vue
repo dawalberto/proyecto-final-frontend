@@ -117,7 +117,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn flat color="grey darken-3" @click="dialogRedes = false">cancelar</v-btn>
+                    <v-btn flat color="grey darken-3" @click="cancelAddRed">cancelar</v-btn>
                     <v-btn flat color="grey darken-3" @click="addEnlaceRed">aceptar</v-btn>
                 </v-card-actions>
             </v-card>
@@ -338,6 +338,10 @@ export default {
 
             console.log('getLinkRed', res)
             return res
+        },
+        cancelAddRed() {
+            this.userRedes.pop()
+            this.dialogRedes = false
         }
     }
 }
