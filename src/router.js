@@ -34,6 +34,11 @@ export default new Router({
       path: '/edit-perfil',
       name: 'edit-perfil',
       component: () => import('./pages/Edit-perfil.vue')
+    },
+    {
+      path: '/perfil',
+      name: 'perfil',
+      component: () => import('./pages/Perfil.vue')
     }
   ]
 })

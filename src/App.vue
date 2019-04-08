@@ -7,6 +7,7 @@
 
 <script>
 import vueNav from '@/components/nav'
+
 export default {
   name: 'app',
   components: { vueNav }

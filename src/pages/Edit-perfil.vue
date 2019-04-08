@@ -5,7 +5,7 @@
                 <croppa
                     id="croppaId"
                     v-model="croppa"
-                    placeholder="Haz zoom para recortar la imagen"
+                    :placeholder="!mobile ? 'Haz zoom para recortar la imagen' : ''"
                     accept=".jpg,.jpeg,.png"
                     :placeholder-font-size="16"
                     :show-remove-button="false"
@@ -56,8 +56,16 @@
         <v-text-field v-model="user.ape" class="inputApes" id="inputApesId" type="text" :label="mobile ? 'Apellidos' : ''"></v-text-field>
         <label for="radioSexId" class="labelSex">GENERO</label>
         <v-radio-group row v-model="user.sexo" class="radioSex" id="radioSexId">
-            <v-radio label="Hombre" :value="false" id="radioHombre"></v-radio>
-            <v-radio label="Mujer" :value="true" id="radioMujer"></v-radio>
+            <v-radio :value="false" id="radioHombre">
+                <template slot="label">
+                    <v-icon class="mr-2">fas fa-male</v-icon>Hombre
+                </template>
+            </v-radio>
+            <v-radio :value="true" id="radioMujer">
+                <template slot="label">
+                    <v-icon class="mr-2">fas fa-female</v-icon>Mujer
+                </template>
+            </v-radio>
         </v-radio-group>
         <label for="selectNacionalidadId" class="labelSelectNacionalidades">NACIONALIDAD</label>
         <v-select
@@ -99,7 +107,7 @@
         </div>
         <label for="inputGuitarraId" class="labelinputGuitarra">GUITARRA ACTUAL</label>
         <v-text-field v-model="user.guitarra" class="inputGuitarra" id="inputGuitarraId" type="text" :label="mobile ? 'Guitarra' : ''"></v-text-field>
-        <label for="inputBiografiaId" class="labelinputBiografia">TRAYECTORIA</label>
+        <label for="inputBiografiaId" class="labelinputBiografia">BIOGRAFÍA</label>
         <v-textarea
             v-model="user.biografia"
             id="inputBiografiaId"
@@ -141,6 +149,9 @@
                 <v-icon class="mr-2" v-show="data.item == 'Facebook'">fab fa-facebook</v-icon>
                 <v-icon class="mr-2" v-show="data.item == 'Instagram'">fab fa-instagram</v-icon>
                 <v-icon class="mr-2" v-show="data.item == 'Twitter'">fab fa-twitter-square</v-icon>
+                <v-icon class="mr-2" v-show="data.item == 'Flickr'">fab fa-flickr</v-icon>
+                <v-icon class="mr-2" v-show="data.item == 'Snapchat'">fab fa-snapchat-square</v-icon>
+                <v-icon class="mr-2" v-show="data.item == 'Tumblr'">fab fa-tumblr-square</v-icon>
                 {{ data.item }}
             </template>
         </v-select>
@@ -153,7 +164,7 @@ import axios from 'axios'
 import qs from 'qs'
 
 export default {
-    name: 'perfil',
+    name: 'edit-perfil',
     data () {
         return {
             user: {
@@ -177,7 +188,7 @@ export default {
             croppa: {},
             imgUrl: '',
             mobile: true,
-            itemsRedes: ['Facebook', 'Instagram', 'Twitter'],
+            itemsRedes: ['Facebook', 'Instagram', 'Twitter', 'Flickr', 'Snapchat', 'Tumblr'],
             enlaceRed: null
         }
     },
