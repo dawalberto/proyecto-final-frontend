@@ -13,7 +13,7 @@
         </div>
          
          <div class="detallesUser">
-            <v-list v-if="user.guitarra || user.nacionalidad || user.webpage">
+            <div v-if="user.guitarra || user.nacionalidad || user.webpage">
                 <v-list-tile v-show="user.guitarra">
                     <v-list-tile-avatar>
                         <v-icon>fas fa-guitar</v-icon>
@@ -53,7 +53,7 @@
                         <v-list-tile-sub-title>Página web de {{ user.nom }} {{ user.ape }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
-            </v-list>
+            </div>
          </div>
 
         <div class="biografia">
@@ -63,7 +63,9 @@
 
         <div class="conciertos">
             <p class="headline font-weight-light">No te pierdas ningún concierto de {{ user.nom }}</p>
-            <v-btn block outline color="primary"><v-icon class="mr-2">fas fa-music</v-icon>conciertos</v-btn>
+            <a :href="urlToConciertosUser">
+                <v-btn block outline color="primary"><v-icon class="mr-2">fas fa-music</v-icon>conciertos</v-btn>
+            </a>
         </div>
 
         <div class="redes">
@@ -124,6 +126,7 @@ export default {
     data() {
         return {
             user: {
+                id: this.$route.params.id,
                 nom: null,
                 ape: null,
                 sexo: null,
@@ -134,7 +137,8 @@ export default {
                 webpage: null,
                 img: null,
                 redes: ''
-            }
+            },
+            urlToConciertosUser: `#/conciertos/${ this.$route.params.id }`
         }
     },
     created() {
@@ -151,7 +155,7 @@ export default {
     },
     methods: {
         getUser() {
-            axios.get(`${ this.$store.state.urlBackend }/usuarios/${ this.$store.state.user._id }`)
+            axios.get(`${ this.$store.state.urlBackend }/usuarios/${ this.$route.params.id }`)
                 .then((res) => {
                     let user = res.data.usuario
                     console.log('GET user', user)

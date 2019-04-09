@@ -21,6 +21,11 @@ export default new Router({
       component: () => import('./pages/Conciertos.vue')
     },
     {
+      path: '/conciertos/:id',
+      name: 'conciertos-usuario',
+      component: () => import('./pages/Conciertos.vue')
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('./pages/Login.vue')
@@ -36,7 +41,7 @@ export default new Router({
       component: () => import('./pages/Edit-perfil.vue')
     },
     {
-      path: '/perfil',
+      path: '/perfil/:id',
       name: 'perfil',
       component: () => import('./pages/Perfil.vue')
     }

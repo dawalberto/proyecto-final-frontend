@@ -71,7 +71,7 @@
         <v-select
             id="selectNacionalidadId"
             class="selectNacionalidades"
-            label="Nacionalidad"
+            label="Lugar nacimiento"
             prepend-icon="map"
             v-model="user.nacionalidad"
             :items="nationalities"

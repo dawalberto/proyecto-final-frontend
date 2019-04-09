@@ -1,28 +1,44 @@
 <template>
     <v-card hover width="100%" max-width="100%">
         <v-img
-            src="https://cdn.pixabay.com/photo/2017/03/13/20/48/guitar-2141119_960_720.jpg"
+            src="https://cdn.pixabay.com/photo/2017/01/04/16/53/guitar-1952454_960_720.jpg"
             alt="img"
             aspect-ratio="2.75"
         >
             <v-container fill-height fluid>
                 <v-layout fill-height>
                     <v-flex xs12 align-end flexbox>
-                        <v-avatar size="80" color="#EEEEEE">
-                            <img :src="imgUser" alt="">
-                        </v-avatar>
+                        <a :href="urlToUser" :title="conciertoObj.usuario.nombre">
+                            <v-avatar size="90" color="#EEEEEE" href="123">
+                                <img :src="imgUser" alt="">
+                            </v-avatar>
+                        </a>
                     </v-flex>
                 </v-layout>
             </v-container>
         </v-img>
 
-        <!-- <p class="titulo headline font-weight-light">{{ conciertoObj.titulo }}</p>
-        <p>{{ conciertoObj.descripcion }}</p> -->
+        <div class="cuerpoCard">
+            <p class="titulo headline font-weight-light">{{ conciertoObj.titulo }}</p>
+            <hr>
+            <p class="subheading"><v-icon class="mr-2">fas fa-calendar-alt</v-icon>{{ getFecha }}</p>
+            <p class="subheading"><v-icon class="mr-2">fas fa-clock</v-icon>{{ conciertoObj.hora }}</p>
+            <p class="subheading"><v-icon class="mr-2">fas fa-guitar</v-icon><a :href="urlToUser">{{ conciertoObj.usuario.nombre }} {{ conciertoObj.usuario.apellidos }}</a></p>
+            <p class="subheading"><v-icon class="mr-2">fas fa-money-bill</v-icon>{{ conciertoObj.precio }} €</p>
+            <p>
+                <span class="subheading"><v-icon class="mr-2">fas fa-align-left</v-icon>Descripción</span>
+                <v-btn icon @click="showDescription = !showDescription">
+                    <v-icon>{{ !showDescription ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+                </v-btn>
+            </p>
+            <v-slide-y-transition>
+                <v-card-text v-show="showDescription">{{ conciertoObj.descripcion }}</v-card-text>
+            </v-slide-y-transition>
+            <v-card-actions>
+                <v-btn dark block color="drey darken-3">VER PROGRAMA<v-icon class="ml-2">fas fa-book-open</v-icon></v-btn>
+            </v-card-actions>
+        </div>
 
-        <!-- <v-card-actions>
-        <v-btn flat color="orange">Share</v-btn>
-        <v-btn flat color="orange">Explore</v-btn>
-        </v-card-actions> -->
     </v-card>
 </template>
 
@@ -34,11 +50,20 @@ export default {
     props: ['conciertoObj'],
     data() {
         return {
-            imgUser: null
+            imgUser: null,
+            showDescription: false,
+            urlToUser: `#/perfil/${ this.conciertoObj.usuario._id }`
         }
     },
     mounted() {
         this.getImage()
+    },
+    computed: {
+        getFecha() {
+            let fecha = new Date(this.conciertoObj.fecha)
+            return fecha.toLocaleDateString()
+
+        }
     },
     methods: {
         getImage() {
@@ -48,7 +73,6 @@ export default {
                 responseType: 'blob'
             })
                 .then((res) => {
-                        console.log(res.data)
                     let reader = new FileReader()
                     reader.readAsDataURL(res.data)
                     reader.onload = function() {
@@ -67,5 +91,14 @@ export default {
 <style scoped>
     .titulo {
         text-align: center;
+    }
+    .cuerpoCard {
+        padding: 1.2rem;
+    }
+    hr {
+        margin-bottom: 1rem;
+    }
+    a {
+        text-decoration: none;
     }
 </style>

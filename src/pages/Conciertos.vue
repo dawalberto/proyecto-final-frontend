@@ -17,7 +17,8 @@ export default {
   components: { previewConcierto },
   data() {
     return {
-      conciertos: []
+      conciertos: [],
+      paramId: this.$route.params.id
     }
   },
   created() {
@@ -25,13 +26,25 @@ export default {
   },
   methods: {
     getConciertos() {
-      axios.get(`${ this.$store.state.urlBackend }/conciertos`)
-        .then((res) => {
-          this.conciertos = res.data.conciertos
-        })
-        .catch((err) => {
-          console.log(err.response)
-        })
+      if (this.paramId) {
+        axios.get(`${ this.$store.state.urlBackend }/conciertos/usuarios/${ this.paramId }`)
+          .then((res) => {
+            console.log('this.paramId',this.paramId)
+            this.conciertos = res.data.conciertos
+          })
+          .catch((err) => {
+            console.log(err.response)
+          })
+      } else {
+        axios.get(`${ this.$store.state.urlBackend }/conciertos`)
+          .then((res) => {
+            console.log('this.paramId',this.paramId)
+            this.conciertos = res.data.conciertos
+          })
+          .catch((err) => {
+            console.log(err.response)
+          })
+      }
     }
   }
 }
@@ -40,7 +53,7 @@ export default {
 <style scoped>
     .containerGrid {
       display: grid;
-      grid-gap: 0.9rem;
+      grid-gap: 1.5rem;
       grid-auto-columns: 100%;
     }
 

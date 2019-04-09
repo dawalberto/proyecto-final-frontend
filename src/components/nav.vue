@@ -14,10 +14,13 @@
                 </template>
                 <v-list>
                     <v-list-tile>
-                        <v-list-tile-content><v-btn flat to="/perfil"><v-icon class="mr-3">fas fa-user</v-icon>ver perfil</v-btn></v-list-tile-content>
+                        <v-list-tile-content><v-btn flat :to="urlToPerfil"><v-icon class="mr-3">fas fa-user</v-icon>ver perfil</v-btn></v-list-tile-content>
                     </v-list-tile>
                     <v-list-tile>
                         <v-list-tile-content><v-btn flat to="/edit-perfil"><v-icon class="mr-3">fas fa-edit</v-icon>editar perfil</v-btn></v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile>
+                        <v-list-tile-content><v-btn flat :to="urlToConciertosUser"><v-icon class="mr-3">fas fa-music</v-icon>mis conciertos</v-btn></v-list-tile-content>
                     </v-list-tile>
                     <v-list-tile>
                         <v-list-tile-content><v-btn flat to="/cuenta"><v-icon class="mr-3">fas fa-cog</v-icon>cuenta</v-btn></v-list-tile-content>
@@ -40,10 +43,13 @@
                 <v-list-tile-content><v-btn flat to="/registro"><v-icon class="mr-3">fas fa-user-plus</v-icon>registrarse</v-btn></v-list-tile-content>
             </v-list-tile>
             <v-list-tile  v-if="userLogin">
-                <v-list-tile-content><v-btn flat to="/perfil"><v-icon class="mr-3">fas fa-user</v-icon>ver perfil</v-btn></v-list-tile-content>
+                <v-list-tile-content><v-btn flat :to="urlToPerfil"><v-icon class="mr-3">fas fa-user</v-icon>ver perfil</v-btn></v-list-tile-content>
             </v-list-tile>
             <v-list-tile  v-if="userLogin">
                 <v-list-tile-content><v-btn flat to="/edit-perfil"><v-icon class="mr-3">fas fa-edit</v-icon>editar perfil</v-btn></v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile  v-if="userLogin">
+                <v-list-tile-content><v-btn flat :to="urlToConciertosUser"><v-icon class="mr-3">fas fa-music</v-icon>mis conciertos</v-btn></v-list-tile-content>
             </v-list-tile>
             <v-list-tile  v-if="userLogin">
                 <v-list-tile-content><v-btn flat to="/cuenta"><v-icon class="mr-3">fas fa-cog</v-icon>cuenta</v-btn></v-list-tile-content>
@@ -71,7 +77,9 @@ export default {
         return {
             userLogin: false,
             drawer: false,
-            nomUsuario: ''
+            nomUsuario: '',
+            urlToPerfil: null,
+            urlToConciertosUser: null
         }
     },
     computed: mapState(['login']),
@@ -79,6 +87,8 @@ export default {
         login (newVal) {
             this.userLogin = newVal
             this.userLogin ? this.nomUsuario = this.$store.state.user.nomUsuario : ''
+            this.userLogin ? this.urlToPerfil = `/perfil/${ this.$store.state.user._id }` : ''
+            this.userLogin ? this.urlToConciertosUser = `/conciertos/${ this.$store.state.user._id }` : ''
         }
     },
     methods: {
