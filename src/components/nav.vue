@@ -14,7 +14,10 @@
                 </template>
                 <v-list>
                     <v-list-tile>
-                        <v-list-tile-content><v-btn flat to="/edit-perfil"><v-icon class="mr-3">fas fa-user</v-icon>perfil</v-btn></v-list-tile-content>
+                        <v-list-tile-content><v-btn flat to="/perfil"><v-icon class="mr-3">fas fa-user</v-icon>ver perfil</v-btn></v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile>
+                        <v-list-tile-content><v-btn flat to="/edit-perfil"><v-icon class="mr-3">fas fa-edit</v-icon>editar perfil</v-btn></v-list-tile-content>
                     </v-list-tile>
                     <v-list-tile>
                         <v-list-tile-content><v-btn flat to="/cuenta"><v-icon class="mr-3">fas fa-cog</v-icon>cuenta</v-btn></v-list-tile-content>
@@ -37,7 +40,10 @@
                 <v-list-tile-content><v-btn flat to="/registro"><v-icon class="mr-3">fas fa-user-plus</v-icon>registrarse</v-btn></v-list-tile-content>
             </v-list-tile>
             <v-list-tile  v-if="userLogin">
-                <v-list-tile-content><v-btn flat to="/edit-perfil"><v-icon class="mr-3">fas fa-user</v-icon>{{ nomUsuario }}</v-btn></v-list-tile-content>
+                <v-list-tile-content><v-btn flat to="/perfil"><v-icon class="mr-3">fas fa-user</v-icon>ver perfil</v-btn></v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile  v-if="userLogin">
+                <v-list-tile-content><v-btn flat to="/edit-perfil"><v-icon class="mr-3">fas fa-edit</v-icon>editar perfil</v-btn></v-list-tile-content>
             </v-list-tile>
             <v-list-tile  v-if="userLogin">
                 <v-list-tile-content><v-btn flat to="/cuenta"><v-icon class="mr-3">fas fa-cog</v-icon>cuenta</v-btn></v-list-tile-content>

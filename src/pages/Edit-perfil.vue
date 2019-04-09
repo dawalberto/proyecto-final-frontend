@@ -67,7 +67,7 @@
                 </template>
             </v-radio>
         </v-radio-group>
-        <label for="selectNacionalidadId" class="labelSelectNacionalidades">NACIONALIDAD</label>
+        <label for="selectNacionalidadId" class="labelSelectNacionalidades">LUGAR NACIMIENTO</label>
         <v-select
             id="selectNacionalidadId"
             class="selectNacionalidades"
@@ -171,14 +171,14 @@ export default {
                 nom: null,
                 ape: null,
                 sexo: null,
-                nacionalidad: 'Spanish',
+                nacionalidad: 'España',
                 guitarra: null,
                 biografia: null,
                 webpage: null
             },
             userRedes: [],
             userRedesObjects: [],
-            nationalities: require('../assets/nationalities.js'),
+            nationalities: require('../assets/paises.js'),
             breakpoint: this.$vuetify.breakpoint,
             datePicker: this.getDatePicker,
             menuPicker: false,
@@ -197,8 +197,6 @@ export default {
             if (newValue.length < prevValue.length) {
                 this.dialogRedes = false
             }
-
-            // this.userRedesObjects = newValue
 
             let self = this
             let redesObjects = newValue.map(r => {
