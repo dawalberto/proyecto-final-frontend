@@ -3,7 +3,7 @@
         <div class="imgYnom">
             <v-avatar 
                 class="imgUser elevation-20"
-                color="grey darken-3" 
+                color="#EEEEEE" 
                 size="200"
             >
                 <img :src="user.img" alt="">

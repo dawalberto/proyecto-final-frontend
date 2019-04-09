@@ -45,7 +45,7 @@
         <v-avatar 
             class="imgUser" 
             @click="dialogImg = true" 
-            color="grey darken-3" 
+            color="#EEEEEE" 
             size="200"
         >
             <img id="imgUserId" :src="imgUrl" alt="">
