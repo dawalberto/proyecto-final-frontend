@@ -17,7 +17,7 @@
       </v-chip>
     </v-card>
     <v-btn @click="dialogAddObra = true" class="btnDialogAddObra" color="grey darken-3" dark><v-icon>add</v-icon>añadir</v-btn>
-    <v-dialog v-model="dialogAddObra" max-width="290">
+    <v-dialog v-model="dialogAddObra" persistent max-width="290">
       <v-card class="cardDialogAddObra">
         <v-text-field
             type="text"
@@ -36,9 +36,9 @@
     </v-dialog>
 
     <v-spacer></v-spacer>
-    <v-btn color="red" class="btnCancelar" :flat="mobile" dark @click="closeEvent">cancelar</v-btn>
-    <v-btn color="light-blue accent-4" class="btnVistaPrevia" :flat="mobile" dark>vista previa</v-btn>
-    <v-btn color="grey darken-3" class="btnConfirmar" :flat="mobile" dark>guardar</v-btn>
+    <v-btn color="red" class="btnCancelar" :flat="!mobile" dark @click="closeProgramEvent">cancelar</v-btn>
+    <v-btn color="light-blue accent-4" class="btnVistaPrevia" :flat="!mobile" dark>vista previa</v-btn>
+    <v-btn color="grey darken-3" class="btnConfirmar" :flat="!mobile" dark>guardar</v-btn>
 
   </v-card>
 </template>
@@ -56,7 +56,7 @@ export default {
     };
   },
   mounted() {
-    this.breakpoint.smAndDown ? (this.mobile = true) : (this.mobile = false);
+    this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false;
   },
   methods: {
     generateId() {
@@ -77,8 +77,8 @@ export default {
         }
       }
     },
-    closeEvent() {
-        this.$emit('closeEvent', true)
+    closeProgramEvent() {
+        this.$emit('closeProgramEvent', true)
     }
   }
 };
