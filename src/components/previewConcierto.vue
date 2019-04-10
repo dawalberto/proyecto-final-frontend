@@ -1,11 +1,13 @@
 <template>
-    <v-card hover width="100%" max-width="100%">
+    <v-card hover width="100%" max-width="100%" id="card">
         <v-img
+            id="imgCard"
             src="https://cdn.pixabay.com/photo/2017/01/04/16/53/guitar-1952454_960_720.jpg"
             alt="img"
             aspect-ratio="2.75"
+            loading="lazy"
         >
-            <v-container fill-height fluid>
+            <!-- <v-container fill-height fluid>
                 <v-layout fill-height>
                     <v-flex xs12 align-end flexbox>
                         <a :href="urlToUser" :title="conciertoObj.usuario.nombre">
@@ -15,7 +17,7 @@
                         </a>
                     </v-flex>
                 </v-layout>
-            </v-container>
+            </v-container> -->
         </v-img>
 
         <div class="cuerpoCard">
@@ -23,7 +25,14 @@
             <hr>
             <p class="subheading"><v-icon class="mr-2">fas fa-calendar-alt</v-icon>{{ getFecha }}</p>
             <p class="subheading"><v-icon class="mr-2">fas fa-clock</v-icon>{{ conciertoObj.hora }}</p>
-            <p class="subheading"><v-icon class="mr-2">fas fa-guitar</v-icon><a :href="urlToUser">{{ conciertoObj.usuario.nombre }} {{ conciertoObj.usuario.apellidos }}</a></p>
+            <p class="subheading">
+                <a :href="urlToUser" :title="conciertoObj.usuario.nombre">
+                    <v-avatar size="30" color="#EEEEEE" href="123">
+                        <img :src="imgUser" alt="" id="imgUser" loading="lazy">
+                    </v-avatar>
+                    {{ conciertoObj.usuario.nombre }} {{ conciertoObj.usuario.apellidos }}
+                </a>
+            </p>
             <p class="subheading"><v-icon class="mr-2">fas fa-money-bill</v-icon>{{ conciertoObj.precio }} €</p>
             <p>
                 <span class="subheading"><v-icon class="mr-2">fas fa-align-left</v-icon>Descripción</span>
@@ -87,6 +96,19 @@ export default {
 </script>
 
 <style scoped>
+    #imgCard {
+        filter: blur(2px);
+        filter: grayscale(60%);
+    }
+    #card:hover > #imgCard {
+        filter: grayscale(30%);
+    }
+    #imgUser {
+        filter: grayscale(20%);
+    }
+    #containerAvatar {
+        z-index: 10;
+    }
     .titulo {
         text-align: center;
     }

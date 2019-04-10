@@ -6,7 +6,7 @@
                 color="#EEEEEE" 
                 size="200"
             >
-                <img :src="user.img" alt="">
+                <img :src="user.img" alt="" loading="lazy">
             </v-avatar>
             <p class="display-3 font-weight-thin">{{ user.nom }} {{ user.ape }}</p>
             <hr>

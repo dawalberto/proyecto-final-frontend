@@ -23,119 +23,125 @@
       </v-btn>
     </div>
 
-    <v-layout row justify-center>
-      <v-dialog v-model="dialogCreateConcierto" fullscreen hide-overlay transition="dialog-bottom-transition">
-        <v-card>
-          <v-toolbar dark color="grey darken-3">
-            <v-btn icon dark @click="dialogCreateConcierto = false">
-              <v-icon>close</v-icon>
-            </v-btn>
-            <!-- <v-toolbar-title>Concierto</v-toolbar-title> -->
-            <v-spacer></v-spacer>
-            <v-toolbar-items>
-              <v-btn dark flat @click="dialogCreateConcierto = false">cancelar</v-btn>
-              <v-btn dark flat @click="dialogCreateConcierto = false">guardar</v-btn>
-            </v-toolbar-items>
-          </v-toolbar>
+    <v-dialog v-model="dialogCreateConcierto" fullscreen hide-overlay transition="dialog-bottom-transition">
+      <v-card>
+        <v-toolbar dark color="grey darken-3">
+          <v-btn icon dark @click="dialogCreateConcierto = false">
+            <v-icon>close</v-icon>
+          </v-btn>
+          <!-- <v-toolbar-title>Concierto</v-toolbar-title> -->
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn dark flat @click="dialogCreateConcierto = false">cancelar</v-btn>
+            <v-btn dark flat @click="dialogCreateConcierto = false">guardar</v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
 
-          <div class="containerGridCreateConcierto">
-            <label for="inputTituloId" class="label">TITULO</label>
-            <v-text-field id="inputTituloId" v-model="newConcierto.titulo" class="input" type="text" :label="mobile ? 'Titulo' : ''"></v-text-field>
+        <div class="containerGridCreateConcierto">
+          <label for="inputTituloId" class="label">TITULO</label>
+          <v-text-field id="inputTituloId" v-model="newConcierto.titulo" class="input" type="text" :label="mobile ? 'Titulo' : ''"></v-text-field>
 
-            <label for="inputDescripcionId" class="label">DESCRIPCIÓN</label>
-            <v-textarea id="inputDescripcionId" v-model="newConcierto.descripcion" class="input" solo no-resize :label="mobile ? 'Descripción' : ''"></v-textarea>
-          
-            <label for="calendarFechaId" class="label">FECHA</label>            
-            <v-menu
-                id="calendarFechaId"
-                class="input"
-                ref="menuFecha"
-                v-model="menuFecha"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                :return-value.sync="dateCalendar"
-                lazy
-                transition="scale-transition"
-            >
-                <template v-slot:activator="{ on }">
-                    <v-text-field
-                        v-model="dateCalendar"
-                        label="Fecha del concierto"
-                        prepend-icon="event"
-                        readonly
-                        v-on="on"
-                    ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="dateCalendar"
-                  no-title
-                  scrollable
-                  :min="new Date().toISOString().substr(0, 10)"
-                >
-                    <v-spacer></v-spacer>
-                    <v-btn flat color="grey darken-3" @click="menuFecha = false">CANCELAR</v-btn>
-                    <v-btn flat color="grey darken-3" @click="$refs.menuFecha.save(dateCalendar)">OK</v-btn>
-                </v-date-picker>
-            </v-menu>
-
-            <label for="inputHoraId" class="label">HORA</label>
-            <v-menu
-              id="inputHoraId"
-              class="inputHora"
-              ref="menu"
-              v-model="menuHora"
+          <label for="inputDescripcionId" class="label">DESCRIPCIÓN</label>
+          <v-textarea id="inputDescripcionId" v-model="newConcierto.descripcion" class="input" solo no-resize :label="mobile ? 'Descripción' : ''"></v-textarea>
+        
+          <label for="calendarFechaId" class="label">FECHA</label>            
+          <v-menu
+              id="calendarFechaId"
+              class="input"
+              ref="menuFecha"
+              v-model="menuFecha"
               :close-on-content-click="false"
               :nudge-right="40"
-              :return-value.sync="newConcierto.hora"
+              :return-value.sync="dateCalendar"
               lazy
               transition="scale-transition"
-              offset-y
-              full-width
-              max-width="350px"
-              min-width="350px"
-            >
+          >
               <template v-slot:activator="{ on }">
-                <v-text-field
-                  v-model="newConcierto.hora"
-                  label="Hora"
-                  prepend-icon="access_time"
-                  readonly
-                  v-on="on"
-                ></v-text-field>
+                  <v-text-field
+                      v-model="dateCalendar"
+                      label="Fecha del concierto"
+                      prepend-icon="event"
+                      readonly
+                      v-on="on"
+                  ></v-text-field>
               </template>
-              <v-time-picker
-                v-if="menuHora"
+              <v-date-picker
+                v-model="dateCalendar"
+                no-title
+                scrollable
+                :min="new Date().toISOString().substr(0, 10)"
+              >
+                  <v-spacer></v-spacer>
+                  <v-btn flat color="grey darken-3" @click="menuFecha = false">CANCELAR</v-btn>
+                  <v-btn flat color="grey darken-3" @click="$refs.menuFecha.save(dateCalendar)">OK</v-btn>
+              </v-date-picker>
+          </v-menu>
+
+          <label for="inputHoraId" class="label">HORA</label>
+          <v-menu
+            id="inputHoraId"
+            class="inputHora"
+            ref="menu"
+            v-model="menuHora"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            :return-value.sync="newConcierto.hora"
+            lazy
+            transition="scale-transition"
+            offset-y
+            full-width
+            max-width="350px"
+            min-width="350px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
                 v-model="newConcierto.hora"
-                full-width
-                @click:minute="$refs.menu.save(newConcierto.hora)"
-              ></v-time-picker>
-            </v-menu>
+                label="Hora"
+                prepend-icon="access_time"
+                readonly
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-time-picker
+              v-if="menuHora"
+              v-model="newConcierto.hora"
+              full-width
+              @click:minute="$refs.menu.save(newConcierto.hora)"
+            ></v-time-picker>
+          </v-menu>
 
-            <label for="inputPrecioId" class="label">PRECIO</label>
-            <v-text-field id="inputPrecioId" v-model="newConcierto.precio" class="inputPrecio" type="number" :label="mobile ? 'Precio' : ''"></v-text-field>
+          <label for="inputPrecioId" class="label">PRECIO</label>
+          <v-text-field id="inputPrecioId" v-model="newConcierto.precio" class="inputPrecio" type="number" :label="mobile ? 'Precio' : ''"></v-text-field>
 
-            <label for="inputUbicacionId" class="label">UBICACIÓN</label>
-            <v-text-field id="inputUbicacionId" v-model="newConcierto.ubicacion" class="input" type="text" :label="mobile ? 'Ubicación' : ''"></v-text-field>
+          <label for="inputUbicacionId" class="label">UBICACIÓN</label>
+          <v-text-field id="inputUbicacionId" v-model="newConcierto.ubicacion" class="input" type="text" :label="mobile ? 'Ubicación' : ''"></v-text-field>
 
-            <label for="inputBtnPrograma" class="label">PROGRAMA</label>            
-            <v-btn block dark color="grey darken-3" id="inputBtnPrograma" class="input">AÑADIR PROGRAMA AL CONCIERTO</v-btn>
+          <label for="selectProgramaId" class="label">PROGRAMA</label>
+          <v-select solo id="selectProgramaId" v-model="newConcierto.programa" class="selectPrograma" type="text" :label="mobile ? 'Programa' : ''"></v-select>
+          <v-btn block dark color="grey darken-3" @click="dialogPrograma = true" id="btnAddProgramaId" class="btnAddPrograma"><v-icon class="mr-2">add</v-icon> AÑADIR PROGRAMA</v-btn>
+
+          <v-dialog v-model="dialogPrograma" persistent max-width="800" color="red">
+            <programa 
+              @closeEvent="dialogPrograma = false"
+            ></programa>
+          </v-dialog>
             
-          </div>
-        </v-card>
-      </v-dialog>
-    </v-layout>
+        </div>
+      </v-card>
+    </v-dialog>
 
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import previewConcierto from '../components/previewConcierto'
 import { mapState, mapGetters } from 'vuex'
+import previewConcierto from '../components/previewConcierto'
+import programa from '../components/programa'
 
 export default {
   name: 'conciertos',
-  components: { previewConcierto },
+  components: { previewConcierto, programa },
   data() {
     return {
       conciertos: [],
@@ -145,12 +151,14 @@ export default {
         hora: null,
         precio: null,
         ubicacion: null,
-        usuarioId: null
+        usuarioId: null,
+        programa: null
       },
       paramId: this.$route.params.id,
       msgNingunConcierto: 'Guitarrista sin conciertos publicados',
       showMsg: false,
       dialogCreateConcierto: false,
+      dialogPrograma: false,
       breakpoint: this.$vuetify.breakpoint,
       mobile: true,
       menuFecha: false,
@@ -241,6 +249,12 @@ export default {
         }
         .inputPrecio, .inputHora {
           grid-column: 2 / 3;
+        }
+        .selectPrograma {
+          grid-column: 2 / 3;
+        }
+        .btnAddPrograma {
+          grid-column: 3 / 4;
         }
     }
 </style>

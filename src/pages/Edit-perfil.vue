@@ -48,7 +48,7 @@
             color="#EEEEEE" 
             size="200"
         >
-            <img id="imgUserId" :src="imgUrl" alt="">
+            <img id="imgUserId" :src="imgUrl" alt="" loading="lazy">
         </v-avatar>
         <label for="inputNomId" class="labelNom">NOMBRE</label>
         <v-text-field v-model="user.nom" class="inputNom" id="inputNomId" type="text" :label="mobile ? 'Nombre' : ''"></v-text-field>
