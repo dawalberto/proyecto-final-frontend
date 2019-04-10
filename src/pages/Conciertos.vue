@@ -1,24 +1,130 @@
 <template>
-  <div class="containerGrid">
+  <div>
     <p v-show="showMsg">{{ msgNingunConcierto }}</p>
-    <previewConcierto
-      v-for="c of conciertos"
-      :key="c._id"
-      :conciertoObj="c"
-      :paramId="paramId"
-    ></previewConcierto>
-    <v-btn
-      v-if="showButtonAddConcierto"
-      class="mr-5 mb-5"
-      absolute
-      bottom
-      right
-      fab
-      dark
-      color="grey darken-3"
-    >
-      <v-icon>add</v-icon>
-    </v-btn>
+    <div class="containerGrid">
+      <previewConcierto
+        v-for="c of conciertos"
+        :key="c._id"
+        :conciertoObj="c"
+        :paramId="paramId"
+      ></previewConcierto>
+      <v-btn
+        v-if="showButtonAddConcierto"
+        class="mr-5 mb-5"
+        absolute
+        bottom
+        right
+        fab
+        dark
+        @click="dialogCreateConcierto = true"
+        color="grey darken-3"
+      >
+        <v-icon>add</v-icon>
+      </v-btn>
+    </div>
+
+    <v-layout row justify-center>
+      <v-dialog v-model="dialogCreateConcierto" fullscreen hide-overlay transition="dialog-bottom-transition">
+        <v-card>
+          <v-toolbar dark color="grey darken-3">
+            <v-btn icon dark @click="dialogCreateConcierto = false">
+              <v-icon>close</v-icon>
+            </v-btn>
+            <!-- <v-toolbar-title>Concierto</v-toolbar-title> -->
+            <v-spacer></v-spacer>
+            <v-toolbar-items>
+              <v-btn dark flat @click="dialogCreateConcierto = false">cancelar</v-btn>
+              <v-btn dark flat @click="dialogCreateConcierto = false">guardar</v-btn>
+            </v-toolbar-items>
+          </v-toolbar>
+
+          <div class="containerGridCreateConcierto">
+            <label for="inputTituloId" class="label">TITULO</label>
+            <v-text-field id="inputTituloId" v-model="newConcierto.titulo" class="input" type="text" :label="mobile ? 'Titulo' : ''"></v-text-field>
+
+            <label for="inputDescripcionId" class="label">DESCRIPCIÓN</label>
+            <v-textarea id="inputDescripcionId" v-model="newConcierto.descripcion" class="input" solo no-resize :label="mobile ? 'Descripción' : ''"></v-textarea>
+          
+            <label for="calendarFechaId" class="label">FECHA</label>            
+            <v-menu
+                id="calendarFechaId"
+                class="input"
+                ref="menuFecha"
+                v-model="menuFecha"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                :return-value.sync="dateCalendar"
+                lazy
+                transition="scale-transition"
+            >
+                <template v-slot:activator="{ on }">
+                    <v-text-field
+                        v-model="dateCalendar"
+                        label="Fecha del concierto"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                    ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="dateCalendar"
+                  no-title
+                  scrollable
+                  :min="new Date().toISOString().substr(0, 10)"
+                >
+                    <v-spacer></v-spacer>
+                    <v-btn flat color="grey darken-3" @click="menuFecha = false">CANCELAR</v-btn>
+                    <v-btn flat color="grey darken-3" @click="$refs.menuFecha.save(dateCalendar)">OK</v-btn>
+                </v-date-picker>
+            </v-menu>
+
+            <label for="inputHoraId" class="label">HORA</label>
+            <v-menu
+              id="inputHoraId"
+              class="inputHora"
+              ref="menu"
+              v-model="menuHora"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              :return-value.sync="newConcierto.hora"
+              lazy
+              transition="scale-transition"
+              offset-y
+              full-width
+              max-width="350px"
+              min-width="350px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="newConcierto.hora"
+                  label="Hora"
+                  prepend-icon="access_time"
+                  readonly
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-time-picker
+                v-if="menuHora"
+                v-model="newConcierto.hora"
+                full-width
+                @click:minute="$refs.menu.save(newConcierto.hora)"
+              ></v-time-picker>
+            </v-menu>
+
+            <label for="inputPrecioId" class="label">PRECIO</label>
+            <v-text-field id="inputPrecioId" v-model="newConcierto.precio" class="inputPrecio" type="number" :label="mobile ? 'Precio' : ''"></v-text-field>
+
+            <label for="inputUbicacionId" class="label">UBICACIÓN</label>
+            <v-text-field id="inputUbicacionId" v-model="newConcierto.ubicacion" class="input" type="text" :label="mobile ? 'Ubicación' : ''"></v-text-field>
+
+            <label for="inputBtnPrograma" class="label">PROGRAMA</label>            
+            <v-btn block dark color="grey darken-3" id="inputBtnPrograma" class="input">AÑADIR PROGRAMA AL CONCIERTO</v-btn>
+            
+          </div>
+        </v-card>
+      </v-dialog>
+    </v-layout>
+
   </div>
 </template>
 
@@ -33,13 +139,30 @@ export default {
   data() {
     return {
       conciertos: [],
+      newConcierto: {
+        titulo: null,
+        descripcion: null,
+        hora: null,
+        precio: null,
+        ubicacion: null,
+        usuarioId: null
+      },
       paramId: this.$route.params.id,
-      msgNingunConcierto: 'Todavía no has publicado ningún concierto',
-      showMsg: false
+      msgNingunConcierto: 'Guitarrista sin conciertos publicados',
+      showMsg: false,
+      dialogCreateConcierto: false,
+      breakpoint: this.$vuetify.breakpoint,
+      mobile: true,
+      menuFecha: false,
+      dateCalendar: this.getDateCalendar,
+      menuHora: false
     }
   },
   created() {
     this.getConciertos()
+  },
+  mounted() {
+    this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
   },
   computed: {
     ...mapState(['login']),
@@ -49,6 +172,9 @@ export default {
         return true
       }
       return false
+    },
+    getDateCalendar () {
+        return new Date().toISOString().substr(0, 10)
     }
   },
   methods: {
@@ -82,15 +208,39 @@ export default {
 </script>
 
 <style scoped>
-    .containerGrid {
+    .containerGrid, .containerGridCreateConcierto {
       display: grid;
       grid-gap: 1.5rem;
-      grid-auto-columns: 100%;
+      grid-template-columns: 100fr;
+    }
+    .containerGridCreateConcierto {
+      padding: 1rem;
+    }
+    .label {
+      display: none;
     }
 
     @media (min-width: 960px) {
         .containerGrid {
           grid-template-columns: 33fr 33fr 33fr;
+        }
+        .containerGridCreateConcierto {
+          grid-template-columns: 25fr 35fr 40fr;
+          padding: 3rem;
+          margin-left: 10rem;
+          margin-right: 10rem;
+        }
+        .label {
+          grid-column: 1;
+          justify-self: center;
+          align-self: center;
+          display: inline;
+        }
+        .input {
+          grid-column: 2 / 4;
+        }
+        .inputPrecio, .inputHora {
+          grid-column: 2 / 3;
         }
     }
 </style>

@@ -98,7 +98,12 @@
                         v-on="on"
                     ></v-text-field>
                 </template>
-                <v-date-picker v-model="datePicker" no-title scrollable>
+                <v-date-picker
+                    v-model="datePicker"
+                    no-title
+                    scrollable
+                    :max="new Date().toISOString().substr(0, 10)"
+                >
                     <v-spacer></v-spacer>
                     <v-btn flat color="grey darken-3" @click="menuPicker = false">CANCELAR</v-btn>
                     <v-btn flat color="grey darken-3" @click="$refs.menuPicker.save(datePicker)">OK</v-btn>
