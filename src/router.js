@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from './store'
 
 Vue.use(Router)
 
@@ -38,7 +39,14 @@ export default new Router({
     {
       path: '/edit-perfil',
       name: 'edit-perfil',
-      component: () => import('./pages/Edit-perfil.vue')
+      component: () => import('./pages/Edit-perfil.vue'),
+      beforeEnter: (to, from, next) => {
+        if(store.state.login) {
+          next()
+        } else {
+          next('/login')
+        }
+      }
     },
     {
       path: '/perfil/:id',
