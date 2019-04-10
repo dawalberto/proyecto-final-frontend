@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -9,6 +10,11 @@ export default new Vuex.Store({
     user: {},
     login: false,
     token: null
+  },
+  getters: {
+    userLoginStore: (state) => {
+      return state.user
+    }
   },
   mutations: {
     login: (state, user) => {
@@ -42,6 +48,28 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    getImage(context, img) {
 
+      return new Promise((resolve, reject) => {
+
+        axios.get(`${ context.state.urlBackend }/imagenes/imgusuarios/${ img }`, {
+            responseType: 'blob'
+        })
+            .then((res) => {
+                let reader = new FileReader()
+                reader.readAsDataURL(res.data)
+                reader.onload = function() {
+                    let url = reader.result
+                    resolve(url)
+                }
+            })
+            .catch((err) => {
+                console.log('error imagen ', err)
+                reject()
+            })
+
+      })
+
+    }
   }
 })

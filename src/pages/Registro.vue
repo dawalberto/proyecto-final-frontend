@@ -8,12 +8,12 @@
               <v-card-text>A continuación será redirigido a la página de inicio de sesión.</v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn flat color="grey darken-3" @click="redirectToPerfil">aceptar</v-btn>
+                <v-btn flat color="grey darken-3" @click="redirectToLogin">aceptar</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
 
-          <v-flex xs12 sm8 md4>
+          <v-flex xs12 sm8 md6>
             <v-card class="elevation-12">
               <v-toolbar dark color="grey darken-3">
                 <v-toolbar-title>REGISTRATE</v-toolbar-title>
@@ -122,7 +122,7 @@ export default {
                   })
             }
         },
-        redirectToPerfil() {
+        redirectToLogin() {
           this.dialog = false
           this.$router.push('/login')
         }

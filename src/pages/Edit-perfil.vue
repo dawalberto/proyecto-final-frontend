@@ -162,6 +162,7 @@
 <script>
 import axios from 'axios'
 import qs from 'qs'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'edit-perfil',
@@ -203,8 +204,6 @@ export default {
                 return { red: r, link: self.getLinkRed(r) }
             })
 
-            console.log('WATCH redesObjects ', redesObjects)
-
             this.userRedesObjects = redesObjects
         },
     },
@@ -216,6 +215,7 @@ export default {
         this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
     },
     computed: {
+        ...mapGetters(['userLoginStore']),
         getDatePicker () {
             return new Date().toISOString().substr(0, 10)
         }
@@ -248,7 +248,7 @@ export default {
 
             console.log(updatedUser)
 
-            axios.put(`${ this.$store.state.urlBackend }/usuarios/${ this.$store.state.user._id }`, qs.stringify(updatedUser))
+            axios.put(`${ this.$store.state.urlBackend }/usuarios/${ this.userLoginStore._id }`, qs.stringify(updatedUser))
                 .then((res) => { 
                     console.log('Updated ok', res)
                     this.loading = false
@@ -259,7 +259,7 @@ export default {
                 })
         },
         getUser() {
-            axios.get(`${ this.$store.state.urlBackend }/usuarios/${ this.$store.state.user._id }`)
+            axios.get(`${ this.$store.state.urlBackend }/usuarios/${ this.userLoginStore._id }`)
                 .then((res) => {
                     console.log(res.data.usuario)
                     this.fillDataUser(res.data.usuario)
@@ -276,7 +276,12 @@ export default {
             this.datePicker = user.fechaNac.substr(0, 10)
             this.user.guitarra = user.guitarra
             this.user.biografia = user.biografia
-            this.getImage(user)
+
+            let self = this
+            this.$store.dispatch('getImage', user.img)
+                .then(img => self.imgUrl = img)
+                .catch(err => console.log('ERROR getImage Edit-perfil.vue', err))
+
             this.getUserRedes(user)
             this.user.webpage = user.webpage
         },
@@ -298,7 +303,7 @@ export default {
 
             axios({
                 method: 'put',
-                url: `${ this.$store.state.urlBackend }/uploads/imgusuarios/${ this.$store.state.user._id }`,
+                url: `${ this.$store.state.urlBackend }/uploads/imgusuarios/${ this.userLoginStore._id }`,
                 data: bodyFormData,
                 config: { headers: {'Content-Type': 'multipart/form-data' }}
                 })
@@ -309,38 +314,16 @@ export default {
                     console.log(response);
                 });
         },
-        getImage(user) {
-            let self = this
-
-            axios.get(`${ this.$store.state.urlBackend }/imagenes/imgusuarios/${ user.img }`, {
-                responseType: 'blob'
-            })
-                .then((res) => {
-                    let reader = new FileReader()
-                    reader.readAsDataURL(res.data)
-                    reader.onload = function() {
-                        let url = reader.result
-                        self.imgUrl = url
-                    }
-                })
-                .catch((err) => {
-                    console.log('error imagen ', err)
-                })
-        },
         addEnlaceRed() {
             if (this.enlaceRed !== '' || this.enlaceRed !== null) {
                 this.userRedesObjects[this.userRedesObjects.length - 1].link = this.enlaceRed
             }
             this.enlaceRed = null
             this.dialogRedes = false
-            console.log('addEnlaceRed ', this.userRedesObjects[this.userRedesObjects.length - 1].link)
         },
         getUserRedes(user) {
-            let redes = user.redes.map(r => r.red)
-            
-            console.log('getUserRedes', redes)
+            let redes = user.redes.map(r => r.red)            
             this.userRedes = redes
-
             this.userRedesObjects = user.redes
         },
         getLinkRed(red) {
@@ -352,7 +335,6 @@ export default {
                 }
             }
 
-            console.log('getLinkRed', res)
             return res
         },
         cancelAddRed() {

@@ -56,34 +56,19 @@ export default {
         }
     },
     mounted() {
-        this.getImage()
+        let self = this
+        this.$store.dispatch('getImage', this.conciertoObj.usuario.img)
+            .then(img => self.imgUser = img)
+            .catch(err => console.log('ERROR getImage previewConcierto.vue', err))
     },
     computed: {
         getFecha() {
             let fecha = new Date(this.conciertoObj.fecha)
             return fecha.toLocaleDateString()
-
         }
     },
     methods: {
-        getImage() {
-            let self = this
 
-            axios.get(`${ this.$store.state.urlBackend }/imagenes/imgusuarios/${ this.conciertoObj.usuario.img }`, {
-                responseType: 'blob'
-            })
-                .then((res) => {
-                    let reader = new FileReader()
-                    reader.readAsDataURL(res.data)
-                    reader.onload = function() {
-                        let url = reader.result
-                        self.imgUser = url
-                    }
-                })
-                .catch((err) => {
-                    console.log('error imagen ', err)
-                })
-        }
     }
 }
 </script>

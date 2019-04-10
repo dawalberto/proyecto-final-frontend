@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
     name: 'vueNav',
@@ -82,13 +82,16 @@ export default {
             urlToConciertosUser: null
         }
     },
-    computed: mapState(['login']),
+    computed: {
+        ...mapState(['login']),
+        ...mapGetters(['userLoginStore'])
+    },
     watch: {
         login (newVal) {
             this.userLogin = newVal
-            this.userLogin ? this.nomUsuario = this.$store.state.user.nomUsuario : ''
-            this.userLogin ? this.urlToPerfil = `/perfil/${ this.$store.state.user._id }` : ''
-            this.userLogin ? this.urlToConciertosUser = `/conciertos/${ this.$store.state.user._id }` : ''
+            this.userLogin ? this.nomUsuario = this.userLoginStore.nomUsuario : ''
+            this.userLogin ? this.urlToPerfil = `/perfil/${ this.userLoginStore._id }` : ''
+            this.userLogin ? this.urlToConciertosUser = `/conciertos/${ this.userLoginStore._id }` : ''
         }
     },
     methods: {

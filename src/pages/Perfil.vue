@@ -158,11 +158,10 @@ export default {
             axios.get(`${ this.$store.state.urlBackend }/usuarios/${ this.$route.params.id }`)
                 .then((res) => {
                     let user = res.data.usuario
-                    console.log('GET user', user)
                     this.fillDataUser(user)
                 })
                 .catch((err) => {
-                    console.log(err.response)
+                    console.log('ERROR getUser en Perfil.vue', err.response)
                 })
         },
         fillDataUser(user) {
@@ -178,25 +177,11 @@ export default {
             this.user.biografia = user.biografia
             this.user.webpage = user.webpage
             this.user.redes = user.redes
-            this.getImage(user)
-        },
-        getImage(user) {
-            let self = this
 
-            axios.get(`${ this.$store.state.urlBackend }/imagenes/imgusuarios/${ user.img }`, {
-                responseType: 'blob'
-            })
-                .then((res) => {
-                    let reader = new FileReader()
-                    reader.readAsDataURL(res.data)
-                    reader.onload = function() {
-                        let url = reader.result
-                        self.user.img = url
-                    }
-                })
-                .catch((err) => {
-                    console.log('error imagen ', err)
-                })
+            let self = this
+            this.$store.dispatch('getImage', user.img)
+                .then(img => self.user.img = img)
+                .catch(err => console.log(err))
         },
         getRed(red) {
             for (let r of this.user.redes) {
