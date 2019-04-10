@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <vueNav id="vueNavId"></vueNav>
-    <router-view id="router"></router-view>
+    <router-view :key="$route.fullPath" id="router"></router-view>
   </v-app>
 </template>
 
@@ -19,10 +19,10 @@ export default {
     padding: 1rem;
   }
   #vueNavId {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
 
   @media (min-width: 960px) {

@@ -68,7 +68,7 @@
             </a>
         </div>
 
-        <div class="redes">
+        <div class="redes" v-if="user.redes">
             <p class="headline font-weight-light">Sigue a {{ user.nom }} {{ user.ape }}</p>
             <v-item-group multiple>
                 <v-item v-show="getRed('Facebook')">
@@ -136,7 +136,7 @@ export default {
                 biografia: null,
                 webpage: null,
                 img: null,
-                redes: ''
+                redes: null
             },
             urlToConciertosUser: `#/conciertos/${ this.$route.params.id }`
         }
@@ -177,7 +177,7 @@ export default {
             this.user.biografia = user.biografia
             this.user.webpage = user.webpage
             this.user.redes = user.redes
-
+            console.log('user.redes',user.redes)
             let self = this
             this.$store.dispatch('getImage', user.img)
                 .then(img => self.user.img = img)
@@ -205,7 +205,7 @@ export default {
 <style scoped>
     .containerGrid {
         display: grid;
-        grid-template-columns: 100%;
+        grid-template-columns: 100fr;
         grid-gap: 0.9rem;
     }
     .imgYnom {
@@ -242,7 +242,7 @@ export default {
 
     @media (min-width: 960px) {
         .containerGrid {
-            grid-template-columns: 25% 25% 25% 25%;
+            grid-template-columns: 25fr 25fr 25fr 25fr;
         }
         .imgYnom {
             grid-column: 1 / 5;

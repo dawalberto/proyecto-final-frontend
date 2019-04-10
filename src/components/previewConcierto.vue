@@ -35,7 +35,11 @@
                 <v-card-text v-show="showDescription">{{ conciertoObj.descripcion }}</v-card-text>
             </v-slide-y-transition>
             <v-card-actions>
-                <v-btn dark block color="drey darken-3">VER PROGRAMA<v-icon class="ml-2">fas fa-book-open</v-icon></v-btn>
+                <v-btn dark block color="drey darken-3">ver programa<v-icon class="ml-2">fas fa-book-open</v-icon></v-btn>
+            </v-card-actions>
+            <v-card-actions v-if="ownConcierto">
+                <v-btn dark block color="red">eliminar<v-icon class="ml-2">fas fa-trash</v-icon></v-btn>                
+                <v-btn dark block color="blue">editar<v-icon class="ml-2">fas fa-edit</v-icon></v-btn>                
             </v-card-actions>
         </div>
 
@@ -44,10 +48,11 @@
 
 <script>
 import axios from 'axios'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
     name: 'previewConcierto',
-    props: ['conciertoObj'],
+    props: ['conciertoObj', 'paramId'],
     data() {
         return {
             imgUser: null,
@@ -62,9 +67,17 @@ export default {
             .catch(err => console.log('ERROR getImage previewConcierto.vue', err))
     },
     computed: {
+        ...mapState(['login']),
+        ...mapGetters(['userLoginStore']),
         getFecha() {
             let fecha = new Date(this.conciertoObj.fecha)
             return fecha.toLocaleDateString()
+        },
+        ownConcierto() {
+            if (this.login && this.paramId !== undefined && this.conciertoObj.usuario._id === this.userLoginStore._id) {
+                return true
+            }
+            return false
         }
     },
     methods: {
