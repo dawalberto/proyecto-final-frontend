@@ -97,6 +97,7 @@
             <v-dialog v-model="dialogPrograma" persistent max-width="800" color="red">
                 <programa 
                     @closeProgramEvent="dialogPrograma = false"
+                    @programSavedEvent="programSaved"
                 ></programa>
             </v-dialog>
             
@@ -106,7 +107,7 @@
 
 <script>
 import axios from 'axios'
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import programa from '../components/programa'
 
     export default {
@@ -136,6 +137,7 @@ import programa from '../components/programa'
     this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
   },
   computed: {
+    ...mapGetters(['userLoginStore']),
     getDateCalendar () {
         return new Date().toISOString().substr(0, 10)
     }
@@ -143,6 +145,19 @@ import programa from '../components/programa'
   methods: {
       closeDialogCreateConciertoEvent() {
           this.$emit('closeDialogCreateConciertoEvent', true)
+      },
+      programSaved() {
+        console.log('PROGRAM SAVED EVENT')
+        this.getProgramas()
+      },
+      getProgramas() {
+        axios.get(`${ this.$store.state.urlBackend }/programas/usuarios/${ this.userLoginStore._id }`)
+          .then((res) => {
+            console.log(res)
+          })
+          .catch((err) => {
+            console.log(err.response)
+          })
       }
   },
 }

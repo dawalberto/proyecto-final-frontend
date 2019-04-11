@@ -50,7 +50,7 @@
     <v-dialog v-model="dialogAlertProgramSaved" persistent max-width="500">
       <v-card class="cardDialogAlertProgramSaved" dark color="green darken-3">
         <p>Programa agregado correctamente, ahora podrás añadir este programa a cualquiera de tus conciertos</p>
-        <v-btn block color="grey darken-3" @click="closeAllDialogsAndClearInputs">aceptar</v-btn>
+        <v-btn block color="grey darken-3" @click="afterSaveProgram">aceptar</v-btn>
       </v-card>
     </v-dialog>
 
@@ -184,10 +184,11 @@ export default {
 
       return colors[color]
     },
-    closeAllDialogsAndClearInputs() {
+    afterSaveProgram() {
       this.nombrePrograma = null
       this.obras = []
       this.dialogAlertProgramSaved = false
+      this.$emit('programSavedEvent', true)
       this.closeProgramEvent()
     }
   }
