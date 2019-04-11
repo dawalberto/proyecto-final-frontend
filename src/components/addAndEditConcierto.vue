@@ -91,7 +91,18 @@
             <v-text-field id="inputUbicacionId" v-model="concierto.ubicacion" class="input" type="text" :label="mobile ? 'Ubicación' : ''"></v-text-field>
 
             <label for="selectProgramaId" class="label">PROGRAMA</label>
-            <v-select solo id="selectProgramaId" v-model="concierto.programa" class="selectPrograma" type="text" :label="mobile ? 'Programa' : ''"></v-select>
+            <v-select 
+              solo 
+              id="selectProgramaId" 
+              v-model="concierto.programa"
+              :items="programas"
+              item-text="nombre"
+              item-value="_id"
+              class="selectPrograma" 
+              type="text" 
+              :label="mobile ? 'Programa' : ''"
+            >
+            </v-select>
             <v-btn block dark color="grey darken-3" @click="dialogPrograma = true" id="btnAddProgramaId" class="btnAddPrograma"><v-icon class="mr-2">add</v-icon> AÑADIR PROGRAMA</v-btn>
 
             <v-dialog v-model="dialogPrograma" persistent max-width="800" color="red">
@@ -107,7 +118,7 @@
 
 <script>
 import axios from 'axios'
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import programa from '../components/programa'
 
     export default {
@@ -130,13 +141,16 @@ import programa from '../components/programa'
       mobile: true,
       menuFecha: false,
       dateCalendar: this.getDateCalendar,
-      menuHora: false
+      menuHora: false,
+      programas: []
     }
   },
   mounted() {
     this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
+    this.getProgramas()
   },
   computed: {
+    ...mapState(['login']),
     ...mapGetters(['userLoginStore']),
     getDateCalendar () {
         return new Date().toISOString().substr(0, 10)
@@ -151,9 +165,13 @@ import programa from '../components/programa'
         this.getProgramas()
       },
       getProgramas() {
+
+        if (!this.login) { return }
+        
+        let self = this
         axios.get(`${ this.$store.state.urlBackend }/programas/usuarios/${ this.userLoginStore._id }`)
           .then((res) => {
-            console.log(res)
+            self.programas = res.data.programas
           })
           .catch((err) => {
             console.log(err.response)
