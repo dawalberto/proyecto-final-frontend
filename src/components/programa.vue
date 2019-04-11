@@ -11,7 +11,14 @@
 
     <label for="inputObrasId" class="label">OBRAS</label>
     <v-card id="inputObrasId" class="inputObras">
-      <v-chip dark v-for="obra of obras" :key="obra.id" :idObra="obra.id" :autor="obra.autor">
+      <v-chip 
+        v-for="obra of obras" 
+        :key="obra.id" 
+        :idObra="obra.id" 
+        :compositor="obra.compositor"
+        :color="obra.color"
+        dark
+      >
         {{obra.obra}}
         <v-icon class="ml-2 iconTrash" @click="deleteObra(obra.id)">fas fa-trash</v-icon>
       </v-chip>
@@ -20,129 +27,256 @@
     <v-dialog v-model="dialogAddObra" persistent max-width="290">
       <v-card class="cardDialogAddObra">
         <v-text-field
+        v-model="obra"
             type="text"
             label="Obra"
         ></v-text-field>
         <v-text-field
+            v-model="compositor"
             type="text"
             label="Compositor"
+            @keyup.enter="addObra"
         ></v-text-field>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red" flat @click="dialogAddObra = false">cancelar</v-btn>
-          <v-btn color="grey darken-3" flat @click="dialogAddObra = false">confirmar</v-btn>
+          <v-btn color="red" dark @click="dialogAddObra = false">salir</v-btn>
+          <v-btn color="grey darken-3" dark @click="addObra">confirmar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
+    <v-dialog v-model="dialogAlertProgramSaved" persistent max-width="500">
+      <v-card class="cardDialogAlertProgramSaved" dark color="green darken-3">
+        <p>Programa agregado correctamente, ahora podrás añadir este programa a cualquiera de tus conciertos</p>
+        <v-btn block color="grey darken-3" @click="closeAllDialogs">aceptar</v-btn>
+      </v-card>
+    </v-dialog>
+
     <v-spacer></v-spacer>
-    <v-btn color="red" class="btnCancelar" :flat="!mobile" dark @click="closeProgramEvent">cancelar</v-btn>
-    <v-btn color="light-blue accent-4" class="btnVistaPrevia" :flat="!mobile" dark>vista previa</v-btn>
-    <v-btn color="grey darken-3" class="btnConfirmar" :flat="!mobile" dark>guardar</v-btn>
+    <v-btn color="red" @click="closeProgramEvent" class="btnCancelar" dark>cancelar</v-btn>
+    <v-btn color="light-blue accent-4" @click="dialogVistaPrevia = true" class="btnVistaPrevia" dark>vista previa</v-btn>
+    <v-btn color="grey darken-3" @click="savePrograma" class="btnConfirmar" dark>guardar</v-btn>
+
+    <v-dialog v-model="dialogVistaPrevia">
+      <v-card class="cardVistaPrevia" dark>
+        <template v-for="obra of obras">
+          <span class="obra subheading"><v-icon class="mr-2">fas fa-music</v-icon>{{ obra.obra }}</span>
+          <span class="compositor subheading"><v-icon class="mr-2">person</v-icon>{{ obra.compositor }}</span>
+          <hr class="hrVistaPrevia" color="grey">
+        </template>
+      </v-card>
+    </v-dialog>
 
   </v-card>
 </template>
 
 <script>
+import axios from 'axios'
+import qs from 'qs'
+import { mapGetters } from 'vuex'
+
 export default {
   name: "programa",
   data() {
     return {
       nombrePrograma: null,
       obras: [],
+      obra: null,
+      compositor: null,
       breakpoint: this.$vuetify.breakpoint,
       mobile: true,
-      dialogAddObra: false
+      dialogAddObra: false,
+      dialogVistaPrevia: false,
+      dialogAlertProgramSaved: false,
+      alert: true
     };
   },
+  created() {
+    axios.defaults.headers.common['token'] = this.$store.state.token
+  },
   mounted() {
-    this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false;
+    this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
+  },
+  computed: {
+    ...mapGetters(['userLoginStore'])
   },
   methods: {
+    savePrograma() {
+      let obras = this.obras.map(obra => { return { obra: obra.obra, compositor: obra.compositor } })
+      
+      console.log('obras', obras)
+
+      let programa = {
+        usuario: this.userLoginStore._id,
+        obras,
+        nombre: this.nombrePrograma
+      }
+
+      console.log('programa', programa)
+
+      let self = this
+      axios.post(`${ this.$store.state.urlBackend }/programas`, qs.stringify(programa))
+        .then((res) => {
+          console.log(res)
+          self.dialogAlertProgramSaved = true
+        })
+        .catch((err) => {
+          console.log(err.response)
+        })
+    },
     generateId() {
-      let random = Math.random(578);
-      let parte1 = Math.trunc(
-        new Date().getMilliseconds() * Math.random(random)
-      );
-      let parte2 = Math.trunc(new Date().getMilliseconds() * Math.random());
-      return parte1 + "_ID_" + parte2;
+      let random = Math.random() * 900
+      let parte1 = Math.trunc(new Date().getMilliseconds() * (Math.random() * random))
+      let parte2 = Math.trunc(new Date().getMilliseconds() * Math.random())
+      return parte1 + "_ID_" + parte2
     },
     deleteObra(id) {
-      console.log("test", this.obras.length);
       for (let i = 0; i < this.obras.length; i++) {
-        console.log(this.obras[i]);
+        console.log(this.obras[i])
         if (id === this.obras[i].id) {
-          this.obras.splice(i, 1);
-          return;
+          this.obras.splice(i, 1)
+          return
         }
       }
     },
+    addObra() {
+      let newObra = { id: this.generateId(), obra: this.obra, compositor: this.compositor, color: this.getRandomColor() }
+      this.obras.push( newObra )
+      this.obra = null
+      this.compositor = null
+      this.dialogAddObra = false
+    },
     closeProgramEvent() {
         this.$emit('closeProgramEvent', true)
+    },
+    getRandomColor() {
+      let colors = [
+        'red', 
+        'pink', 
+        'purple', 
+        'deep-purple',
+        'indigo',
+        'blue',
+        'light-blue',
+        'teal',
+        'green',
+        'light-green',
+        'orange',
+        'deep-orange',
+        'brown',
+        'blue-grey',
+        'grey'
+      ]
+
+      let color = Math.floor(Math.random() * colors.length)
+
+      return colors[color]
+    },
+    closeAllDialogs() {
+      this.dialogAlertProgramSaved = false
+      this.closeProgramEvent()
     }
   }
 };
 </script>
 
 <style scoped>
-    .containerGridPrograma {
+  .containerGridPrograma {
     display: grid;
     grid-gap: 1.5rem;
     grid-template-columns: 85fr 15fr;
     padding: 2rem;
+  }
+  .label {
+    display: none;
+  }
+  .cardDialogAddObra {
+    padding: 2rem;
+  }
+  .inputNombrePrograma {
+    grid-column: 1 / 3;
+  }
+  .inputObras {
+    grid-column: 1;
+  }
+  .btnDialogAddObra {
+    grid-column: 2;
+  }
+  .btnCancelar {
+    grid-column: 1 / 3;
+  }
+  .btnVistaPrevia {
+    grid-column: 1 / 3;
+  }
+  .btnConfirmar {
+    grid-column: 1 / 3;
+  }
+  .cardVistaPrevia {
+    display: grid;
+    grid-gap: 1.5rem;
+    grid-template-columns: 100fr;
+    padding: 2rem;
+  }
+  .obra {
+    align-self: center;
+    text-align: left;
+  }
+  .compositor {
+    align-self: center;
+    text-align: right;
+  }
+  .hrVistaPrevia {
+    border: none;
+    height: 1px;
+  }
+  .cardDialogAlertProgramSaved {
+    padding: 2rem;
+  }
+
+  @media (min-width: 960px) {
+    .containerGridPrograma {
+      grid-template-columns: 33fr 33fr 33fr;
     }
     .label {
-    display: none;
-    }
-    .cardDialogAddObra {
-        padding: 2rem;
-    }
-    .inputNombrePrograma {
-        grid-column: 1 / 3;
+      grid-column: 1;
+      justify-self: center;
+      align-self: center;
+      display: inline;
     }
     .inputObras {
-        grid-column: 1;
+      grid-column: 2;
     }
     .btnDialogAddObra {
-        grid-column: 2;
+      grid-column: 3;
+    }
+    .inputNombrePrograma {
+      grid-column: 2 / 4;
     }
     .btnCancelar {
-        grid-column: 1 / 3;
+      grid-column: 1;
     }
     .btnVistaPrevia {
-        grid-column: 1 / 3;
+      grid-column: 2;
     }
     .btnConfirmar {
-        grid-column: 1 / 3;
+      grid-column: 3;
+    }
+    .cardVistaPrevia {
+      grid-template-columns: 50fr 50fr;
+    }
+    .obra {
+      grid-column: 1;
+      text-align: left;
+      margin-left: 10rem;
+    }
+    .compositor {
+      grid-column: 2;
+      text-align: left;
+      margin-left: 10rem;
+    }
+    .hrVistaPrevia {
+      grid-column: 1 / 3;
     }
 
-    @media (min-width: 960px) {
-        .containerGridPrograma {
-            grid-template-columns: 33fr 33fr 33fr;
-        }
-        .label {
-            grid-column: 1;
-            justify-self: center;
-            align-self: center;
-            display: inline;
-        }
-        .inputObras {
-            grid-column: 2;
-        }
-        .btnDialogAddObra {
-            grid-column: 3;
-        }
-        .inputNombrePrograma {
-            grid-column: 2 / 4;
-        }
-        .btnCancelar {
-            grid-column: 1;
-        }
-        .btnVistaPrevia {
-            grid-column: 2;
-        }
-        .btnConfirmar {
-            grid-column: 3;
-        }
-    }
+  }
 </style>
