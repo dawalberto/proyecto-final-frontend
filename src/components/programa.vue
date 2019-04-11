@@ -7,6 +7,8 @@
       class="inputNombrePrograma"
       type="text"
       :label="mobile ? 'Nombre del programa' : ''"
+      :error-messages="msgErrorNombrePrograma"
+      :counter="counterNombrePrograma"
     ></v-text-field>
 
     <label for="inputObrasId" class="label">OBRAS</label>
@@ -39,7 +41,7 @@
         ></v-text-field>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red" dark @click="dialogAddObra = false">salir</v-btn>
+          <v-btn color="red darken-3" dark @click="dialogAddObra = false">salir</v-btn>
           <v-btn color="grey darken-3" dark @click="addObra">confirmar</v-btn>
         </v-card-actions>
       </v-card>
@@ -48,13 +50,13 @@
     <v-dialog v-model="dialogAlertProgramSaved" persistent max-width="500">
       <v-card class="cardDialogAlertProgramSaved" dark color="green darken-3">
         <p>Programa agregado correctamente, ahora podrás añadir este programa a cualquiera de tus conciertos</p>
-        <v-btn block color="grey darken-3" @click="closeAllDialogs">aceptar</v-btn>
+        <v-btn block color="grey darken-3" @click="closeAllDialogsAndClearInputs">aceptar</v-btn>
       </v-card>
     </v-dialog>
 
     <v-spacer></v-spacer>
-    <v-btn color="red" @click="closeProgramEvent" class="btnCancelar" dark>cancelar</v-btn>
-    <v-btn color="light-blue accent-4" @click="dialogVistaPrevia = true" class="btnVistaPrevia" dark>vista previa</v-btn>
+    <v-btn color="red darken-3" @click="closeProgramEvent" class="btnCancelar" dark>cancelar</v-btn>
+    <v-btn color="blue darken-3" @click="dialogVistaPrevia = true" class="btnVistaPrevia" dark>vista previa</v-btn>
     <v-btn color="grey darken-3" @click="savePrograma" class="btnConfirmar" dark>guardar</v-btn>
 
     <v-dialog v-model="dialogVistaPrevia">
@@ -88,7 +90,8 @@ export default {
       dialogAddObra: false,
       dialogVistaPrevia: false,
       dialogAlertProgramSaved: false,
-      alert: true
+      msgErrorNombrePrograma: null,
+      counterNombrePrograma: 30
     };
   },
   created() {
@@ -104,15 +107,24 @@ export default {
     savePrograma() {
       let obras = this.obras.map(obra => { return { obra: obra.obra, compositor: obra.compositor } })
       
-      console.log('obras', obras)
-
       let programa = {
         usuario: this.userLoginStore._id,
         obras,
         nombre: this.nombrePrograma
       }
 
-      console.log('programa', programa)
+      this.msgErrorNombrePrograma = null
+
+      //Validacion
+      if (this.nombrePrograma === null || this.nombrePrograma === '' || this.nombrePrograma === undefined) {
+        this.msgErrorNombrePrograma = 'El nombre del programa es obligatorio'
+        return
+      }
+
+      if (this.nombrePrograma.length > this.counterNombrePrograma) {
+        this.msgErrorNombrePrograma = 'El nombre del programa no debe superar los ' + this.counterNombrePrograma + ' caracteres'
+        return
+      }
 
       let self = this
       axios.post(`${ this.$store.state.urlBackend }/programas`, qs.stringify(programa))
@@ -172,7 +184,9 @@ export default {
 
       return colors[color]
     },
-    closeAllDialogs() {
+    closeAllDialogsAndClearInputs() {
+      this.nombrePrograma = null
+      this.obras = []
       this.dialogAlertProgramSaved = false
       this.closeProgramEvent()
     }
