@@ -37,7 +37,7 @@
                 <v-btn dark @click="dialogVistaPreviaProgram = true" block color="drey darken-3">ver programa<v-icon class="ml-2">fas fa-book-open</v-icon></v-btn>
             </v-card-actions>
             <v-card-actions v-if="ownConcierto">
-                <v-btn dark block color="red">eliminar<v-icon class="ml-2">fas fa-trash</v-icon></v-btn>                
+                <v-btn dark block @click="dialogConfirmDeleteConcierto = true" color="red">eliminar<v-icon class="ml-2">fas fa-trash</v-icon></v-btn>                
                 <v-btn dark block color="blue">editar<v-icon class="ml-2">fas fa-edit</v-icon></v-btn>                
             </v-card-actions>
         </div>
@@ -46,6 +46,21 @@
             <previewprograma
             :obrasObj="conciertoObj.programa ? conciertoObj.programa.obras : ''"
             ></previewprograma>
+        </v-dialog>
+
+        <v-dialog v-model="dialogConfirmDeleteConcierto" max-width="500">
+            <v-card class="cardDialogAlerDeleteConcierto" dark color="grey darken-3">
+                <p class="subheading">¿Deseas eliminar el concierto?</p>
+                <v-btn block color="black" @click="dialogConfirmDeleteConcierto = false">cancelar</v-btn>
+                <v-btn block color="red darken-3" :loading="loading" @click="deleteConcierto">eliminar</v-btn>
+            </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="dialogAlertConciertoDeleted" max-width="500">
+            <v-card class="cardDialogAlertConciertoDeleted" dark color="blue darken-3">
+                <p class="subheading">Concierto eliminado correctamente</p>
+                <v-btn block color="grey darken-3" @click="dialogAlertConciertoDeleted = false">aceptar</v-btn>
+            </v-card>
         </v-dialog>
     </v-card>
 </template>
@@ -65,12 +80,12 @@ export default {
             showDescription: false,
             urlToUser: `#/perfil/${ this.conciertoObj.usuario._id }`,
             dialogVistaPreviaProgram: false,
-            focused: false
+            dialogConfirmDeleteConcierto: false,
+            dialogAlertConciertoDeleted: false,
+            loading: false
         }
     },
     mounted() {
-        console.log('this.conciertoObj', this.conciertoObj)
-        console.log('this.conciertoObj.programa', this.conciertoObj.programa)
         this.$store.dispatch('getImage', this.conciertoObj.usuario.img)
             .then(img => this.imgUser = img)
             .catch(err => console.log('ERROR getImage previewConcierto.vue', err))
@@ -90,7 +105,19 @@ export default {
         }
     },
     methods: {
-
+        deleteConcierto() {
+            this.loading = true
+            axios.delete(`${ this.$store.state.urlBackend }/conciertos/${ this.conciertoObj._id }`)
+                .then((res) => {
+                    this.dialogConfirmDeleteConcierto = false
+                    this.dialogAlertConciertoDeleted = true
+                    this.loading = false
+                })
+                .catch((err) => {
+                    console.log(err.response)
+                    this.loading = false
+                })
+        }
     }
 }
 </script>
@@ -114,6 +141,9 @@ export default {
     }
     .cuerpoCard {
         padding: 1.2rem;
+    }
+    .cardDialogAlerDeleteConcierto, .cardDialogAlertConciertoDeleted {
+        padding: 2rem;
     }
     hr {
         margin-bottom: 1rem;

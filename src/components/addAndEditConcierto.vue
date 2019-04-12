@@ -146,7 +146,7 @@
 
             <v-dialog v-model="dialogConciertoAgregado" persistent max-width="500">
               <v-card class="dialogConciertoAgregado" dark color="green darken-3">
-                <p>Concierto creado correctamente</p>
+                <p class="subheading">Concierto creado correctamente</p>
                 <v-btn block color="grey darken-3" @click="closeDialogCreateConciertoEvent">aceptar</v-btn>
               </v-card>
             </v-dialog>

@@ -49,7 +49,7 @@
 
     <v-dialog v-model="dialogAlertProgramSaved" persistent max-width="500">
       <v-card class="cardDialogAlertProgramSaved" dark color="green darken-3">
-        <p>Programa agregado correctamente, ahora podrás seleccionar este programa en cualquiera de tus conciertos</p>
+        <p class="subheading">Programa agregado correctamente, ahora podrás seleccionar este programa en cualquiera de tus conciertos</p>
         <v-btn block color="grey darken-3" @click="afterSaveProgram">aceptar</v-btn>
       </v-card>
     </v-dialog>
