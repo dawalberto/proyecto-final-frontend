@@ -56,17 +56,13 @@
 
     <v-spacer></v-spacer>
     <v-btn color="red darken-3" @click="closeProgramEvent" class="btnCancelar" dark>cancelar</v-btn>
-    <v-btn color="blue darken-3" @click="dialogVistaPrevia = true" class="btnVistaPrevia" dark>vista previa</v-btn>
+    <v-btn color="blue darken-3" @click="obras.length > 0 ? dialogVistaPrevia = true : ''" class="btnVistaPrevia" dark>vista previa</v-btn>
     <v-btn color="grey darken-3" @click="savePrograma" class="btnConfirmar" dark>guardar</v-btn>
 
     <v-dialog v-model="dialogVistaPrevia">
-      <v-card class="cardVistaPrevia" dark>
-        <template v-for="obra of obras">
-          <span class="obra subheading"><v-icon class="mr-2">fas fa-music</v-icon>{{ obra.obra }}</span>
-          <span class="compositor subheading"><v-icon class="mr-2">person</v-icon>{{ obra.compositor }}</span>
-          <hr class="hrVistaPrevia" color="grey">
-        </template>
-      </v-card>
+      <previewprograma
+      :obrasObj="obras"
+      ></previewprograma>
     </v-dialog>
 
   </v-card>
@@ -76,9 +72,11 @@
 import axios from 'axios'
 import qs from 'qs'
 import { mapGetters } from 'vuex'
+import previewprograma from './previewPrograma'
 
 export default {
   name: "programa",
+  components: { previewprograma },
   data() {
     return {
       nombrePrograma: null,
@@ -226,24 +224,6 @@ export default {
   .btnConfirmar {
     grid-column: 1 / 3;
   }
-  .cardVistaPrevia {
-    display: grid;
-    grid-gap: 1.5rem;
-    grid-template-columns: 100fr;
-    padding: 2rem;
-  }
-  .obra {
-    align-self: center;
-    text-align: left;
-  }
-  .compositor {
-    align-self: center;
-    text-align: right;
-  }
-  .hrVistaPrevia {
-    border: none;
-    height: 1px;
-  }
   .cardDialogAlertProgramSaved {
     padding: 2rem;
   }
@@ -275,22 +255,6 @@ export default {
     }
     .btnConfirmar {
       grid-column: 3;
-    }
-    .cardVistaPrevia {
-      grid-template-columns: 50fr 50fr;
-    }
-    .obra {
-      grid-column: 1;
-      text-align: left;
-      margin-left: 10rem;
-    }
-    .compositor {
-      grid-column: 2;
-      text-align: left;
-      margin-left: 10rem;
-    }
-    .hrVistaPrevia {
-      grid-column: 1 / 3;
     }
 
   }

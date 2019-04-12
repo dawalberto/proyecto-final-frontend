@@ -7,24 +7,11 @@
             aspect-ratio="2.75"
             loading="lazy"
         >
-            <!-- <v-container fill-height fluid>
-                <v-layout fill-height>
-                    <v-flex xs12 align-end flexbox>
-                        <a :href="urlToUser" :title="conciertoObj.usuario.nombre">
-                            <v-avatar size="90" color="#EEEEEE" href="123">
-                                <img :src="imgUser" alt="">
-                            </v-avatar>
-                        </a>
-                    </v-flex>
-                </v-layout>
-            </v-container> -->
         </v-img>
 
         <div class="cuerpoCard">
             <p class="titulo headline font-weight-light">{{ conciertoObj.titulo }}</p>
             <hr>
-            <p class="subheading"><v-icon class="mr-2">fas fa-calendar-alt</v-icon>{{ getFecha }}</p>
-            <p class="subheading"><v-icon class="mr-2">fas fa-clock</v-icon>{{ conciertoObj.hora }}</p>
             <p class="subheading">
                 <a :href="urlToUser" :title="conciertoObj.usuario.nombre">
                     <v-avatar size="30" color="#EEEEEE" href="123">
@@ -33,6 +20,9 @@
                     {{ conciertoObj.usuario.nombre }} {{ conciertoObj.usuario.apellidos }}
                 </a>
             </p>
+            <p class="subheading"><v-icon class="mr-2">fas fa-calendar-alt</v-icon>{{ getFecha }}</p>
+            <p class="subheading"><v-icon class="mr-2">fas fa-clock</v-icon>{{ conciertoObj.hora }}</p>
+            <p class="subheading"><v-icon class="mr-2">fas fa-map-marker-alt</v-icon>{{ conciertoObj.ubicacion }}</p>
             <p class="subheading"><v-icon class="mr-2">fas fa-money-bill</v-icon>{{ conciertoObj.precio }} €</p>
             <p>
                 <span class="subheading"><v-icon class="mr-2">fas fa-align-left</v-icon>Descripción</span>
@@ -44,7 +34,7 @@
                 <v-card-text v-show="showDescription">{{ conciertoObj.descripcion }}</v-card-text>
             </v-slide-y-transition>
             <v-card-actions>
-                <v-btn dark block color="drey darken-3">ver programa<v-icon class="ml-2">fas fa-book-open</v-icon></v-btn>
+                <v-btn dark @click="dialogVistaPreviaProgram = true" block color="drey darken-3">ver programa<v-icon class="ml-2">fas fa-book-open</v-icon></v-btn>
             </v-card-actions>
             <v-card-actions v-if="ownConcierto">
                 <v-btn dark block color="red">eliminar<v-icon class="ml-2">fas fa-trash</v-icon></v-btn>                
@@ -52,27 +42,36 @@
             </v-card-actions>
         </div>
 
+        <v-dialog v-model="dialogVistaPreviaProgram">
+            <previewprograma
+            :obrasObj="conciertoObj.programa ? conciertoObj.programa.obras : ''"
+            ></previewprograma>
+        </v-dialog>
     </v-card>
 </template>
 
 <script>
 import axios from 'axios'
 import { mapState, mapGetters } from 'vuex'
+import previewprograma from './previewPrograma'
 
 export default {
     name: 'previewConcierto',
+    components: { previewprograma },
     props: ['conciertoObj', 'paramId'],
     data() {
         return {
             imgUser: null,
             showDescription: false,
-            urlToUser: `#/perfil/${ this.conciertoObj.usuario._id }`
+            urlToUser: `#/perfil/${ this.conciertoObj.usuario._id }`,
+            dialogVistaPreviaProgram: false,
+            focused: false
         }
     },
     mounted() {
-        let self = this
+        console.log('this.conciertoObj', this.conciertoObj)
         this.$store.dispatch('getImage', this.conciertoObj.usuario.img)
-            .then(img => self.imgUser = img)
+            .then(img => this.imgUser = img)
             .catch(err => console.log('ERROR getImage previewConcierto.vue', err))
     },
     computed: {

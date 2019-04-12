@@ -25,7 +25,7 @@
 
     <v-dialog v-model="dialogCreateConcierto" fullscreen hide-overlay transition="dialog-bottom-transition">
       <addAndEditConcierto
-        @closeDialogCreateConciertoEvent="dialogCreateConcierto = false"
+        @closeDialogCreateConciertoEvent="reloadConciertosAndCloseDialog"
       >
       </addAndEditConcierto>
     </v-dialog>
@@ -97,6 +97,10 @@ export default {
             console.log(err.response)
           })
       }
+    },
+    reloadConciertosAndCloseDialog() {
+      this.getConciertos()
+      this.dialogCreateConcierto = false
     }
   }
 }
@@ -111,7 +115,7 @@ export default {
 
     @media (min-width: 960px) {
         .containerGrid {
-          grid-template-columns: 33fr 33fr 33fr;
+          grid-template-columns: 33% 33% 33%;
         }
     }
 </style>

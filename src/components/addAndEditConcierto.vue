@@ -4,7 +4,7 @@
             <v-spacer></v-spacer>
             <v-toolbar-items>
             <v-btn dark flat @click="closeDialogCreateConciertoEvent">cancelar</v-btn>
-            <v-btn dark @click="postConcierto" color="blue darken-3"><v-icon class="mr-2">fas fa-save</v-icon> guardar</v-btn>
+            <v-btn dark @click="postConcierto" color="blue darken-3" :disable="loading" :loading="loading"><v-icon class="mr-2">fas fa-save</v-icon> guardar</v-btn>
             </v-toolbar-items>
         </v-toolbar>
 
@@ -143,6 +143,13 @@
                 @programSavedEvent="programSaved"
               ></programa>
             </v-dialog>
+
+            <v-dialog v-model="dialogConciertoAgregado" persistent max-width="500">
+              <v-card class="dialogConciertoAgregado" dark color="green darken-3">
+                <p>Concierto creado correctamente</p>
+                <v-btn block color="grey darken-3" @click="closeDialogCreateConciertoEvent">aceptar</v-btn>
+              </v-card>
+            </v-dialog>
             
         </div>
     </v-card>
@@ -150,6 +157,7 @@
 
 <script>
 import axios from 'axios'
+import qs from 'qs'
 import { mapState, mapGetters } from 'vuex'
 import programa from '../components/programa'
 
@@ -188,7 +196,9 @@ export default {
         precio: null,
         fecha: null,
         hora: null
-      }
+      },
+      dialogConciertoAgregado: false,
+      loading: false
     }
   },
   mounted() {
@@ -288,8 +298,43 @@ export default {
     },
     postConcierto() {
       if (this.validaciones()) {
-        console.log('valido')
+        this.loading = true
+
+        let programa
+        typeof this.concierto.programa === 'object' ? programa = this.concierto.programa._id : programa = this.concierto.programa
+
+        let newConcierto = {
+          titulo: this.concierto.titulo,
+          descripcion: this.concierto.descripcion,
+          fecha: this.dateCalendar,
+          hora: this.concierto.hora,
+          precio: this.concierto.precio,
+          ubicacion: this.concierto.ubicacion,
+          usuario: this.userLoginStore._id,
+          programa,
+        }
+        console.log(newConcierto)
+
+        let self = this
+        axios.post(`${ this.$store.state.urlBackend }/conciertos`, qs.stringify(newConcierto))
+          .then((res) => {
+            self.clearDataConcierto()
+            self.dialogConciertoAgregado = true
+            self.loading = false
+          })
+          .catch((err) => {
+            console.log(err.response)
+            self.loading = false
+          })
       }
+    },
+    clearDataConcierto() {
+      this.concierto.titulo = null
+      this.concierto.descripcion = null
+      this.dateCalendar = this.getDateCalendar
+      this.concierto.hora = null
+      this.concierto.precio = 0
+      this.concierto.ubicacion = null
     }
   },
 }
@@ -312,6 +357,9 @@ export default {
       position: sticky;
       top: 0;
       z-index: 10;
+    }
+    .dialogConciertoAgregado {
+      padding: 2rem;
     }
 
     @media (min-width: 960px) {
