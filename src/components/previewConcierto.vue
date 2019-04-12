@@ -70,6 +70,7 @@ export default {
     },
     mounted() {
         console.log('this.conciertoObj', this.conciertoObj)
+        console.log('this.conciertoObj.programa', this.conciertoObj.programa)
         this.$store.dispatch('getImage', this.conciertoObj.usuario.img)
             .then(img => this.imgUser = img)
             .catch(err => console.log('ERROR getImage previewConcierto.vue', err))
