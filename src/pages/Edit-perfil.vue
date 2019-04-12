@@ -67,7 +67,7 @@
                 </template>
             </v-radio>
         </v-radio-group>
-        <label for="selectNacionalidadId" class="labelSelectNacionalidades">LUGAR NACIMIENTO</label>
+        <label for="selectNacionalidadId" class="labelSelectNacionalidades">LUGAR DE NACIMIENTO</label>
         <v-select
             id="selectNacionalidadId"
             class="selectNacionalidades"
@@ -77,7 +77,7 @@
             :items="nationalities"
             solo
         ></v-select>
-        <label for="calendarFechaNacId" class="labelCalendarFechaNac">FECHA NACIMIENTO</label>
+        <label for="calendarFechaNacId" class="labelCalendarFechaNac">FECHA DE NACIMIENTO</label>
         <div class="calendarFechaNac">
             <v-menu
                 id="calendarFechaNacId"
@@ -160,7 +160,7 @@
                 {{ data.item }}
             </template>
         </v-select>
-        <v-btn @click="updateUser" :disable="loading" :loading="loading" dark color="grey darken-3" id="btnUpdate"><v-icon class="mr-3">fas fa-edit</v-icon>CONFIRMAR CAMBIOS</v-btn>
+        <v-btn @click="updateUser" :disable="loading" :loading="loading" dark color="grey darken-3" id="btnUpdate"><v-icon class="mr-3">fas fa-save</v-icon>guardar</v-btn>
     </div>
 </template>
 
@@ -461,7 +461,7 @@ export default {
             'inputBiografia inputBiografia inputBiografia inputBiografia inputBiografia'
             'labelWebPage inputWebPage inputWebPage inputWebPage .......'
             'labelRedes inputRedes inputRedes inputRedes .......'
-            'btnUpdate ....... ....... ....... .......';
+            '....... ....... btnUpdate btnUpdate btnUpdate';
         }
         .labelNom, .labelApes, .labelSex, .labelSelectNacionalidades, .labelCalendarFechaNac, .labelinputGuitarra, .labelRedes, .labelWebPage {
             display: inline-block;
