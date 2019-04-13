@@ -1,5 +1,6 @@
 <template>
     <v-card class="cardVistaPrevia" dark>
+        <p v-show="!obrasObj" class="headline">El autor del concierto no ha creado ningún programa para este concierto</p>
         <template v-for="obra of obrasObj">
             <span class="obra subheading"><v-icon class="mr-2">fas fa-music</v-icon>{{ obra.obra }}</span>
             <span class="compositor subheading"><v-icon class="mr-2">person</v-icon>{{ obra.compositor }}</span>

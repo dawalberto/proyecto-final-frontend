@@ -299,20 +299,35 @@ export default {
     postConcierto() {
       if (this.validaciones()) {
         this.loading = true
+        let newConcierto
 
-        let programa
-        typeof this.concierto.programa === 'object' ? programa = this.concierto.programa._id : programa = this.concierto.programa
 
-        let newConcierto = {
-          titulo: this.concierto.titulo,
-          descripcion: this.concierto.descripcion,
-          fecha: this.dateCalendar,
-          hora: this.concierto.hora,
-          precio: this.concierto.precio,
-          ubicacion: this.concierto.ubicacion,
-          usuario: this.userLoginStore._id,
-          programa,
+        if (this.concierto.programa) {
+          let programa
+          typeof this.concierto.programa === 'object' ? programa = this.concierto.programa._id : programa = this.concierto.programa
+
+          newConcierto = {
+            titulo: this.concierto.titulo,
+            descripcion: this.concierto.descripcion,
+            fecha: this.dateCalendar,
+            hora: this.concierto.hora,
+            precio: this.concierto.precio,
+            ubicacion: this.concierto.ubicacion,
+            usuario: this.userLoginStore._id,
+            programa
+          }
+        } else {
+          newConcierto = {
+            titulo: this.concierto.titulo,
+            descripcion: this.concierto.descripcion,
+            fecha: this.dateCalendar,
+            hora: this.concierto.hora,
+            precio: this.concierto.precio,
+            ubicacion: this.concierto.ubicacion,
+            usuario: this.userLoginStore._id
+          }
         }
+
         console.log(newConcierto)
 
         let self = this

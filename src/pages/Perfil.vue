@@ -56,19 +56,19 @@
             </div>
          </div>
 
-        <div class="biografia">
+        <div class="biografia" v-if="user.biografia">
             <p class="headline font-weight-light">Biografía</p>
             <p>{{ user.biografia }}</p>
         </div>
 
-        <div class="conciertos">
+        <div class="conciertos" v-if="user.nom">
             <p class="headline font-weight-light">No te pierdas ningún concierto de {{ user.nom }}</p>
             <a :href="urlToConciertosUser">
                 <v-btn block outline color="primary"><v-icon class="mr-2">fas fa-music</v-icon>conciertos</v-btn>
             </a>
         </div>
 
-        <div class="redes" v-if="user.redes">
+        <div class="redes" v-if="user.redes.length > 0">
             <p class="headline font-weight-light">Sigue a {{ user.nom }} {{ user.ape }}</p>
             <v-item-group multiple>
                 <v-item v-show="getRed('Facebook')">
@@ -136,7 +136,7 @@ export default {
                 biografia: null,
                 webpage: null,
                 img: null,
-                redes: null
+                redes: []
             },
             urlToConciertosUser: `#/conciertos/${ this.$route.params.id }`
         }
