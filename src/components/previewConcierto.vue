@@ -1,5 +1,5 @@
 <template>
-    <v-card hover width="100%" max-width="100%" id="card">
+    <v-card hover width="100%" max-width="100%" id="card" :class="[conciertoDeleted ? 'deleted' : '']">
         <v-img
             id="imgCard"
             src="https://cdn.pixabay.com/photo/2017/01/04/16/53/guitar-1952454_960_720.jpg"
@@ -82,7 +82,8 @@ export default {
             dialogVistaPreviaProgram: false,
             dialogConfirmDeleteConcierto: false,
             dialogAlertConciertoDeleted: false,
-            loading: false
+            loading: false,
+            conciertoDeleted: false,
         }
     },
     mounted() {
@@ -111,6 +112,7 @@ export default {
                 .then((res) => {
                     this.dialogConfirmDeleteConcierto = false
                     this.dialogAlertConciertoDeleted = true
+                    this.conciertoDeleted = true
                     this.loading = false
                 })
                 .catch((err) => {
@@ -144,6 +146,9 @@ export default {
     }
     .cardDialogAlerDeleteConcierto, .cardDialogAlertConciertoDeleted {
         padding: 2rem;
+    }
+    .deleted {
+        display: none;
     }
     hr {
         margin-bottom: 1rem;

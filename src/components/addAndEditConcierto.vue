@@ -215,6 +215,7 @@ export default {
   },
   methods: {
     closeDialogCreateConciertoEvent() {
+      this.clearDataConcierto()
       this.$emit('closeDialogCreateConciertoEvent', true)
     },
     programSaved() {
@@ -224,13 +225,12 @@ export default {
       if (!this.login) { return }
       if (this.paramId === undefined) { return }
       
-      let self = this
       axios.get(`${ this.$store.state.urlBackend }/programas/usuarios/${ this.userLoginStore._id }`)
         .then((res) => {
           let programasDB = res.data.programas
-          self.programas = programasDB
+          this.programas = programasDB
           if (programasDB.length > 0) {
-            self.concierto.programa = programasDB[0]
+            this.concierto.programa = programasDB[0]
           }
         })
         .catch((err) => {
@@ -318,7 +318,6 @@ export default {
         let self = this
         axios.post(`${ this.$store.state.urlBackend }/conciertos`, qs.stringify(newConcierto))
           .then((res) => {
-            self.clearDataConcierto()
             self.dialogConciertoAgregado = true
             self.loading = false
           })
