@@ -1,7 +1,15 @@
 <template>
     <div>
     <v-toolbar>
-        <v-toolbar-title><router-link to="/" id="logo">LOGO</router-link></v-toolbar-title>
+        <!-- <v-toolbar-title><router-link to="/" id="logo">LOGO</router-link></v-toolbar-title> -->
+        <v-toolbar-title>
+            <v-avatar 
+            color="#F5F5F5" 
+            size="80"
+            >
+                <img src="@/assets/logo-proyecto.png" alt="" loading="lazy">
+            </v-avatar>
+        </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
             <v-btn flat to="/guitarristas"><v-icon class="mr-3">fas fa-guitar</v-icon>guitarristas</v-btn>
