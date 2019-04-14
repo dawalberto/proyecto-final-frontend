@@ -24,10 +24,10 @@
     </div>
 
     <v-dialog v-model="dialogCreateConcierto" fullscreen hide-overlay transition="dialog-bottom-transition">
-      <addAndEditConcierto
+      <addConcierto
         @closeDialogCreateConciertoEvent="reloadConciertosAndCloseDialog"
       >
-      </addAndEditConcierto>
+      </addConcierto>
     </v-dialog>
 
   </div>
@@ -37,11 +37,11 @@
 import axios from 'axios'
 import { mapState, mapGetters } from 'vuex'
 import previewConcierto from '../components/previewConcierto'
-import addAndEditConcierto from '../components/addAndEditConcierto'
+import addConcierto from '../components/addConcierto'
 
 export default {
   name: 'conciertos',
-  components: { previewConcierto, addAndEditConcierto },
+  components: { previewConcierto, addConcierto },
   data() {
     return {
       conciertos: [],

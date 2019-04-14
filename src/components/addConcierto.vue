@@ -1,10 +1,10 @@
 <template>
     <v-card>
-        <v-toolbar dark color="grey darken-3" id="toolbarAddAndEditConcierto">
+        <v-toolbar dark color="grey darken-3" id="toolbarAddConcierto">
             <v-spacer></v-spacer>
             <v-toolbar-items>
             <v-btn dark flat @click="closeDialogCreateConciertoEvent">cancelar</v-btn>
-            <v-btn dark @click="postConcierto" color="blue darken-3" :disable="loading" :loading="loading"><v-icon class="mr-2">fas fa-save</v-icon> guardar</v-btn>
+            <v-btn dark @click="postConcierto" color="blue darken-3" :disable="loading" :loading="loading"><v-icon class="mr-2">fas fa-save</v-icon>crear</v-btn>
             </v-toolbar-items>
         </v-toolbar>
 
@@ -162,7 +162,7 @@ import { mapState, mapGetters } from 'vuex'
 import programa from '../components/programa'
 
 export default {
-  name: 'addAndEditConcierto',
+  name: 'addConcierto',
   components: { programa },
   data() {
     return {
@@ -330,15 +330,14 @@ export default {
 
         console.log(newConcierto)
 
-        let self = this
         axios.post(`${ this.$store.state.urlBackend }/conciertos`, qs.stringify(newConcierto))
           .then((res) => {
-            self.dialogConciertoAgregado = true
-            self.loading = false
+            this.dialogConciertoAgregado = true
+            this.loading = false
           })
           .catch((err) => {
             console.log(err.response)
-            self.loading = false
+            this.loading = false
           })
       }
     },
@@ -366,7 +365,7 @@ export default {
     .label {
       display: none;
     }
-    #toolbarAddAndEditConcierto {
+    #toolbarAddConcierto {
       position: -webkit-sticky;
       position: sticky;
       top: 0;

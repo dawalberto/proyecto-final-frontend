@@ -1,14 +1,16 @@
 <template>
     <div>
     <v-toolbar>
-        <!-- <v-toolbar-title><router-link to="/" id="logo">LOGO</router-link></v-toolbar-title> -->
         <v-toolbar-title>
-            <v-avatar 
-            color="#F5F5F5" 
-            size="80"
-            >
-                <img src="@/assets/logo-proyecto.png" alt="" loading="lazy">
-            </v-avatar>
+            <router-link to="/" id="logo">
+                <v-avatar 
+                color="#F5F5F5" 
+                :size="mobile ? 55 : 64"
+                >
+                    <img src="@/assets/logo-proyecto.png" alt="" loading="lazy">
+                </v-avatar>
+                <span class="spanLogo font-weight-light">guitarraclasica.com</span>
+            </router-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
@@ -87,8 +89,13 @@ export default {
             drawer: false,
             nomUsuario: '',
             urlToPerfil: null,
-            urlToConciertosUser: null
+            urlToConciertosUser: null,
+            breakpoint: this.$vuetify.breakpoint,
+            mobile: true
         }
+    },
+    mounted() {
+        this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
     },
     computed: {
         ...mapState(['login']),
@@ -116,5 +123,14 @@ export default {
     #logo {
         text-decoration: none;
         color: black;
+    }
+    .spanLogo {
+        display: none;
+    }
+
+    @media (min-width: 960px) {
+        .spanLogo {
+            display: inline;
+        }
     }
 </style>
