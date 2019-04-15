@@ -177,7 +177,6 @@ export default {
             this.user.biografia = user.biografia
             this.user.webpage = user.webpage
             this.user.redes = user.redes
-            console.log('user.redes',user.redes)
             let self = this
             this.$store.dispatch('getImage', user.img)
                 .then(img => self.user.img = img)

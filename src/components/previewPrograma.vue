@@ -1,9 +1,9 @@
 <template>
-    <v-card class="cardVistaPrevia" dark>
-        <p v-show="!obrasObj" class="headline">El autor del concierto no ha creado ningún programa para este concierto</p>
+    <v-card class="cardVistaPrevia" color="grey lighten-5">
+        <p v-show="!obrasObj" class="headline msgSinPrograma">El autor del concierto no ha creado ningún programa para este concierto</p>
         <template v-for="obra of obrasObj">
-            <span class="obra subheading"><v-icon class="mr-2">fas fa-music</v-icon>{{ obra.obra }}</span>
-            <span class="compositor subheading"><v-icon class="mr-2">person</v-icon>{{ obra.compositor }}</span>
+            <span class="obra subheading font-weight-light"><v-icon class="mr-2">fas fa-music</v-icon>{{ obra.obra }}</span>
+            <span class="compositor subheading font-weight-light"><v-icon class="mr-2">person</v-icon>{{ obra.compositor }}</span>
             <hr class="hrVistaPrevia" color="grey">
         </template>
     </v-card>
@@ -48,14 +48,17 @@ export default {
     .obra {
       grid-column: 1;
       text-align: left;
-      margin-left: 10rem;
+      margin-left: 13rem;
     }
     .compositor {
       grid-column: 2;
       text-align: left;
-      margin-left: 10rem;
+      margin-left: 13rem;
     }
     .hrVistaPrevia {
+      grid-column: 1 / 3;
+    }
+    .msgSinPrograma {
       grid-column: 1 / 3;
     }
   }

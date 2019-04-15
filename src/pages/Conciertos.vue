@@ -9,20 +9,18 @@
         :conciertoObj="c"
         :paramId="paramId"
       ></previewConcierto>
-      <v-btn
-        v-if="showButtonAddConcierto"
-        class="mr-5 mb-5"
-        absolute
-        bottom
-        right
-        fab
-        dark
-        @click="dialogCreateConcierto = true"
-        color="grey darken-3"
-      >
-        <v-icon>add</v-icon>
-      </v-btn>
     </div>
+
+    <v-btn
+    v-if="showButtonAddConcierto"
+    class="btnAddConcierto"
+    fab
+    dark
+    @click="dialogCreateConcierto = true"
+    color="blue darken-3"
+    >
+      <v-icon>add</v-icon>
+    </v-btn>
 
     <v-dialog v-model="dialogCreateConcierto" fullscreen hide-overlay transition="dialog-bottom-transition">
       <addConcierto
@@ -30,7 +28,6 @@
       >
       </addConcierto>
     </v-dialog>
-
   </div>
 </template>
 
@@ -114,6 +111,12 @@ export default {
       display: grid;
       grid-gap: 1.5rem;
       grid-template-columns: 100fr;
+    }
+    .btnAddConcierto {
+      z-index: 10;
+      position: fixed;
+      right: 2rem;
+      bottom: 1.5rem;
     }
 
     @media (min-width: 960px) {

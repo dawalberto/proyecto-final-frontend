@@ -138,10 +138,10 @@
             <v-btn block dark color="grey darken-3" @click="dialogPrograma = true" id="btnAddProgramaId" class="btnAddPrograma"><v-icon class="mr-2">add</v-icon> AÑADIR PROGRAMA</v-btn>
 
             <v-dialog v-model="dialogPrograma" persistent max-width="800" color="red">
-              <programa 
+              <addPrograma 
                 @closeProgramEvent="dialogPrograma = false"
                 @programSavedEvent="programSaved"
-              ></programa>
+              ></addPrograma>
             </v-dialog>
 
             <v-dialog v-model="dialogConciertoAgregado" persistent max-width="500">
@@ -159,11 +159,11 @@
 import axios from 'axios'
 import qs from 'qs'
 import { mapState, mapGetters } from 'vuex'
-import programa from '../components/programa'
+import addPrograma from '../components/addPrograma'
 
 export default {
   name: 'addConcierto',
-  components: { programa },
+  components: { addPrograma },
   data() {
     return {
       conciertos: [],
@@ -204,7 +204,6 @@ export default {
   mounted() {
     this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
     this.getProgramas()
-    console.log('this.$route', this.$route)
   },
   computed: {
     ...mapState(['login']),
@@ -327,8 +326,6 @@ export default {
             usuario: this.userLoginStore._id
           }
         }
-
-        console.log(newConcierto)
 
         axios.post(`${ this.$store.state.urlBackend }/conciertos`, qs.stringify(newConcierto))
           .then((res) => {

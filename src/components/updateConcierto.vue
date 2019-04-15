@@ -3,7 +3,7 @@
         <v-toolbar dark color="grey darken-3" id="toolbarAddConcierto">
             <v-spacer></v-spacer>
             <v-toolbar-items>
-            <v-btn dark flat @click="closeDialogUpdateConciertoEvent">cancelar</v-btn>
+            <v-btn dark flat @click="cancelDialogUpdateConciertoEvent">cancelar</v-btn>
             <v-btn dark @click="putConcierto" color="blue darken-3" :disable="loading" :loading="loading"><v-icon class="mr-2">fas fa-save</v-icon>guardar</v-btn>
             </v-toolbar-items>
         </v-toolbar>
@@ -139,10 +139,10 @@
             <v-btn block dark color="grey darken-3" @click="dialogPrograma = true" id="btnAddProgramaId" class="btnAddPrograma"><v-icon class="mr-2">add</v-icon> AÑADIR PROGRAMA</v-btn>
 
             <v-dialog v-model="dialogPrograma" persistent max-width="800" color="red">
-              <programa 
+              <addPrograma 
                 @closeProgramEvent="dialogPrograma = false"
                 @programSavedEvent="programSaved"
-              ></programa>
+              ></addPrograma>
             </v-dialog>
 
             <v-dialog v-model="dialogConciertoActualizado" persistent max-width="500">
@@ -160,12 +160,12 @@
 import axios from 'axios'
 import qs from 'qs'
 import { mapState, mapGetters } from 'vuex'
-import programa from '../components/programa'
+import addPrograma from '../components/addPrograma'
 import { constants } from 'crypto';
 
 export default {
   name: 'updateConcierto',
-  components: { programa },
+  components: { addPrograma },
   props: ['conciertoObj'],
   data() {
     return {
@@ -219,6 +219,9 @@ export default {
   methods: {
     closeDialogUpdateConciertoEvent() {
       this.$emit('closeDialogUpdateConciertoEvent', true)
+    },
+    cancelDialogUpdateConciertoEvent() {
+      this.$emit('cancelDialogUpdateConciertoEvent', true)
     },
     programSaved() {
       this.getProgramas()

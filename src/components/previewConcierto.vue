@@ -1,5 +1,5 @@
 <template>
-    <v-card hover width="100%" max-width="100%" id="card" :class="[conciertoDeleted ? 'deleted' : '']">
+    <v-card hover width="100%" id="card" :class="[conciertoDeleted ? 'deleted' : '']">
         <v-img
             id="imgCard"
             :src="require('@/assets/logo-proyecto.png')"
@@ -23,21 +23,19 @@
             <p class="subheading"><v-icon class="mr-2">fas fa-clock</v-icon>{{ conciertoObj.hora }}</p>
             <p class="subheading"><v-icon class="mr-2">fas fa-map-marker-alt</v-icon>{{ conciertoObj.ubicacion }}</p>
             <p class="subheading"><v-icon class="mr-2">fas fa-money-bill</v-icon>{{ conciertoObj.precio }} €</p>
-            <p>
-                <span class="subheading"><v-icon class="mr-2">fas fa-align-left</v-icon>Descripción</span>
-                <v-btn icon @click="showDescription = !showDescription">
-                    <v-icon>{{ !showDescription ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                </v-btn>
+            <p @click="showDescription = !showDescription">
+                <span class="subheading mr-2"><v-icon class="mr-2">fas fa-align-left</v-icon>Descripción</span>
+                <v-icon>{{ !showDescription ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
             </p>
             <v-slide-y-transition>
                 <v-card-text v-show="showDescription">{{ conciertoObj.descripcion }}</v-card-text>
             </v-slide-y-transition>
             <v-card-actions>
-                <v-btn dark @click="dialogVistaPreviaProgram = true" block color="drey darken-3">ver programa<v-icon class="ml-2">fas fa-book-open</v-icon></v-btn>
+                <v-btn dark @click="dialogVistaPreviaProgram = true" block color="grey darken-3">ver programa<v-icon class="ml-2">fas fa-book-open</v-icon></v-btn>
             </v-card-actions>
             <v-card-actions v-if="ownConcierto">
-                <v-btn dark block @click="dialogConfirmDeleteConcierto = true" color="red">eliminar<v-icon class="ml-2">fas fa-trash</v-icon></v-btn>                
-                <v-btn dark block @click="dialogUpdateConcierto = true" color="blue">editar<v-icon class="ml-2">fas fa-edit</v-icon></v-btn>                
+                <v-btn dark block @click="dialogConfirmDeleteConcierto = true" color="red darken-3">eliminar<v-icon class="ml-2">fas fa-trash-alt</v-icon></v-btn>                
+                <v-btn dark block @click="dialogUpdateConcierto = true" color="blue darken-3">editar<v-icon class="ml-2">fas fa-edit</v-icon></v-btn>                
             </v-card-actions>
         </div>
 
@@ -65,6 +63,7 @@
         <v-dialog v-model="dialogUpdateConcierto" persistent fullscreen hide-overlay transition="dialog-bottom-transition">
             <updateConcierto
             :conciertoObj="conciertoObj"
+            @cancelDialogUpdateConciertoEvent="dialogUpdateConcierto = false"
             @closeDialogUpdateConciertoEvent="afterUpdateConcierto"
             >
             </updateConcierto>
@@ -140,8 +139,8 @@ export default {
 <style scoped>
     #imgCard {
         opacity: 0.9;
-        height: 7rem;
-        width: 7rem;
+        height: 5rem;
+        width: 5rem;
         margin-left: auto;
         margin-right: auto;
 
