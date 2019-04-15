@@ -3,8 +3,8 @@
         <v-toolbar dark color="grey darken-3" id="toolbarAddConcierto">
             <v-spacer></v-spacer>
             <v-toolbar-items>
-            <v-btn dark flat @click="closeDialogCreateConciertoEvent">cancelar</v-btn>
-            <v-btn dark @click="postConcierto" color="blue darken-3" :disable="loading" :loading="loading"><v-icon class="mr-2">fas fa-save</v-icon>guardar</v-btn>
+            <v-btn dark flat @click="closeDialogUpdateConciertoEvent">cancelar</v-btn>
+            <v-btn dark @click="putConcierto" color="blue darken-3" :disable="loading" :loading="loading"><v-icon class="mr-2">fas fa-save</v-icon>guardar</v-btn>
             </v-toolbar-items>
         </v-toolbar>
 
@@ -126,12 +126,13 @@
             solo 
             clearable
             id="selectProgramaId" 
-            v-model="concierto.programa"
+            v-model="programa"
             :items="programas"
             item-text="nombre"
             item-value="_id"
             class="selectPrograma" 
             type="text" 
+            :error-messages="msgsErrors.programa"
             label="Seleccione un programa"
             >
             </v-select>
@@ -147,7 +148,7 @@
             <v-dialog v-model="dialogConciertoActualizado" persistent max-width="500">
               <v-card class="dialogConciertoActualizado" dark color="green darken-3">
                 <p class="subheading">Concierto actualizado correctamente</p>
-                <v-btn block color="grey darken-3" @click="closeDialogCreateConciertoEvent">aceptar</v-btn>
+                <v-btn block color="grey darken-3" @click="closeDialogUpdateConciertoEvent">aceptar</v-btn>
               </v-card>
             </v-dialog>
             
@@ -160,27 +161,29 @@ import axios from 'axios'
 import qs from 'qs'
 import { mapState, mapGetters } from 'vuex'
 import programa from '../components/programa'
+import { constants } from 'crypto';
 
 export default {
   name: 'updateConcierto',
   components: { programa },
+  props: ['conciertoObj'],
   data() {
     return {
-      conciertos: [],
       concierto: {
-        titulo: null,
-        descripcion: null,
-        hora: null,
-        precio: 0,
-        ubicacion: null,
-        usuarioId: null,
+        titulo: this.conciertoObj.titulo,
+        descripcion: this.conciertoObj.descripcion,
+        hora: this.conciertoObj.hora,
+        precio: this.conciertoObj.precio,
+        ubicacion: this.conciertoObj.ubicacion,
+        usuarioId: this.conciertoObj.usuario._id,
         programa: null
       },
+      programa: this.conciertoObj.programa,
       dialogPrograma: false,
       breakpoint: this.$vuetify.breakpoint,
       mobile: true,
       menuFecha: false,
-      dateCalendar: this.getDateCalendar,
+      dateCalendar: new Date(this.conciertoObj.fecha).toISOString().substr(0, 10),
       menuHora: false,
       programas: [],
       paramId: this.$route.params.id,
@@ -195,7 +198,8 @@ export default {
         ubicacion: null,
         precio: null,
         fecha: null,
-        hora: null
+        hora: null,
+        programa: null
       },
       dialogConciertoActualizado: false,
       loading: false
@@ -204,7 +208,6 @@ export default {
   mounted() {
     this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
     this.getProgramas()
-    console.log('this.$route', this.$route)
   },
   computed: {
     ...mapState(['login']),
@@ -214,9 +217,8 @@ export default {
     }
   },
   methods: {
-    closeDialogCreateConciertoEvent() {
-      this.clearDataConcierto()
-      this.$emit('closeDialogCreateConciertoEvent', true)
+    closeDialogUpdateConciertoEvent() {
+      this.$emit('closeDialogUpdateConciertoEvent', true)
     },
     programSaved() {
       this.getProgramas()
@@ -244,12 +246,14 @@ export default {
       this.msgsErrors.precio = null
       this.msgsErrors.fecha = null
       this.msgsErrors.hora = null
+      this.msgsErrors.programa = null
       let errorTitulo = false,
       errorDescripcion = false,
       errorUbicacion = false,
       errorPrecio = false,
       errorFecha = false,
-      errorHora = false
+      errorHora = false,
+      errorPrograma = false
 
       // Validaciones
       if (this.concierto.titulo === null || this.concierto.titulo === undefined || this.concierto.titulo === '') {
@@ -276,8 +280,12 @@ export default {
         this.msgsErrors.hora = 'La hora es obligatoria'
         errorHora = true
       }
+      if (this.programa === undefined) {
+        this.msgsErrors.programa = 'Seleccione un programa para el concierto'
+        errorPrograma = true
+      }
 
-      if (errorTitulo || errorDescripcion || errorUbicacion || errorPrecio || errorFecha || errorHora) { return false }
+      if (errorTitulo || errorDescripcion || errorUbicacion || errorPrecio || errorFecha || errorHora || errorPrograma) { return false }
 
       if (this.concierto.titulo.length > this.counters.titulo) {
         this.msgsErrors.titulo = `La longitud del título supera los ${ this.counters.titulo } caracteres`
@@ -296,41 +304,26 @@ export default {
 
       return true
     },
-    postConcierto() {
+    putConcierto() {
       if (this.validaciones()) {
         this.loading = true
-        let newConcierto
 
+        let programa
+        typeof this.programa === 'object' ? programa = this.programa._id : programa = this.programa
 
-        if (this.concierto.programa) {
-          let programa
-          typeof this.concierto.programa === 'object' ? programa = this.concierto.programa._id : programa = this.concierto.programa
-
-          newConcierto = {
-            titulo: this.concierto.titulo,
-            descripcion: this.concierto.descripcion,
-            fecha: this.dateCalendar,
-            hora: this.concierto.hora,
-            precio: this.concierto.precio,
-            ubicacion: this.concierto.ubicacion,
-            usuario: this.userLoginStore._id,
-            programa
-          }
-        } else {
-          newConcierto = {
-            titulo: this.concierto.titulo,
-            descripcion: this.concierto.descripcion,
-            fecha: this.dateCalendar,
-            hora: this.concierto.hora,
-            precio: this.concierto.precio,
-            ubicacion: this.concierto.ubicacion,
-            usuario: this.userLoginStore._id
-          }
+        let conciertoUpdated
+        conciertoUpdated = {
+          titulo: this.concierto.titulo,
+          descripcion: this.concierto.descripcion,
+          fecha: this.dateCalendar,
+          hora: this.concierto.hora,
+          precio: this.concierto.precio,
+          ubicacion: this.concierto.ubicacion,
+          usuario: this.userLoginStore._id,
+          programa
         }
 
-        console.log(newConcierto)
-
-        axios.post(`${ this.$store.state.urlBackend }/conciertos`, qs.stringify(newConcierto))
+        axios.put(`${ this.$store.state.urlBackend }/conciertos/${ this.conciertoObj._id }`, qs.stringify(conciertoUpdated))
           .then((res) => {
             this.dialogConciertoActualizado = true
             this.loading = false
@@ -340,16 +333,8 @@ export default {
             this.loading = false
           })
       }
-    },
-    clearDataConcierto() {
-      this.concierto.titulo = null
-      this.concierto.descripcion = null
-      this.dateCalendar = this.getDateCalendar
-      this.concierto.hora = null
-      this.concierto.precio = 0
-      this.concierto.ubicacion = null
     }
-  },
+  }
 }
 </script>
 

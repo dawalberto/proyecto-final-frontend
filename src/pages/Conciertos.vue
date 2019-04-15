@@ -1,5 +1,6 @@
 <template>
   <div>
+    <v-progress-linear :indeterminate="true" color="grey darken-3" v-show="pageLoading"></v-progress-linear>
     <p v-show="showMsg">{{ msgNingunConcierto }}</p>
     <div class="containerGrid">
       <previewConcierto
@@ -53,7 +54,8 @@ export default {
       breakpoint: this.$vuetify.breakpoint,
       mobile: true,
       menuFecha: false,
-      menuHora: false
+      menuHora: false,
+      pageLoading: true
     }
   },
   created() {
@@ -77,6 +79,7 @@ export default {
       if (this.paramId) {
         axios.get(`${ this.$store.state.urlBackend }/conciertos/usuarios/${ this.paramId }`)
           .then((res) => {
+            this.pageLoading = false
             if (res.data.ok) {
               this.conciertos = res.data.conciertos
               this.showMsg = false
@@ -90,7 +93,7 @@ export default {
       } else {
         axios.get(`${ this.$store.state.urlBackend }/conciertos`)
           .then((res) => {
-            console.log('this.paramId',this.paramId)
+            this.pageLoading = false
             this.conciertos = res.data.conciertos
           })
           .catch((err) => {

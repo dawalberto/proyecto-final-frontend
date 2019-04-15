@@ -2,9 +2,8 @@
     <v-card hover width="100%" max-width="100%" id="card" :class="[conciertoDeleted ? 'deleted' : '']">
         <v-img
             id="imgCard"
-            src="https://cdn.pixabay.com/photo/2017/01/04/16/53/guitar-1952454_960_720.jpg"
+            :src="require('@/assets/logo-proyecto.png')"
             alt="img"
-            aspect-ratio="2.75"
             loading="lazy"
         >
         </v-img>
@@ -38,7 +37,7 @@
             </v-card-actions>
             <v-card-actions v-if="ownConcierto">
                 <v-btn dark block @click="dialogConfirmDeleteConcierto = true" color="red">eliminar<v-icon class="ml-2">fas fa-trash</v-icon></v-btn>                
-                <v-btn dark block color="blue">editar<v-icon class="ml-2">fas fa-edit</v-icon></v-btn>                
+                <v-btn dark block @click="dialogUpdateConcierto = true" color="blue">editar<v-icon class="ml-2">fas fa-edit</v-icon></v-btn>                
             </v-card-actions>
         </div>
 
@@ -62,6 +61,14 @@
                 <v-btn block color="grey darken-3" @click="dialogAlertConciertoDeleted = false">aceptar</v-btn>
             </v-card>
         </v-dialog>
+
+        <v-dialog v-model="dialogUpdateConcierto" persistent fullscreen hide-overlay transition="dialog-bottom-transition">
+            <updateConcierto
+            :conciertoObj="conciertoObj"
+            @closeDialogUpdateConciertoEvent="afterUpdateConcierto"
+            >
+            </updateConcierto>
+        </v-dialog>
     </v-card>
 </template>
 
@@ -69,10 +76,11 @@
 import axios from 'axios'
 import { mapState, mapGetters } from 'vuex'
 import previewprograma from './previewPrograma'
+import updateConcierto from './updateConcierto'
 
 export default {
     name: 'previewConcierto',
-    components: { previewprograma },
+    components: { previewprograma, updateConcierto },
     props: ['conciertoObj', 'paramId'],
     data() {
         return {
@@ -84,6 +92,7 @@ export default {
             dialogAlertConciertoDeleted: false,
             loading: false,
             conciertoDeleted: false,
+            dialogUpdateConcierto: false
         }
     },
     mounted() {
@@ -119,6 +128,10 @@ export default {
                     console.log(err.response)
                     this.loading = false
                 })
+        },
+        afterUpdateConcierto() {
+            this.dialogUpdateConcierto = false
+            this.$router.push('/conciertos')
         }
     }
 }
@@ -126,11 +139,17 @@ export default {
 
 <style scoped>
     #imgCard {
-        filter: blur(2px);
-        filter: grayscale(60%);
-    }
-    #card:hover > #imgCard {
-        filter: grayscale(30%);
+        opacity: 0.9;
+        height: 7rem;
+        width: 7rem;
+        margin-left: auto;
+        margin-right: auto;
+
+        -webkit-transform: rotate(0);
+        -moz-transform: rotate(0);
+        -o-transform: rotate(0);
+        -ms-transform: rotate(0);
+        transform: rotate(0);
     }
     #imgUser {
         filter: grayscale(20%);
@@ -155,5 +174,32 @@ export default {
     }
     a {
         text-decoration: none;
+    }
+
+    @media (min-width: 960px) {
+        #imgCard {
+            opacity: 0.5;
+
+            -webkit-transform: rotate(-180deg);
+            -moz-transform: rotate(-180deg);
+            -o-transform: rotate(-180deg);
+            -ms-transform: rotate(-180deg);
+            transform: rotate(-180deg);
+
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+        }
+        #card:hover > #imgCard {
+            opacity: 1;
+
+            -webkit-transform: rotate(-720deg);
+            -moz-transform: rotate(-720deg);
+            -o-transform: rotate(-720deg);
+            -ms-transform: rotate(-720deg);
+            transform: rotate(-720deg);
+        }
     }
 </style>

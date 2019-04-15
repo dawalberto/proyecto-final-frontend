@@ -5,7 +5,7 @@
             <router-link to="/" id="logo">
                 <v-avatar 
                 color="#F5F5F5" 
-                :size="mobile ? 55 : 64"
+                :size="mobile ? 48 : 64"
                 >
                     <img src="@/assets/logo-proyecto.png" alt="" loading="lazy">
                 </v-avatar>
