@@ -138,7 +138,7 @@
             </v-select>
             <v-btn block dark color="grey darken-3" @click="dialogPrograma = true" id="btnAddProgramaId" class="btnAddPrograma"><v-icon class="mr-2">add</v-icon> AÑADIR PROGRAMA</v-btn>
 
-            <v-dialog v-model="dialogPrograma" persistent max-width="800" color="red">
+            <v-dialog v-model="dialogPrograma" persistent max-width="800">
               <addPrograma 
                 @closeProgramEvent="dialogPrograma = false"
                 @programSavedEvent="programSaved"

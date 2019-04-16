@@ -27,10 +27,13 @@
                         <v-list-tile-content><v-btn flat :to="urlToPerfil"><v-icon class="mr-3">fas fa-user</v-icon>ver perfil</v-btn></v-list-tile-content>
                     </v-list-tile>
                     <v-list-tile>
-                        <v-list-tile-content><v-btn flat to="/edit-perfil"><v-icon class="mr-3">fas fa-edit</v-icon>editar perfil</v-btn></v-list-tile-content>
+                        <v-list-tile-content><v-btn flat to="/edit-perfil"><v-icon class="mr-3">fas fa-user-edit</v-icon>editar perfil</v-btn></v-list-tile-content>
                     </v-list-tile>
                     <v-list-tile>
                         <v-list-tile-content><v-btn flat :to="urlToConciertosUser"><v-icon class="mr-3">fas fa-music</v-icon>mis conciertos</v-btn></v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile>
+                        <v-list-tile-content><v-btn flat to="/programas"><v-icon class="mr-3">fas fa-book-open</v-icon>mis programas</v-btn></v-list-tile-content>
                     </v-list-tile>
                     <v-list-tile>
                         <v-list-tile-content><v-btn flat to="/cuenta"><v-icon class="mr-3">fas fa-cog</v-icon>cuenta</v-btn></v-list-tile-content>
@@ -56,10 +59,13 @@
                 <v-list-tile-content><v-btn flat :to="urlToPerfil"><v-icon class="mr-3">fas fa-user</v-icon>ver perfil</v-btn></v-list-tile-content>
             </v-list-tile>
             <v-list-tile  v-if="userLogin">
-                <v-list-tile-content><v-btn flat to="/edit-perfil"><v-icon class="mr-3">fas fa-edit</v-icon>editar perfil</v-btn></v-list-tile-content>
+                <v-list-tile-content><v-btn flat to="/edit-perfil"><v-icon class="mr-3">fas fa-user-edit</v-icon>editar perfil</v-btn></v-list-tile-content>
             </v-list-tile>
             <v-list-tile  v-if="userLogin">
                 <v-list-tile-content><v-btn flat :to="urlToConciertosUser"><v-icon class="mr-3">fas fa-music</v-icon>mis conciertos</v-btn></v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile  v-if="userLogin">
+                <v-list-tile-content><v-btn flat to="/programas"><v-icon class="mr-3">fas fa-book-open</v-icon>mis programas</v-btn></v-list-tile-content>
             </v-list-tile>
             <v-list-tile  v-if="userLogin">
                 <v-list-tile-content><v-btn flat to="/cuenta"><v-icon class="mr-3">fas fa-cog</v-icon>cuenta</v-btn></v-list-tile-content>

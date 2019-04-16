@@ -49,7 +49,7 @@
 
     <v-dialog v-model="dialogAlertProgramSaved" persistent max-width="500">
       <v-card class="cardDialogAlertProgramSaved" dark color="green darken-3">
-        <p class="subheading">Programa agregado correctamente, ahora podrás seleccionar este programa en cualquiera de tus conciertos</p>
+        <p class="subheading">Programa actualizado correctamente</p>
         <v-btn block color="grey darken-3" @click="afterSaveProgram">aceptar</v-btn>
       </v-card>
     </v-dialog>
@@ -57,7 +57,7 @@
     <v-spacer></v-spacer>
     <v-btn color="red darken-3" @click="closeProgramEvent" class="btnCancelar" dark>cancelar</v-btn>
     <v-btn color="grey darken-3" @click="obras.length > 0 ? dialogVistaPrevia = true : ''" class="btnVistaPrevia" dark>vista previa</v-btn>
-    <v-btn color="green darken-3" @click="savePrograma" class="btnConfirmar" dark>guardar</v-btn>
+    <v-btn color="green darken-3" @click="updateProgram" class="btnConfirmar" dark>actualizar</v-btn>
 
     <v-dialog v-model="dialogVistaPrevia">
       <previewprograma
@@ -74,7 +74,8 @@ import { mapGetters } from 'vuex'
 import previewprograma from './previewPrograma'
 
 export default {
-  name: "addPrograma",
+  name: "updatePrograma",
+  props: [ 'programaProp' ],
   components: { previewprograma },
   data() {
     return {
@@ -96,18 +97,20 @@ export default {
   },
   mounted() {
     this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
+    this.nombrePrograma = this.programaProp.nombre
+
+    this.obras = this.programaProp.obras.map(obra => { return { id: this.generateId(), obra: obra.obra, compositor: obra.compositor } })
   },
   computed: {
     ...mapGetters(['userLoginStore'])
   },
   methods: {
-    savePrograma() {
+    updateProgram() {
       let obras = this.obras.map(obra => { return { obra: obra.obra, compositor: obra.compositor } })
       
       let programa = {
-        usuario: this.userLoginStore._id,
-        obras,
-        nombre: this.nombrePrograma
+        nombre: this.nombrePrograma,
+        obras
       }
 
       this.msgErrorNombrePrograma = null
@@ -123,7 +126,7 @@ export default {
         return
       }
 
-      axios.post(`${ this.$store.state.urlBackend }/programas`, qs.stringify(programa))
+      axios.put(`${ this.$store.state.urlBackend }/programas/${ this.programaProp._id }`, qs.stringify(programa))
         .then((res) => {
           console.log(res)
           this.dialogAlertProgramSaved = true
@@ -155,7 +158,9 @@ export default {
       this.dialogAddObra = false
     },
     closeProgramEvent() {
-        this.$emit('closeProgramEvent', true)
+      this.nombrePrograma = this.programaProp.nombre
+      this.obras = this.programaProp.obras.map(obra => { return { id: this.generateId(), obra: obra.obra, compositor: obra.compositor } })
+      this.$emit('closeProgramEvent', true)
     },
     getRandomColor() {
       let colors = [
@@ -181,11 +186,10 @@ export default {
       return colors[color]
     },
     afterSaveProgram() {
-      this.nombrePrograma = null
-      this.obras = []
+      // this.nombrePrograma = null
+      // this.obras = []
       this.dialogAlertProgramSaved = false
-      this.$emit('programSavedEvent', true)
-      this.closeProgramEvent()
+      this.$emit('programUpdatedEvent', true)
     }
   }
 };

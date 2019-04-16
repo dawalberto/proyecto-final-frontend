@@ -52,6 +52,18 @@ export default new Router({
       path: '/perfil/:id',
       name: 'perfil',
       component: () => import('./pages/Perfil.vue')
+    },
+    {
+      path: '/programas',
+      name: 'programas',
+      component: () => import('./pages/Programas.vue'),
+      beforeEnter: (to, from, next) => {
+        if(store.state.login) {
+          next()
+        } else {
+          next('/login')
+        }
+      }
     }
   ]
 })
