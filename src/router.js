@@ -64,6 +64,18 @@ export default new Router({
           next('/login')
         }
       }
+    },
+    {
+      path: '/cuenta',
+      name: 'cuenta',
+      component: () => import('./pages/Cuenta.vue'),
+      beforeEnter: (to, from, next) => {
+        if(store.state.login) {
+          next()
+        } else {
+          next('/login')
+        }
+      }
     }
   ]
 })

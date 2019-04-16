@@ -4,6 +4,7 @@
         <v-card-actions class="botones">
             <v-btn
             fab
+            small
             dark
             color="grey darken-3"
             title="ver programa"
@@ -13,6 +14,7 @@
             </v-btn>
             <v-btn
             fab
+            small
             dark
             color="blue darken-3"
             title="editar"
@@ -22,6 +24,7 @@
             </v-btn>
             <v-btn
             fab
+            small
             dark
             color="red darken-3"
             title="eliminar"
