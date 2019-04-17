@@ -57,8 +57,15 @@
                 label="Contraseña"
                 @click:append="showSupposedPasswordToDelete = !showSupposedPasswordToDelete"
                 ></v-text-field>
-                <v-btn block dark color="black" @click="dialogs.passwordToDeleteCuenta = false">cancelar</v-btn>
+                <v-btn block dark color="black" @click="cancelDialogPasswordToDelete">cancelar</v-btn>
                 <v-btn block dark color="red darken-3" :loading="loading" @click="deleteCuenta">eliminar cuenta<v-icon class="ml-2">fas fa-exclamation-triangle</v-icon></v-btn>
+            </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="dialogs.alertCuentaDeleted" max-width="500">
+            <v-card class="cardDialogAlertCuentaDeleted">
+                <p class="subheading">Cuenta eliminada correctamente</p>
+                <v-btn block dark color="blue darken-3" @click="afterCuentadeleted">aceptar</v-btn>
             </v-card>
         </v-dialog>
 
@@ -90,7 +97,8 @@ export default {
             dialogs: {
                 passwordChanged: false,
                 confirmDeleteCuenta: false,
-                passwordToDeleteCuenta: false
+                passwordToDeleteCuenta: false,
+                alertCuentaDeleted: false
             },
             loading: false
         }
@@ -168,11 +176,21 @@ export default {
                 .then((res) => {
                     console.log(res)
                     this.loading = false
+                    this.dialogs.alertCuentaDeleted = true
                 })
                 .catch((err) => {
                     console.log(err.response)
+                    this.errors.supposedPasswordToDelete = 'Contraseña incorrecta'
                     this.loading = false
                 })
+        },
+        afterCuentadeleted() {
+            this.logout()
+            this.$router.push('/') 
+        },
+        cancelDialogPasswordToDelete() {
+            this.dialogs.passwordToDeleteCuenta = false  
+            this.dialogs.confirmDeleteCuenta = false
         }
     }
 }
@@ -193,14 +211,11 @@ export default {
     .btnChangePassword {
         justify-self: end;
     }
-    .cardDialogAlertPasswordChanged {
+    .cardDialogAlertPasswordChanged, .cardDialogAlerDeleteCuenta, .cardDialogAlertCuentaDeleted {
         padding: 2rem;
     }
     .titleCuenta {
         margin-top: 2rem;
-    }
-    .cardDialogAlerDeleteCuenta {
-        padding: 2rem;
     }
 
     @media (min-width: 960px) {
