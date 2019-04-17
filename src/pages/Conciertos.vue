@@ -91,7 +91,7 @@ export default {
         axios.get(`${ this.$store.state.urlBackend }/conciertos`)
           .then((res) => {
             this.pageLoading = false
-            this.conciertos = res.data.conciertos
+            this.conciertos = this.getConciertosNotFinished(res.data.conciertos)
           })
           .catch((err) => {
             console.log(err.response)
@@ -101,6 +101,15 @@ export default {
     reloadConciertosAndCloseDialog() {
       this.getConciertos()
       this.dialogCreateConcierto = false
+    },
+    getConciertosNotFinished(conciertos) {
+      return conciertos.filter(concierto => {
+        let today = new Date()
+        let hoy = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
+        let dateConcierto = new Date(concierto.fecha)
+
+        return dateConcierto >= hoy
+      })
     }
   }
 }

@@ -4,7 +4,7 @@
             <v-container fill-height>
                 <v-layout row wrap align-center>
                     <v-flex class="text-xs-center">
-                        <v-avatar size="150" color="#EEEEEE" href="123">
+                        <v-avatar size="100" color="#EEEEEE" href="123">
                             <img :src="imgUser" alt="" id="imgUser" loading="lazy">
                         </v-avatar>
                     </v-flex>

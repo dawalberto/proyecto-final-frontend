@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-progress-linear :indeterminate="true" color="grey darken-3" v-show="pageLoading"></v-progress-linear>
-        <p class="subheading" v-show="programas.length <= 0">Aquí podrás gestionar programas de música para añadirlos a tus conciertos</p>
+        <p v-show="programas.length <= 0">Aquí podrás gestionar programas de música para añadirlos a tus conciertos</p>
         <programa
         v-for="p of programas"
         :key="p._id"
