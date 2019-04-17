@@ -1,26 +1,18 @@
 <template>
-    <a :href="urlToUser" :title="guitarristaProp.nombre">
+    <a :href="urlToUser" :title="guitarristaProp.nombre" v-if="guitarristaProp.nombre">
         <v-card hover width="100%" id="card">
-            <!-- <v-img
-            id="imgCard"
-            :src="require('@/assets/logo-proyecto.png')"
-            alt="img"
-            loading="lazy"
-            aspect-ratio="2.75"
-            > -->
-                <v-container fill-height>
-                    <v-layout row wrap align-center>
-                        <v-flex class="text-xs-center">
-                            <v-avatar size="150" color="#EEEEEE" href="123">
-                                <img :src="imgUser" alt="" id="imgUser" loading="lazy">
-                            </v-avatar>
-                        </v-flex>
-                    </v-layout>
-                </v-container>
-            <!-- </v-img> -->
-            <p class="headline font-weight-light text-xs-center">{{ nomGuitarrista }}</p>
+            <v-container fill-height>
+                <v-layout row wrap align-center>
+                    <v-flex class="text-xs-center">
+                        <v-avatar size="150" color="#EEEEEE" href="123">
+                            <img :src="imgUser" alt="" id="imgUser" loading="lazy">
+                        </v-avatar>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+            <p class="headline font-weight-light text-xs-center">{{ guitarristaProp | shortNom }}</p>
             <hr color="lightgrey">
-            <p class="font-weight-light subheading mt-3">{{ shortBiografia }}</p>
+            <p class="font-weight-light subheading mt-3">{{ guitarristaProp | shortBiografia }}</p>
         </v-card>
     </a>
 </template>
@@ -40,13 +32,21 @@ export default {
             .then(img => this.imgUser = img)
             .catch(err => console.log('ERROR getImage previewConcierto.vue', err))
     },
-    computed: {
-        shortBiografia() {
-            return `${ this.guitarristaProp.biografia.substring(0, 200) }...`
+    filters: {
+        shortBiografia(value) {
+            if (value.biografia) {
+                return `${ value.biografia.substring(0, 200) }...`
+            }
         },
-        nomGuitarrista() {
-            let firstApe = this.guitarristaProp.apellidos.split(' ')[0]
-            return `${ this.guitarristaProp.nombre } ${ firstApe }`
+        shortNom(value) {
+            if (value.nombre) {
+                if (value.apellidos) {
+                    let firstApe = value.apellidos.split(' ')[0]
+                    return `${ value.nombre } ${ firstApe }`
+                } else {
+                    return value.nombre
+                }
+            }
         }
     }
 }
@@ -63,12 +63,6 @@ export default {
     @media (min-width: 960px) {
         #imgCard {
             opacity: 0.9;
-
-            /* -webkit-transform: rotate(-180deg);
-            -moz-transform: rotate(-180deg);
-            -o-transform: rotate(-180deg);
-            -ms-transform: rotate(-180deg);
-            transform: rotate(-180deg); */
 
             -webkit-transition: all 0.5s ease;
             -moz-transition: all 0.5s ease;

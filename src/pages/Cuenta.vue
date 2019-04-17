@@ -152,6 +152,7 @@ export default {
                         this.dialogs.passwordChanged = true
                     })
                     .catch((err) => {
+                        this.errors.supposedPassword = 'Contraseña incorrecta'
                         console.log(err.response)
                     })
             }

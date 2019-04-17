@@ -161,6 +161,20 @@
             </template>
         </v-select>
         <v-btn @click="updateUser" :disable="loading" :loading="loading" dark color="grey darken-3" id="btnUpdate"><v-icon class="mr-3">fas fa-save</v-icon>guardar</v-btn>
+    
+        <v-dialog v-model="dialogAlertUserUpdated" persistent max-width="500">
+            <v-card class="cardDialogAlertUserUpdated">
+                <p class="subheading">Perfil actualizado correctamente</p>
+                <v-btn block dark color="blue darken-3" @click="afterUserUpdated">aceptar</v-btn>
+            </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="dialogAlertImageUpdated" persistent max-width="500">
+            <v-card class="cardDialogAlertUserUpdated">
+                <p class="subheading">Imagen de perfil actualizada correctamente</p>
+                <v-btn block dark color="blue darken-3" @click="dialogAlertImageUpdated = false">aceptar</v-btn>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -195,7 +209,9 @@ export default {
             imgUrl: '',
             mobile: true,
             itemsRedes: ['Facebook', 'Instagram', 'Twitter', 'Flickr', 'Snapchat', 'Tumblr'],
-            enlaceRed: null
+            enlaceRed: null,
+            dialogAlertUserUpdated: false,
+            dialogAlertImageUpdated: false
         }
     },
     watch: {
@@ -257,6 +273,7 @@ export default {
                 .then((res) => { 
                     console.log('Updated ok', res)
                     this.loading = false
+                    this.dialogAlertUserUpdated = true
                 })
                 .catch((err) => { 
                     console.log(err)
@@ -312,12 +329,12 @@ export default {
                 data: bodyFormData,
                 config: { headers: {'Content-Type': 'multipart/form-data' }}
                 })
-                .then(function (response) {
-                    console.log(response);
+                .then((res) => {
+                    this.dialogAlertImageUpdated = true
                 })
-                .catch(function (response) {
-                    console.log(response);
-                });
+                .catch((err) => {
+                    console.log(err)
+                })
         },
         addEnlaceRed() {
             if (this.enlaceRed !== '' || this.enlaceRed !== null) {
@@ -345,6 +362,9 @@ export default {
         cancelAddRed() {
             this.userRedes.pop()
             this.dialogRedes = false
+        },
+        afterUserUpdated() {
+            this.$router.push(`/perfil/${ this.userLoginStore._id }`) 
         }
     }
 }
@@ -443,7 +463,9 @@ export default {
     #btnUpdate {
         grid-area: btnUpdate
     }
-
+    .cardDialogAlertUserUpdated {
+        padding: 2rem;
+    }
 
     @media (min-width: 960px) {
         .containerGrid {
