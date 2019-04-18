@@ -9,7 +9,7 @@
                 >
                     <img src="@/assets/logo-proyecto.png" alt="" loading="lazy">
                 </v-avatar>
-                <span class="spanLogo font-weight-light">guitarraclasica.com</span>
+                <span class="spanLogo font-weight-light">clasicaguitarra.com</span>
             </router-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
