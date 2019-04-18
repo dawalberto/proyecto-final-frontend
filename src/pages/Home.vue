@@ -11,9 +11,9 @@
                         <transition name="fade">
                             <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">Un espacio para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
                         </transition>
-                        <a href="#screen2anchor">
-                        <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading"><v-icon color="brown">fas fa-long-arrow-alt-down</v-icon></p>
-                        </a>
+                        <transition name="slide-fade-row">
+                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading"><a href="#screen2anchor"><v-icon medium color="brown lighten-1">fas fa-long-arrow-alt-down</v-icon></a></p>
+                        </transition>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -113,9 +113,23 @@ export default {
         opacity: 0;
     }
 
+    .slide-fade-row-enter-active {
+        transition: all 5s ease;
+    }
+    .slide-fade-row-leave-active {
+        transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-row-enter, .slide-fade-row-leave-to {
+        transform: translateX(10px);
+        opacity: 0;
+    }
+
     .screen1, .screen2 {
         width: 100%;
         height: 100vh;
         /* padding-bottom: 6rem; */
+    }
+    a {
+        text-decoration: none;
     }
 </style>
