@@ -3,33 +3,41 @@
         <v-progress-linear :indeterminate="true" color="grey darken-3" v-show="pageLoading"></v-progress-linear>
         <div class="screen1">
             <v-container fluid fill-height>
-            <v-layout align-center justify-center>
-            <v-flex xs12>
-            <transition name="slide-fade">
-                <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">clasicaguitarra.com</p>
-            </transition>
-            <transition name="fade">
-                <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">Un espacio para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
-            </transition>
-                <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading"><v-icon color="brown">fas fa-long-arrow-alt-down</v-icon></p>
-            </v-flex>
-            </v-layout>
+                <v-layout align-center justify-center>
+                    <v-flex xs12>
+                        <transition name="slide-fade">
+                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">clasicaguitarra.com</p>
+                        </transition>
+                        <transition name="fade">
+                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">Un espacio para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
+                        </transition>
+                        <a href="#screen2anchor">
+                        <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading"><v-icon color="brown">fas fa-long-arrow-alt-down</v-icon></p>
+                        </a>
+                    </v-flex>
+                </v-layout>
             </v-container>
         </div>
-        <div class="screen2">
-            <transition name="fade">
-                <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">Conciertos esta semana</p>
-            </transition>
-            <transition name="fadeConcierto">
-                <div class="containerConciertos" v-show="!pageLoading">
-                    <previewConcierto
-                    v-for="concierto of conciertosWeek"
-                    :key="concierto._id"
-                    :conciertoObj="concierto"
-                    class="conciertosThisWeek"
-                    ></previewConcierto>
-                </div>
-            </transition>
+        <div class="screen2" id="screen2anchor">
+            <v-container fluid fill-height>
+                <v-layout align-center justify-center>
+                    <v-flex xs12>
+                        <transition name="fade">
+                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">Conciertos esta semana</p>
+                        </transition>
+                        <transition name="fadeConcierto">
+                            <div class="containerConciertos" v-show="!pageLoading">
+                                <previewConcierto
+                                v-for="concierto of conciertosWeek"
+                                :key="concierto._id"
+                                :conciertoObj="concierto"
+                                class="conciertosThisWeek"
+                                ></previewConcierto>
+                            </div>
+                        </transition>
+                    </v-flex>
+                </v-layout>
+            </v-container>
         </div>
     </div>
 </template>
@@ -108,6 +116,6 @@ export default {
     .screen1, .screen2 {
         width: 100%;
         height: 100vh;
-        padding-bottom: 6rem;
+        /* padding-bottom: 6rem; */
     }
 </style>
