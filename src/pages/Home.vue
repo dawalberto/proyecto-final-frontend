@@ -6,7 +6,7 @@
                 <v-layout align-center justify-center>
                     <v-flex xs12>
                         <transition name="slide-fade">
-                            <p class="display-2 brown--text font-weight-thin font-italic text-xs-center" v-show="!pageLoading">clasicaguitarra.com</p>
+                            <p class="display-1 brown--text font-weight-thin font-italic text-xs-center" v-show="!pageLoading">clasicaguitarra.com</p>
                         </transition>
                         <transition name="fade">
                             <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
@@ -68,6 +68,7 @@ export default {
                 })
                 .catch((err) => {
                     console.log(err)
+                    this.pageLoading = false
                 })
         }
     }
@@ -127,7 +128,7 @@ export default {
     .screen1, .screen2 {
         width: 100%;
         height: 100vh;
-        /* padding-bottom: 6rem; */
+        padding-bottom: 6rem;
     }
     a {
         text-decoration: none;
