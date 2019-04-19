@@ -6,13 +6,13 @@
                 <v-layout align-center justify-center>
                     <v-flex xs12>
                         <transition name="slide-fade">
-                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">clasicaguitarra.com</p>
+                            <p class="display-2 brown--text font-weight-thin font-italic text-xs-center" v-show="!pageLoading">clasicaguitarra.com</p>
                         </transition>
                         <transition name="fade">
-                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">Un espacio para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
+                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
                         </transition>
                         <transition name="slide-fade-row">
-                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading"><a href="#screen2anchor"><v-icon medium color="brown lighten-1">fas fa-long-arrow-alt-down</v-icon></a></p>
+                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading"><a href="#screen2anchor"><v-icon medium color="brown lighten-1">fas fa-chevron-down</v-icon></a></p>
                         </transition>
                     </v-flex>
                 </v-layout>
