@@ -76,6 +76,11 @@ export default new Router({
           next('/login')
         }
       }
+    },
+    {
+      path: '/*',
+      name: 'page404',
+      component: () => import('./pages/404.vue')
     }
   ]
 })

@@ -13,7 +13,7 @@
             </v-card>
           </v-dialog>
 
-          <v-flex xs12 sm8 md6>
+          <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
               <v-toolbar dark color="grey darken-3">
                 <v-toolbar-title>REGISTRATE</v-toolbar-title>
@@ -50,14 +50,17 @@
                     prepend-icon="lock" 
                     name="password" 
                     label="Contraseña" 
-                    type="password"                   
-                    :rules="[v => !!v || 'La contraseña es obligatoria']">
+                    :rules="[v => !!v || 'La contraseña es obligatoria']"
+                    :type="showPassword ? 'text' : 'password'"
+                    :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                    @click:append="showPassword = !showPassword"
+                    >
                   </v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="grey darken-3" dark @click="registrar" :disable="loading" :loading="loading">registrar</v-btn>
+                <v-btn block color="grey darken-3" dark @click="registrar" :disable="loading" :loading="loading">registrar</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -82,7 +85,8 @@ export default {
           loading: false,
           msgRegistroEmail: null,
           msgRegistroNomUsuario: null,
-          dialog: false
+          dialog: false,
+          showPassword: false
         }
     },
     methods: {
@@ -100,7 +104,7 @@ export default {
                 nomUsuario
             }
 
-            if (this.$refs.form.validate()) {
+            if (this.$refs.form.validate() && this.validateEmail(this.email)) {
               console.log('validado')
               this.loading = true
 
@@ -111,13 +115,13 @@ export default {
                     this.loading = false
                   })
                   .catch(err => {
+                    console.log(err.response)
                     if (err.response.data.err.errors.email) {
                       this.msgRegistroEmail = 'Este email ya está registrado'
                     }
                     if (err.response.data.err.errors.nomUsuario) {
                       this.msgRegistroNomUsuario = 'El nombre de usuario ya existe'
                     }
-                    console.log(err.response)
                     this.loading = false
                   })
             }
@@ -125,6 +129,12 @@ export default {
         redirectToLogin() {
           this.dialog = false
           this.$router.push('/login')
+        },
+        validateEmail(email) {
+          let regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          let res = regEx.test(String(email).toLowerCase())
+          res ? this.msgRegistroEmail = null : this.msgRegistroEmail = 'El email no es válido'
+          return res
         }
     }
 }

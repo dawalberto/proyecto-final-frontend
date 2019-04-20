@@ -2,7 +2,7 @@
     <v-content>
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
-          <v-flex xs12 sm8 md6>
+          <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
               <v-toolbar dark color="grey darken-3">
                 <v-toolbar-title>INICIA SESIÓN</v-toolbar-title>
@@ -20,8 +20,9 @@
                     prepend-icon="email" 
                     name="login" 
                     label="Email" 
-                    type="text" 
-                    :rules="[v => !!v || 'El email es obligatorio']">
+                    type="text"
+                    :rules="[v => !!v || 'El email es obligatorio']"
+                    >
                   </v-text-field>
                   <v-text-field 
                     id="password" 
@@ -30,15 +31,18 @@
                     prepend-icon="lock" 
                     name="password" 
                     label="Contraseña" 
-                    type="password"
                     :error-messages="msgLoginIncorrecto"
-                    :rules="[v => !!v || 'La contraseña es obligatoria']">
+                    :rules="[v => !!v || 'La contraseña es obligatoria']"
+                    :type="showPassword ? 'text' : 'password'"
+                    :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                    @click:append="showPassword = !showPassword"
+                    >
                   </v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn dark color="grey darken-3" @click="login" :disable="loading" :loading="loading">entrar</v-btn>
+                <v-btn block dark color="grey darken-3" @click="login" :disable="loading" :loading="loading">entrar</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -59,7 +63,8 @@ export default {
           password: null,
           loading: false,
           formValid: true,
-          msgLoginIncorrecto: null
+          msgLoginIncorrecto: null,
+          showPassword: false
         }
     },
     computed: {
