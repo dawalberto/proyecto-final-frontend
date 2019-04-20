@@ -12,7 +12,7 @@
                             <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
                         </transition>
                         <transition name="slide-fade-row">
-                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading"><a href="#screen2anchor"><v-icon medium color="brown lighten-1">fas fa-chevron-down</v-icon></a></p>
+                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading"><a href="#screen2anchor" v-smooth-scroll="{ duration: 1500, offset: -50 }"><v-icon medium color="brown lighten-1">fas fa-chevron-down</v-icon></a></p>
                         </transition>
                     </v-flex>
                 </v-layout>

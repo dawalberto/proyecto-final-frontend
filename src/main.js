@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import './plugins/vuetify'
 import './plugins/vue-croppa'
+import './plugins/vue-smooth-scroll'
 
 Vue.config.productionTip = false
 
