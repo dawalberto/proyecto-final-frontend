@@ -24,12 +24,25 @@
         :label="mobile ? 'Nueva contraseña' : ''"
         @click:append="showNewPassword = !showNewPassword">
         </v-text-field>
-        <v-btn dark :block="mobile" @click="changePassword" class="btnChangePassword" color="grey darken-3">cambiar contraseña<v-icon class="ml-2">fas fa-sync-alt</v-icon></v-btn>
+
+        <label for="inputNewPasswordRepeat" class="label">REPETIR NUEVA CONTRASEÑA</label>
+        <v-text-field 
+        id="inputNewPasswordRepeat" 
+        v-model="newPasswordRepeat" 
+        class="input" 
+        :type="showNewPasswordRepeat ? 'text' : 'password'"
+        :append-icon="showNewPasswordRepeat ? 'visibility' : 'visibility_off'"
+        :error-messages="errors.newPasswordRepeat"
+        :label="mobile ? 'Repetir nueva contraseña' : ''"
+        @click:append="showNewPasswordRepeat = !showNewPasswordRepeat">
+        </v-text-field>
+
+        <v-btn dark :block="mobile" @click="changePassword" :loading="loadingChangePassword" class="btnChangePassword" color="blue darken-3">cambiar contraseña<v-icon class="ml-2">fas fa-sync-alt</v-icon></v-btn>
 
         <v-dialog v-model="dialogs.passwordChanged" persistent max-width="500">
-            <v-card class="cardDialogAlertPasswordChanged" dark color="green darken-3">
-                <p class="subheading">Contraseña actualizada correctamente</p>
-                <v-btn block color="grey darken-3" @click="afterChangePassword">aceptar</v-btn>
+            <v-card class="cardDialogAlertPasswordChanged" color="grey lighten-3">
+                <p class="subheading">Contraseña actualizada correctamente. A continuación será redirigido/a a la pantalla de inicio de sesión</p>
+                <v-btn block dark color="blue darken-3" @click="afterChangePassword">aceptar</v-btn>
             </v-card>
         </v-dialog>
         
@@ -83,16 +96,19 @@ export default {
         return {
             supposedPassword: null,
             newPassword: null,
+            newPasswordRepeat: null,
             supposedPasswordToDelete: null,
             showSupposedPassword: false,
             showNewPassword: false,
+            showNewPasswordRepeat: false,
             showSupposedPasswordToDelete: false,
             mobile: true,
             breakpoint: this.$vuetify.breakpoint,
             errors: {
                 supposedPassword: null,
                 newPassword: null,
-                supposedPasswordToDelete: null,
+                newPasswordRepeat: null,
+                supposedPasswordToDelete: null
             },
             dialogs: {
                 passwordChanged: false,
@@ -100,7 +116,8 @@ export default {
                 passwordToDeleteCuenta: false,
                 alertCuentaDeleted: false
             },
-            loading: false
+            loading: false,
+            loadingChangePassword: false
         }
     },
     created() {
@@ -117,20 +134,34 @@ export default {
         validarPassword() {
             this.errors.supposedPassword = null
             this.errors.newPassword = null
+            this.errors.newPasswordRepeat = null
             let errorSupposedPassword = false,
-            errorNewPassword = false
+            errorNewPassword = false,
+            errorNewPasswordRepeat = false
 
             if (this.supposedPassword === null || this.supposedPassword === undefined || this.supposedPassword === '') {
                 this.errors.supposedPassword = 'Contraseña obligatoria'
                 errorSupposedPassword = true
             }
 
-            if (this.supposedPassword === null || this.supposedPassword === undefined || this.supposedPassword === '') {
+            if (this.newPassword === null || this.newPassword === undefined || this.newPassword === '') {
                 this.errors.newPassword = 'Contraseña obligatoria'
                 errorNewPassword = true
             }
 
-            if (errorSupposedPassword || errorNewPassword) {
+            if (this.newPasswordRepeat === null || this.newPasswordRepeat === undefined || this.newPasswordRepeat === '') {
+                this.errors.newPasswordRepeat = 'Contraseña obligatoria'
+                errorNewPasswordRepeat = true
+            }
+
+            if (this.newPassword !== this.newPasswordRepeat) {
+                this.errors.newPassword = 'Las contraseñas deben coincidir'
+                this.errors.newPasswordRepeat = 'Las contraseñas deben coincidir'
+                errorNewPasswordRepeat = true
+            }
+
+
+            if (errorSupposedPassword || errorNewPassword || errorNewPasswordRepeat) {
                 return false
             } else {
                 return true
@@ -139,6 +170,8 @@ export default {
         changePassword() {
             let validPassword = this.validarPassword()
             if (validPassword) {
+                this.loadingChangePassword = true
+
                 let body = {
                     supposedPassword: this.supposedPassword,
                     newPassword: this.newPassword
@@ -148,12 +181,12 @@ export default {
 
                 axios.post(`${ this.$store.state.urlBackend }/usuarios/${ this.userLoginStore._id }/change-password`, body)
                     .then((res) => {
-                        console.log(res)
                         this.dialogs.passwordChanged = true
+                        this.loadingChangePassword = false
                     })
                     .catch((err) => {
                         this.errors.supposedPassword = 'Contraseña incorrecta'
-                        console.log(err.response)
+                        this.loadingChangePassword = false
                     })
             }
         },

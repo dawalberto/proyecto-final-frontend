@@ -4,7 +4,7 @@
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
-              <v-toolbar dark color="grey darken-3">
+              <v-toolbar dark color="brown darken-2">
                 <v-toolbar-title>INICIA SESIÓN</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
@@ -15,6 +15,7 @@
                 >
                   <v-text-field 
                     id="email" 
+                    color="blue darken-3"                    
                     @keyup.enter="login" 
                     v-model="email" 
                     prepend-icon="email" 
@@ -26,6 +27,7 @@
                   </v-text-field>
                   <v-text-field 
                     id="password" 
+                    color="blue darken-3"
                     @keyup.enter="login" 
                     v-model="password" 
                     prepend-icon="lock" 
@@ -42,9 +44,10 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn block dark color="grey darken-3" @click="login" :disable="loading" :loading="loading">entrar</v-btn>
+                <v-btn block dark color="brown darken-1" @click="login" :disable="loading" :loading="loading">entrar</v-btn>
               </v-card-actions>
             </v-card>
+            <p class="subheading mt-3 text-xs-center grey--text">O registrate <a href="#/registro">aquí</a> si no estás registrado</p>
           </v-flex>
         </v-layout>
       </v-container>
@@ -110,5 +113,7 @@ export default {
 </script>
 
 <style scoped>
-
+  a {
+    text-decoration: none;
+  }
 </style>

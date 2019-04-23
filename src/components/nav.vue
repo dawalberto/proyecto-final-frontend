@@ -1,24 +1,22 @@
 <template>
     <div>
-    <v-toolbar>
+    <v-toolbar color="brown darken-2" dark>
         <v-toolbar-title>
             <router-link to="/" id="logo">
                 <v-avatar 
-                color="#F5F5F5" 
                 :size="mobile ? 48 : 64"
                 class="mr-2"
                 >
                     <img src="@/assets/logo-proyecto.png" alt="" loading="lazy">
                 </v-avatar>
-                <span class="spanLogo font-weight-light">clasicaguitarra.com</span>
+                <span class="spanLogo font-weight-light white--text">clasicaguitarra.com</span>
             </router-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-text-field
         v-model="toSearch"
-        class="mx-2 mt-1"
-        flat
-        color="grey lighten-1"
+        class="mr-4 ml-2 mt-1"
+        solo
         :label="labelSearch"
         append-outer-icon="search"
         :append-icon="icon"
@@ -29,32 +27,31 @@
         >
         </v-text-field>
         <v-toolbar-items class="hidden-sm-and-down">
-            <v-btn flat to="/guitarristas"><v-icon class="mr-3">fas fa-guitar</v-icon>guitarristas</v-btn>
-            <v-btn flat to="/conciertos"><v-icon class="mr-3">fas fa-music</v-icon>conciertos</v-btn>
-            <v-btn flat to="/login" v-if="!userLogin"><v-icon class="mr-3">fas fa-sign-in-alt</v-icon>entrar</v-btn>
-            <v-btn flat to="/registro" v-if="!userLogin"><v-icon class="mr-3">fas fa-user-plus</v-icon>registrarse</v-btn>
+            <v-btn flat to="/guitarristas" class="letterSpacing01"><v-icon class="mr-2">fas fa-guitar</v-icon>guitarristas</v-btn>
+            <v-btn flat to="/conciertos" class="letterSpacing01"><v-icon class="mr-2">fas fa-music</v-icon>conciertos</v-btn>
+            <v-btn flat to="/login" v-if="!userLogin" class="letterSpacing01"><v-icon class="mr-2">fas fa-sign-in-alt</v-icon>entrar</v-btn>
             <v-menu transition="slide-y-transition" bottom v-if="userLogin">
                 <template v-slot:activator="{ on }">
-                    <v-btn flat v-on="on"><v-icon class="mr-3">fas fa-user</v-icon>{{ nomUsuario }}</v-btn>
+                    <v-btn flat v-on="on"><v-icon class="mr-2">fas fa-user</v-icon>{{ nomUsuario }}</v-btn>
                 </template>
-                <v-list>
+                <v-list dark class="brown lighten-1">
                     <v-list-tile>
-                        <v-list-tile-content><v-btn flat :to="urlToPerfil"><v-icon class="mr-3">fas fa-user</v-icon>ver perfil</v-btn></v-list-tile-content>
+                        <v-list-tile-content class="letterSpacing01"><v-btn flat :to="urlToPerfil"><v-icon class="mr-2">fas fa-user</v-icon>ver perfil</v-btn></v-list-tile-content>
                     </v-list-tile>
                     <v-list-tile>
-                        <v-list-tile-content><v-btn flat to="/edit-perfil"><v-icon class="mr-3">fas fa-user-edit</v-icon>editar perfil</v-btn></v-list-tile-content>
+                        <v-list-tile-content class="letterSpacing01"><v-btn flat to="/edit-perfil"><v-icon class="mr-2">fas fa-user-edit</v-icon>editar perfil</v-btn></v-list-tile-content>
                     </v-list-tile>
                     <v-list-tile>
-                        <v-list-tile-content><v-btn flat :to="urlToConciertosUser"><v-icon class="mr-3">fas fa-music</v-icon>mis conciertos</v-btn></v-list-tile-content>
+                        <v-list-tile-content class="letterSpacing01"><v-btn flat :to="urlToConciertosUser"><v-icon class="mr-2">fas fa-music</v-icon>mis conciertos</v-btn></v-list-tile-content>
                     </v-list-tile>
                     <v-list-tile>
-                        <v-list-tile-content><v-btn flat to="/programas"><v-icon class="mr-3">fas fa-book-open</v-icon>mis programas</v-btn></v-list-tile-content>
+                        <v-list-tile-content class="letterSpacing01"><v-btn flat to="/programas"><v-icon class="mr-2">fas fa-book-open</v-icon>mis programas</v-btn></v-list-tile-content>
                     </v-list-tile>
                     <v-list-tile>
-                        <v-list-tile-content><v-btn flat to="/cuenta"><v-icon class="mr-3">fas fa-cog</v-icon>cuenta</v-btn></v-list-tile-content>
+                        <v-list-tile-content class="letterSpacing01"><v-btn flat to="/cuenta"><v-icon class="mr-2">fas fa-cog</v-icon>cuenta</v-btn></v-list-tile-content>
                     </v-list-tile>
                     <v-list-tile>
-                        <v-list-tile-content><v-btn flat @click="logout"><v-icon class="mr-3">fa-sign-out-alt</v-icon>cerrar sesión</v-btn></v-list-tile-content>
+                        <v-list-tile-content class="letterSpacing01"><v-btn flat @click="logout"><v-icon class="mr-2">fa-sign-out-alt</v-icon>cerrar sesión</v-btn></v-list-tile-content>
                     </v-list-tile>
                 </v-list>
             </v-menu>
@@ -62,7 +59,7 @@
         <v-toolbar-side-icon class="hidden-md-and-up" @click="drawer = !drawer"></v-toolbar-side-icon>
     </v-toolbar>
 
-    <v-navigation-drawer v-model="drawer" app right disable-resize-watcher dark>
+    <v-navigation-drawer v-model="drawer" class="brown darken-2" app right disable-resize-watcher dark>
         <v-list>
             <v-list-tile v-if="!userLogin">
                 <v-list-tile-content><v-btn flat to="/login"><v-icon class="mr-3">fas fa-sign-in-alt</v-icon>entrar</v-btn></v-list-tile-content>
@@ -114,7 +111,7 @@ export default {
             breakpoint: this.$vuetify.breakpoint,
             mobile: true,
             toSearch: null,
-            iconIndex: 0,
+            iconIndex: -1,
             icons: ['fas fa-user', 'fas fa-music'],
             iconSelected: null,
             labelSearch: null
@@ -122,6 +119,7 @@ export default {
     },
     mounted() {
         this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
+        this.changeIcon()
     },
     computed: {
         ...mapState(['login']),
@@ -129,12 +127,6 @@ export default {
         icon () {
             this.iconSelected = this.icons[this.iconIndex]
             return this.icons[this.iconIndex]
-        },
-        setLabelSearch() {
-            if (this.iconIndex === 0) {
-
-                this.labelSearch = 'Encuentra cualquier guitarrista'
-            }
         }
     },
     watch: {
@@ -143,6 +135,9 @@ export default {
             this.userLogin ? this.nomUsuario = this.userLoginStore.nomUsuario : ''
             this.userLogin ? this.urlToPerfil = `/perfil/${ this.userLoginStore._id }` : ''
             this.userLogin ? this.urlToConciertosUser = `/conciertos/${ this.userLoginStore._id }` : ''
+        },
+        iconIndex(icon) {
+            icon === 0 ? this.labelSearch = 'Buscar guitarrista' : this.labelSearch = 'Buscar concierto'
         }
     },
     methods: {
@@ -175,7 +170,11 @@ export default {
         color: black;
     }
     .spanLogo {
+        letter-spacing: 0.2rem;
         display: none;
+    }
+    .letterSpacing01 {
+        letter-spacing: 0.1rem;
     }
 
     @media (min-width: 960px) {

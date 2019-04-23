@@ -1,15 +1,15 @@
 <template>
     <v-card>
-        <v-toolbar dark color="grey darken-3" id="toolbarAddConcierto">
+        <v-toolbar dark color="brown darken-3" id="toolbarAddConcierto">
             <v-spacer></v-spacer>
             <v-toolbar-items>
-            <v-btn dark flat @click="cancelDialogUpdateConciertoEvent">cancelar</v-btn>
-            <v-btn dark @click="putConcierto" color="blue darken-3" :disable="loading" :loading="loading"><v-icon class="mr-2">fas fa-save</v-icon>guardar</v-btn>
+            <v-btn dark @click="cancelDialogUpdateConciertoEvent" color="grey darken-3">cancelar</v-btn>
+            <v-btn dark @click="putConcierto" color="green darken-3" :disable="loading" :loading="loading"><v-icon class="mr-2">fas fa-save</v-icon>guardar</v-btn>
             </v-toolbar-items>
         </v-toolbar>
 
         <div class="containerGridUpdateConcierto">
-            <label for="inputTituloId" class="label">TITULO</label>
+            <label for="inputTituloId" class="label font-weight-medium">TITULO</label>
             <v-text-field 
             id="inputTituloId" 
             v-model="concierto.titulo" 
@@ -20,7 +20,7 @@
             :label="mobile ? 'Titulo' : ''">
             </v-text-field>
 
-            <label for="inputDescripcionId" class="label">DESCRIPCIÓN</label>
+            <label for="inputDescripcionId" class="label font-weight-medium">DESCRIPCIÓN</label>
             <v-textarea 
             id="inputDescripcionId" 
             v-model="concierto.descripcion" 
@@ -32,7 +32,7 @@
             :label="mobile ? 'Descripción' : ''">
             </v-textarea>
         
-            <label for="calendarFechaId" class="label">FECHA</label>            
+            <label for="calendarFechaId" class="label font-weight-medium">FECHA</label>            
             <v-menu
             id="calendarFechaId"
             class="input"
@@ -66,7 +66,7 @@
               </v-date-picker>
             </v-menu>
 
-            <label for="inputHoraId" class="label">HORA</label>
+            <label for="inputHoraId" class="label font-weight-medium">HORA</label>
             <v-menu
             id="inputHoraId"
             class="inputHora"
@@ -100,7 +100,7 @@
               ></v-time-picker>
             </v-menu>
 
-            <label for="inputPrecioId" class="label">PRECIO</label>
+            <label for="inputPrecioId" class="label font-weight-medium">PRECIO</label>
             <v-text-field 
             id="inputPrecioId" 
             v-model="concierto.precio" 
@@ -110,7 +110,7 @@
             :label="mobile ? 'Precio' : ''">
             </v-text-field>
 
-            <label for="inputUbicacionId" class="label">UBICACIÓN</label>
+            <label for="inputUbicacionId" class="label font-weight-medium">UBICACIÓN</label>
             <v-text-field 
             id="inputUbicacionId" 
             v-model="concierto.ubicacion" 
@@ -121,7 +121,7 @@
             :label="mobile ? 'Ubicación' : ''">
             </v-text-field>
 
-            <label for="selectProgramaId" class="label">PROGRAMA</label>
+            <label for="selectProgramaId" class="label font-weight-medium">PROGRAMA</label>
             <v-select 
             solo 
             clearable
@@ -136,7 +136,7 @@
             label="Seleccione un programa"
             >
             </v-select>
-            <v-btn block dark color="grey darken-3" @click="dialogPrograma = true" id="btnAddProgramaId" class="btnAddPrograma"><v-icon class="mr-2">add</v-icon> AÑADIR PROGRAMA</v-btn>
+            <v-btn block dark color="blue darken-3" @click="dialogPrograma = true" id="btnAddProgramaId" class="btnAddPrograma"><v-icon class="mr-2">add</v-icon> AÑADIR PROGRAMA</v-btn>
 
             <v-dialog v-model="dialogPrograma" persistent max-width="800">
               <addPrograma 
@@ -146,9 +146,9 @@
             </v-dialog>
 
             <v-dialog v-model="dialogConciertoActualizado" persistent max-width="500">
-              <v-card class="dialogConciertoActualizado" dark color="green darken-3">
+              <v-card class="dialogConciertoActualizado" color="grey lighten-3">
                 <p class="subheading">Concierto actualizado correctamente</p>
-                <v-btn block color="grey darken-3" @click="closeDialogUpdateConciertoEvent">aceptar</v-btn>
+                <v-btn block dark color="blue darken-3" @click="closeDialogUpdateConciertoEvent">aceptar</v-btn>
               </v-card>
             </v-dialog>
             

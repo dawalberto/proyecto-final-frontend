@@ -15,7 +15,7 @@
 
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
-              <v-toolbar dark color="grey darken-3">
+              <v-toolbar dark color="brown darken-2">
                 <v-toolbar-title>REGISTRATE</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
@@ -37,7 +37,7 @@
                   <v-text-field
                     v-model="nomUsuario"
                     id="nomUsuario" 
-                    prepend-icon="person" 
+                    prepend-icon="fas fa-user" 
                     name="login" 
                     label="Nombre de usuario" 
                     type="text"
@@ -60,7 +60,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn block color="grey darken-3" dark @click="registrar" :disable="loading" :loading="loading">registrar</v-btn>
+                <v-btn block color="brown darken-1" dark @click="registrar" :disable="loading" :loading="loading">registrar</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>

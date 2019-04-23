@@ -23,7 +23,7 @@
                 <v-layout align-center justify-center>
                     <v-flex xs12>
                         <transition name="fade">
-                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">Conciertos esta semana</p>
+                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">Conciertos de esta semana</p>
                         </transition>
                         <transition name="fadeConcierto">
                             <div class="containerConciertos" v-show="!pageLoading">
