@@ -4,10 +4,10 @@
         <v-toolbar-title>
             <router-link to="/" id="logo">
                 <v-avatar 
-                :size="mobile ? 48 : 64"
+                :size="mobile ? 60 : 64"
                 class="mr-2"
                 >
-                    <img src="@/assets/logo-proyecto.png" alt="" loading="lazy">
+                    <img src="@/assets/logo-proyecto-white.png" alt="" loading="lazy">
                 </v-avatar>
                 <span class="spanLogo font-weight-light white--text">clasicaguitarra.com</span>
             </router-link>
