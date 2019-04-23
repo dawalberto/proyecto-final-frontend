@@ -1,6 +1,6 @@
 <template>
     <div>
-    <v-toolbar color="brown darken-2" dark>
+    <v-toolbar color="grey darken-4" dark>
         <v-toolbar-title>
             <router-link to="/" id="logo">
                 <v-avatar 
