@@ -1,6 +1,6 @@
 <template>
     <div class="containerGrid">
-        <v-dialog v-model="dialogImg" dark max-width="400">
+        <v-dialog v-model="dialogImg" color="grey lighten-3" max-width="400">
             <v-card>
                 <croppa
                     id="croppaId"
@@ -18,25 +18,25 @@
                 <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-                    color="light-blue accent-4"
-                    flat
+                    color="blue darken-3"
+                    dark
                     @click="croppaChoseFile"
                 >
                     <v-icon :class="[!mobile ? 'mr-3' : '']" v-show="mobile">fas fa-cloud-upload-alt</v-icon><span v-show="!mobile">SUBIR</span>
                 </v-btn>
                 <v-btn
-                    color="red"
-                    flat
+                    color="red darken-3"
+                    dark
                     @click="dialogImg = false"
                 >
                     <v-icon :class="[!mobile ? 'mr-3' : '']" v-show="mobile">fas fa-times-circle</v-icon><span v-if="!mobile">CANCELAR</span>
                 </v-btn>
                 <v-btn
-                    color="green accent-4"
-                    flat
+                    color="green darken-3"
+                    dark
                     @click="generateImage"
                 >
-                    <v-icon :class="[!mobile ? 'mr-3' : '']" v-show="mobile">fas fa-check-circle</v-icon><span v-if="!mobile">ACEPTAR</span>
+                    <v-icon :class="[!mobile ? 'mr-3' : '']" v-show="mobile">fas fa-check-circle</v-icon><span v-if="!mobile">GUARDAR</span>
                 </v-btn>
                 </v-card-actions>
             </v-card>
@@ -56,12 +56,12 @@
         <v-text-field v-model="user.ape" class="inputApes" id="inputApesId" type="text" :label="mobile ? 'Apellidos' : ''"></v-text-field>
         <label for="radioSexId" class="labelSex">GENERO</label>
         <v-radio-group row v-model="user.sexo" class="radioSex" id="radioSexId">
-            <v-radio :value="false" id="radioHombre">
+            <v-radio :value="false" id="radioHombre" color="brown lighten-1">
                 <template slot="label">
                     <v-icon class="mr-2">fas fa-male</v-icon>Hombre
                 </template>
             </v-radio>
-            <v-radio :value="true" id="radioMujer">
+            <v-radio :value="true" id="radioMujer" color="brown lighten-1">
                 <template slot="label">
                     <v-icon class="mr-2">fas fa-female</v-icon>Mujer
                 </template>
@@ -160,7 +160,7 @@
                 {{ data.item }}
             </template>
         </v-select>
-        <v-btn @click="updateUser" :disable="loading" :loading="loading" dark color="grey darken-3" id="btnUpdate"><v-icon class="mr-3">fas fa-save</v-icon>guardar</v-btn>
+        <v-btn @click="updateUser" :disable="loading" :loading="loading" dark color="green darken-3" id="btnUpdate"><v-icon class="mr-3">fas fa-save</v-icon>guardar</v-btn>
     
         <v-dialog v-model="dialogAlertUserUpdated" persistent max-width="500">
             <v-card class="cardDialogAlertUserUpdated">

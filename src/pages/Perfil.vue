@@ -2,74 +2,74 @@
     <div class="containerGrid">
         <div class="imgYnom">
             <v-avatar 
-                class="imgUser elevation-20"
+                class="imgUser elevation-20 lessOpacity"
                 color="#EEEEEE" 
                 size="200"
             >
                 <img :src="user.img" alt="" loading="lazy">
             </v-avatar>
-            <p class="display-3 font-weight-thin">{{ user.nom }} {{ user.ape }}</p>
-            <hr>
+            <p class="display-3 font-weight-thin colorGreyDarken2">{{ user.nom }} {{ user.ape }}</p>
+            <hr class="hrColor">
         </div>
          
          <div class="detallesUser">
             <div v-if="user.guitarra || user.nacionalidad || user.webpage">
                 <v-list-tile v-show="user.guitarra">
                     <v-list-tile-avatar>
-                        <v-icon>fas fa-guitar</v-icon>
+                        <v-icon  color="brown lighten-2">fas fa-guitar</v-icon>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title>{{ user.guitarra }}</v-list-tile-title>
-                        <v-list-tile-sub-title>Guitarra con la que toca actualmente</v-list-tile-sub-title>
+                        <v-list-tile-title class="colorGreyDarken">{{ user.guitarra }}</v-list-tile-title>
+                        <v-list-tile-sub-title class="grey--text">Guitarra con la que toca actualmente</v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
 
                 <v-list-tile v-show="user.fechaNac">
                     <v-list-tile-avatar>
-                        <v-icon>fas fa-birthday-cake</v-icon>
+                        <v-icon  color="brown lighten-2">fas fa-birthday-cake</v-icon>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title>{{ user.fechaNac }}</v-list-tile-title>
-                        <v-list-tile-sub-title>Fecha de nacimiento</v-list-tile-sub-title>
+                        <v-list-tile-title class="colorGreyDarken">{{ user.fechaNac }}</v-list-tile-title>
+                        <v-list-tile-sub-title class="grey--text">Fecha de nacimiento</v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
 
                 <v-list-tile v-show="user.nacionalidad">
                     <v-list-tile-avatar>
-                        <v-icon>fas fa-map-marked-alt</v-icon>
+                        <v-icon  color="brown lighten-2">fas fa-map-marked-alt</v-icon>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title>{{ user.nacionalidad }}</v-list-tile-title>
-                        <v-list-tile-sub-title>Guitarrista {{ getGenero }} en {{ user.nacionalidad }}</v-list-tile-sub-title>
+                        <v-list-tile-title class="colorGreyDarken">{{ user.nacionalidad }}</v-list-tile-title>
+                        <v-list-tile-sub-title class="grey--text">Guitarrista {{ getGenero }} en {{ user.nacionalidad }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
 
                 <v-list-tile v-show="user.webpage">
                     <v-list-tile-avatar>
-                        <v-icon>fas fa-mouse-pointer</v-icon>
+                        <v-icon  color="brown lighten-2">fas fa-mouse-pointer</v-icon>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title><a :href="user.webpage" target="_blanck">Página Web</a></v-list-tile-title>
-                        <v-list-tile-sub-title>Página web de {{ user.nom }} {{ user.ape }}</v-list-tile-sub-title>
+                        <v-list-tile-title class="colorGreyDarken"><a :href="user.webpage" target="_blanck">Página Web</a></v-list-tile-title>
+                        <v-list-tile-sub-title class="grey--text">Página web de {{ user.nom }} {{ user.ape }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </div>
          </div>
 
         <div class="biografia" v-if="user.biografia">
-            <p class="headline font-weight-light">Biografía</p>
-            <p>{{ user.biografia }}</p>
+            <p class="headline font-weight-light colorGreyDarken2">Biografía</p>
+            <p class="colorGreyDarken subheading">{{ user.biografia }}</p>
         </div>
 
         <div class="conciertos" v-if="user.nom">
-            <p class="headline font-weight-light">No te pierdas ningún concierto de {{ user.nom }}</p>
+            <p class="headline font-weight-light text-xs-left colorGreyDarken2">No te pierdas ningún concierto de {{ user.nom }}</p>
             <a :href="urlToConciertosUser">
-                <v-btn block outline color="primary"><v-icon class="mr-2">fas fa-music</v-icon>conciertos</v-btn>
+                <v-btn block dark color="brown lighten-1"><v-icon class="mr-2">fas fa-music</v-icon>conciertos</v-btn>
             </a>
         </div>
 
         <div class="redes" v-if="user.redes.length > 0">
-            <p class="headline font-weight-light">Sigue a {{ user.nom }} {{ user.ape }}</p>
+            <p class="headline font-weight-light colorGreyDarken2">Sigue a {{ user.nom }} {{ user.ape }}</p>
             <v-item-group multiple>
                 <v-item v-show="getRed('Facebook')">
                     <a :href="getLinkRed('Facebook')" target="_blank">
@@ -222,20 +222,34 @@ export default {
     }
     .biografia {
         grid-row: 3;
-        margin-top: 3rem;
-    }
-    a {
-        text-decoration: none;
+        margin-top: 6rem;
     }
     .redes {
         grid-row: 5;
-        margin-top: 3rem;
+        margin-top: 6rem;
         justify-self: center;
         text-align: center;
     }
     .conciertos {
         grid-row: 4;
-        margin-top: 3rem;
+        margin-top: 6rem;
+    }
+    .hrColor {
+        background-image: linear-gradient(90deg, #8D6E63, transparent);
+        border: 0;
+        height: 1px;
+    }
+    .colorGreyDarken {
+        color: #616161;
+    }
+    .colorGreyDarken2 {
+        color: #2e2e2e;
+    }
+    .lessOpacity {
+        opacity: 0.9;
+    }
+    a {
+        text-decoration: none;
     }
 
 

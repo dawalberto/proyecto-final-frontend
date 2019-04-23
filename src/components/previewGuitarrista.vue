@@ -4,15 +4,15 @@
             <v-container fill-height>
                 <v-layout row wrap align-center>
                     <v-flex class="text-xs-center">
-                        <v-avatar size="100" color="#EEEEEE" href="123">
+                        <v-avatar size="100" color="#EEEEEE" class="elevation-10">
                             <img :src="imgUser" alt="" id="imgUser" loading="lazy">
                         </v-avatar>
                     </v-flex>
                 </v-layout>
             </v-container>
-            <p class="headline font-weight-light text-xs-center">{{ guitarristaProp | shortNom }}</p>
-            <hr color="lightgrey">
-            <p class="font-weight-light subheading mt-3">{{ guitarristaProp | shortBiografia }}</p>
+            <p class="headline font-weight-light text-xs-center brown--text text--darken-2">{{ guitarristaProp | shortNom }}</p>
+            <hr class="hrColor">
+            <p class="font-weight-light subheading mt-3 colorGreyDarken">{{ guitarristaProp | shortBiografia }}</p>
         </v-card>
     </a>
 </template>
@@ -55,6 +55,14 @@ export default {
 <style scoped>
     #card {
         padding: 2rem;
+    }
+    .hrColor {
+        background-image: linear-gradient(90deg, #8D6E63, transparent);
+        border: 0;
+        height: 1px;
+    }
+    .colorGreyDarken {
+        color: #616161;
     }
     a {
         text-decoration: none;

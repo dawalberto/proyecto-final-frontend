@@ -1,6 +1,6 @@
 <template>
   <v-card class="containerGridPrograma">
-    <label for="inputNombreProgramaId" class="label">NOMBRE DEL PROGRAMA</label>
+    <label for="inputNombreProgramaId" class="label font-weight-medium">NOMBRE DEL PROGRAMA</label>
     <v-text-field
       id="inputNombreProgramaId"
       v-model="nombrePrograma"
@@ -11,7 +11,7 @@
       :counter="counterNombrePrograma"
     ></v-text-field>
 
-    <label for="inputObrasId" class="label">OBRAS</label>
+    <label for="inputObrasId" class="label font-weight-medium">OBRAS</label>
     <v-card id="inputObrasId" class="inputObras">
       <v-chip 
         v-for="obra of obras" 
@@ -25,9 +25,9 @@
         <v-icon class="ml-2 iconTrash" @click="deleteObra(obra.id)">fas fa-trash</v-icon>
       </v-chip>
     </v-card>
-    <v-btn @click="dialogAddObra = true" class="btnDialogAddObra" color="blue darken-3" dark><v-icon>add</v-icon>añadir</v-btn>
+    <v-btn @click="dialogAddObra = true" class="btnDialogAddObra" color="blue darken-3" dark>añadir<v-icon class="ml-2">fas fa-plus</v-icon></v-btn>
     <v-dialog v-model="dialogAddObra" persistent max-width="290">
-      <v-card class="cardDialogAddObra">
+      <v-card class="cardDialogAddObra" color="grey lighten-3">
         <v-text-field
         v-model="obra"
             type="text"
@@ -41,8 +41,8 @@
         ></v-text-field>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red darken-3" dark @click="dialogAddObra = false">salir</v-btn>
-          <v-btn color="grey darken-3" dark @click="addObra">confirmar</v-btn>
+          <v-btn color="red darken-3" dark @click="dialogAddObra = false">salir<v-icon class="ml-2">fas fa-times</v-icon></v-btn>
+          <v-btn color="green darken-3" dark @click="addObra">añadir<v-icon class="ml-2">fas fa-plus</v-icon></v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -56,7 +56,7 @@
 
     <v-spacer></v-spacer>
     <v-btn color="red darken-3" @click="closeProgramEvent" class="btnCancelar" dark>cancelar</v-btn>
-    <v-btn color="grey darken-3" @click="obras.length > 0 ? dialogVistaPrevia = true : ''" class="btnVistaPrevia" dark>vista previa<v-icon class="ml-2">fas fa-eye</v-icon></v-btn>
+    <v-btn color="brown darken-1" @click="obras.length > 0 ? dialogVistaPrevia = true : ''" class="btnVistaPrevia" dark>vista previa<v-icon class="ml-2">fas fa-eye</v-icon></v-btn>
     <v-btn color="green darken-3" @click="updateProgram" class="btnConfirmar" dark>actualizar<v-icon class="ml-2">fas fa-sync-alt</v-icon></v-btn>
 
     <v-dialog v-model="dialogVistaPrevia">
@@ -216,6 +216,7 @@ export default {
   }
   .btnDialogAddObra {
     grid-column: 2;
+    align-self: center;
   }
   .btnCancelar {
     grid-column: 1 / 3;
@@ -236,9 +237,10 @@ export default {
     }
     .label {
       grid-column: 1;
-      justify-self: center;
+      justify-self: end;
       align-self: center;
       display: inline;
+      margin-right: 2.5rem;
     }
     .inputObras {
       grid-column: 2;

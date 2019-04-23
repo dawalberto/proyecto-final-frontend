@@ -18,7 +18,8 @@
         v-model="toSearch"
         class="mx-2 mt-1"
         flat
-        label="Busca cualquier concierto o guitarrista"
+        color="grey lighten-1"
+        :label="labelSearch"
         append-outer-icon="search"
         :append-icon="icon"
         solo-inverted
@@ -115,7 +116,8 @@ export default {
             toSearch: null,
             iconIndex: 0,
             icons: ['fas fa-user', 'fas fa-music'],
-            iconSelected: null
+            iconSelected: null,
+            labelSearch: null
         }
     },
     mounted() {
@@ -127,6 +129,12 @@ export default {
         icon () {
             this.iconSelected = this.icons[this.iconIndex]
             return this.icons[this.iconIndex]
+        },
+        setLabelSearch() {
+            if (this.iconIndex === 0) {
+
+                this.labelSearch = 'Encuentra cualquier guitarrista'
+            }
         }
     },
     watch: {
@@ -138,19 +146,21 @@ export default {
         }
     },
     methods: {
-        logout () {
+        logout() {
             this.$router.push('/')
             this.$store.commit('logout')
             console.log('Logout ok')
         },
-        search () {
-            if (this.iconSelected === 'fas fa-user') {
-                this.$router.push(`/guitarristas/buscar/${ this.toSearch }`)
-            } else if (this.iconSelected === 'fas fa-music') {
-                this.$router.push(`/conciertos/buscar/${ this.toSearch }`)                
+        search() {
+            if (this.toSearch) {
+                if (this.iconSelected === 'fas fa-user') {
+                    this.$router.push(`/guitarristas/buscar/${ this.toSearch }`)
+                } else if (this.iconSelected === 'fas fa-music') {
+                    this.$router.push(`/conciertos/buscar/${ this.toSearch }`)                
+                }
             }
         },
-        changeIcon () {
+        changeIcon() {
             this.iconIndex === this.icons.length - 1
             ? this.iconIndex = 0
             : this.iconIndex++
