@@ -48,16 +48,16 @@
     </v-dialog>
 
     <v-dialog v-model="dialogAlertProgramSaved" persistent max-width="500">
-      <v-card class="cardDialogAlertProgramSaved" dark color="green darken-3">
+      <v-card class="cardDialogAlertProgramSaved" color="grey lighten-3">
         <p class="subheading">Programa actualizado correctamente</p>
-        <v-btn block color="grey darken-3" @click="afterSaveProgram">aceptar</v-btn>
+        <v-btn block color="blue darken-3" dark @click="afterSaveProgram">aceptar</v-btn>
       </v-card>
     </v-dialog>
 
     <v-spacer></v-spacer>
     <v-btn color="red darken-3" @click="closeProgramEvent" class="btnCancelar" dark>cancelar</v-btn>
-    <v-btn color="grey darken-3" @click="obras.length > 0 ? dialogVistaPrevia = true : ''" class="btnVistaPrevia" dark>vista previa</v-btn>
-    <v-btn color="green darken-3" @click="updateProgram" class="btnConfirmar" dark>actualizar</v-btn>
+    <v-btn color="grey darken-3" @click="obras.length > 0 ? dialogVistaPrevia = true : ''" class="btnVistaPrevia" dark>vista previa<v-icon class="ml-2">fas fa-eye</v-icon></v-btn>
+    <v-btn color="green darken-3" @click="updateProgram" class="btnConfirmar" dark>actualizar<v-icon class="ml-2">fas fa-sync-alt</v-icon></v-btn>
 
     <v-dialog v-model="dialogVistaPrevia">
       <previewprograma

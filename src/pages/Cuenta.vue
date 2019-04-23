@@ -24,7 +24,7 @@
         :label="mobile ? 'Nueva contraseña' : ''"
         @click:append="showNewPassword = !showNewPassword">
         </v-text-field>
-        <v-btn dark :block="mobile" @click="changePassword" class="btnChangePassword" color="grey darken-3">cambiar contraseña</v-btn>
+        <v-btn dark :block="mobile" @click="changePassword" class="btnChangePassword" color="grey darken-3">cambiar contraseña<v-icon class="ml-2">fas fa-sync-alt</v-icon></v-btn>
 
         <v-dialog v-model="dialogs.passwordChanged" persistent max-width="500">
             <v-card class="cardDialogAlertPasswordChanged" dark color="green darken-3">
@@ -34,7 +34,7 @@
         </v-dialog>
         
         <p class="titleCuenta subheading font-weight-bold">ELIMINAR CUENTA</p>
-        <v-btn @click="dialogs.confirmDeleteCuenta = true" class="btnDelete" block dark color="red darken-3">eliminar cuenta<v-icon class="ml-2">fas fa-exclamation-triangle</v-icon></v-btn>
+        <v-btn @click="dialogs.confirmDeleteCuenta = true" class="btnDelete" :block="mobile" dark color="red darken-3">eliminar cuenta<v-icon class="ml-2">fas fa-exclamation-triangle</v-icon></v-btn>
 
         <v-dialog v-model="dialogs.confirmDeleteCuenta" max-width="500">
             <v-card class="cardDialogAlerDeleteCuenta">
@@ -209,7 +209,7 @@ export default {
     .label {
         display: none;
     }
-    .btnChangePassword {
+    .btnChangePassword, .btnDelete {
         justify-self: end;
     }
     .cardDialogAlertPasswordChanged, .cardDialogAlerDeleteCuenta, .cardDialogAlertCuentaDeleted {
@@ -237,12 +237,9 @@ export default {
         .input {
             grid-column: 2;
         }
-        .btnChangePassword {
+        .btnChangePassword, .btnDelete {
             grid-column: 1 / 3;
             justify-self: end;
-        }
-        .btnDelete {
-            grid-column: 1 / 4;
         }
     }
 </style>

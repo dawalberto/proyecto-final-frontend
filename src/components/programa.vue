@@ -49,17 +49,17 @@
         </v-dialog>
 
         <v-dialog v-model="dialogs.deletePrograma" max-width="500">
-            <v-card class="cardDialogAlerDeletePrograma" dark color="grey darken-3">
-                <p class="subheading">¿Deseas eliminar el concierto?</p>
-                <v-btn block color="black" @click="dialogs.deletePrograma = false">cancelar</v-btn>
-                <v-btn block color="red darken-3" :loading="loadingBtnEliminar" @click="deletePrograma">eliminar</v-btn>
+            <v-card class="cardDialogAlerDeletePrograma" color="grey lighten-3">
+                <p class="subheading">¿Deseas eliminar el programa?</p>
+                <v-btn block color="grey darken-3" dark @click="dialogs.deletePrograma = false">cancelar</v-btn>
+                <v-btn block color="red darken-3" dark :loading="loadingBtnEliminar" @click="deletePrograma">eliminar</v-btn>
             </v-card>
         </v-dialog>
 
         <v-dialog v-model="dialogs.alertProgramaDeleted" max-width="500">
-            <v-card class="cardDialogAlertProgramaDeleted" dark color="blue darken-3">
+            <v-card class="cardDialogAlertProgramaDeleted" color="grey lighten-3">
                 <p class="subheading">Programa eliminado correctamente</p>
-                <v-btn block color="grey darken-3" @click="dialogs.alertProgramaDeleted = false">aceptar</v-btn>
+                <v-btn block color="blue darken-3" dark @click="dialogs.alertProgramaDeleted = false">aceptar</v-btn>
             </v-card>
         </v-dialog>
     </v-card>
