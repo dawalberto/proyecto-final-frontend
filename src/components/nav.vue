@@ -15,11 +15,16 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-text-field
+        v-model="toSearch"
         class="mx-2 mt-1"
         flat
         label="Busca cualquier concierto o guitarrista"
-        append-icon="search"
+        append-outer-icon="search"
+        :append-icon="icon"
         solo-inverted
+        @click:append-outer="search"
+        @click:append="changeIcon"
+        @keyup.enter="search"
         >
         </v-text-field>
         <v-toolbar-items class="hidden-sm-and-down">
@@ -106,7 +111,11 @@ export default {
             urlToPerfil: null,
             urlToConciertosUser: null,
             breakpoint: this.$vuetify.breakpoint,
-            mobile: true
+            mobile: true,
+            toSearch: null,
+            iconIndex: 0,
+            icons: ['fas fa-user', 'fas fa-music'],
+            iconSelected: null
         }
     },
     mounted() {
@@ -114,7 +123,11 @@ export default {
     },
     computed: {
         ...mapState(['login']),
-        ...mapGetters(['userLoginStore'])
+        ...mapGetters(['userLoginStore']),
+        icon () {
+            this.iconSelected = this.icons[this.iconIndex]
+            return this.icons[this.iconIndex]
+        }
     },
     watch: {
         login (newVal) {
@@ -126,9 +139,21 @@ export default {
     },
     methods: {
         logout () {
-          this.$router.push('/')
-          this.$store.commit('logout')
-          console.log('Logout ok')
+            this.$router.push('/')
+            this.$store.commit('logout')
+            console.log('Logout ok')
+        },
+        search () {
+            if (this.iconSelected === 'fas fa-user') {
+                this.$router.push(`/guitarristas/buscar/${ this.toSearch }`)
+            } else if (this.iconSelected === 'fas fa-music') {
+                this.$router.push(`/conciertos/buscar/${ this.toSearch }`)                
+            }
+        },
+        changeIcon () {
+            this.iconIndex === this.icons.length - 1
+            ? this.iconIndex = 0
+            : this.iconIndex++
         }
     }
 }

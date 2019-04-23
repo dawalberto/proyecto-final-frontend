@@ -17,6 +17,11 @@ export default new Router({
       component: () => import('./pages/Guitarristas.vue')
     },
     {
+      path: '/guitarristas/buscar/:nom',
+      name: 'guitarristas-busqueda-nombre',
+      component: () => import('./pages/Guitarristas.vue')
+    },
+    {
       path: '/conciertos',
       name: 'conciertos',
       component: () => import('./pages/Conciertos.vue')
@@ -24,6 +29,11 @@ export default new Router({
     {
       path: '/conciertos/:id',
       name: 'conciertos-usuario',
+      component: () => import('./pages/Conciertos.vue')
+    },
+    {
+      path: '/conciertos/buscar/:titulo',
+      name: 'concierto-busqueda-titulo',
       component: () => import('./pages/Conciertos.vue')
     },
     {

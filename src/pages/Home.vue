@@ -63,13 +63,22 @@ export default {
             axios.get(`${ this.$store.state.urlBackend }/conciertos/this/week`)
                 .then((res) => {
                     console.log(res)
-                    this.conciertosWeek = res.data.conciertos
+                    this.conciertosWeek =  this.getConciertosNotFinished(res.data.conciertos)
                     this.pageLoading = false
                 })
                 .catch((err) => {
                     console.log(err)
                     this.pageLoading = false
                 })
+        },
+        getConciertosNotFinished(conciertos) {
+            return conciertos.filter(concierto => {
+                let today = new Date()
+                let hoy = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
+                let dateConcierto = new Date(concierto.fecha)
+
+                return dateConcierto >= hoy
+            })
         }
     }
 
@@ -87,6 +96,7 @@ export default {
         overflow-x: scroll;
         -webkit-overflow-scrolling: touch;
         width: 100%;
+        padding: 1rem;
     }
 
     .slide-fade-enter-active {
