@@ -4,7 +4,7 @@
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
-              <v-toolbar dark color="brown darken-2">
+              <v-toolbar dark color="blue-grey darken-4">
                 <v-toolbar-title>INICIA SESIÓN</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
@@ -44,7 +44,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn block dark color="brown darken-1" @click="login" :disable="loading" :loading="loading">entrar</v-btn>
+                <v-btn block dark color="blue-grey darken-4" @click="login" :disable="loading" :loading="loading">entrar</v-btn>
               </v-card-actions>
             </v-card>
             <p class="subheading mt-3 text-xs-center grey--text">O registrate <a href="#/registro">aquí</a> si no estás registrado</p>

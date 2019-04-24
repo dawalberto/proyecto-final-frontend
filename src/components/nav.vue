@@ -1,6 +1,6 @@
 <template>
     <div>
-    <v-toolbar color="grey darken-4" dark>
+    <v-toolbar color="blue-grey darken-4" dark>
         <v-toolbar-title>
             <router-link to="/" id="logo">
                 <v-avatar 
@@ -17,10 +17,10 @@
         v-model="toSearch"
         class="mr-4 ml-2 mt-1"
         solo
+        color="white"
         :label="labelSearch"
-        append-outer-icon="search"
+        append-outer-icon="fas fa-search"
         :append-icon="icon"
-        solo-inverted
         @click:append-outer="search"
         @click:append="changeIcon"
         @keyup.enter="search"
@@ -34,7 +34,7 @@
                 <template v-slot:activator="{ on }">
                     <v-btn flat v-on="on"><v-icon class="mr-2">fas fa-user</v-icon>{{ nomUsuario }}</v-btn>
                 </template>
-                <v-list dark class="brown lighten-1">
+                <v-list dark class="blue-grey darken-4">
                     <v-list-tile>
                         <v-list-tile-content class="letterSpacing01"><v-btn flat :to="urlToPerfil"><v-icon class="mr-2">fas fa-user</v-icon>ver perfil</v-btn></v-list-tile-content>
                     </v-list-tile>

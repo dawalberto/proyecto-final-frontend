@@ -8,7 +8,7 @@
             >
                 <img :src="user.img" alt="" loading="lazy">
             </v-avatar>
-            <p class="display-3 font-weight-thin colorGreyDarken2">{{ user.nom }} {{ user.ape }}</p>
+            <p class="display-3 font-weight-thin greyColorBlueDarken2">{{ user.nom }} {{ user.ape }}</p>
             <hr class="hrColor">
         </div>
          
@@ -16,40 +16,40 @@
             <div v-if="user.guitarra || user.nacionalidad || user.webpage">
                 <v-list-tile v-show="user.guitarra">
                     <v-list-tile-avatar>
-                        <v-icon  color="brown lighten-2">fas fa-guitar</v-icon>
+                        <v-icon  color="blue-grey darken-3">fas fa-guitar</v-icon>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title class="colorGreyDarken">{{ user.guitarra }}</v-list-tile-title>
+                        <v-list-tile-title class="greyColorBlueDarken1">{{ user.guitarra }}</v-list-tile-title>
                         <v-list-tile-sub-title class="grey--text">Guitarra con la que toca actualmente</v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
 
                 <v-list-tile v-show="user.fechaNac">
                     <v-list-tile-avatar>
-                        <v-icon  color="brown lighten-2">fas fa-birthday-cake</v-icon>
+                        <v-icon  color="blue-grey darken-3">fas fa-birthday-cake</v-icon>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title class="colorGreyDarken">{{ user.fechaNac }}</v-list-tile-title>
+                        <v-list-tile-title class="greyColorBlueDarken1">{{ user.fechaNac }}</v-list-tile-title>
                         <v-list-tile-sub-title class="grey--text">Fecha de nacimiento</v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
 
                 <v-list-tile v-show="user.nacionalidad">
                     <v-list-tile-avatar>
-                        <v-icon  color="brown lighten-2">fas fa-map-marked-alt</v-icon>
+                        <v-icon  color="blue-grey darken-3">fas fa-map-marked-alt</v-icon>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title class="colorGreyDarken">{{ user.nacionalidad }}</v-list-tile-title>
+                        <v-list-tile-title class="greyColorBlueDarken1">{{ user.nacionalidad }}</v-list-tile-title>
                         <v-list-tile-sub-title class="grey--text">Guitarrista {{ getGenero }} en {{ user.nacionalidad }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
 
                 <v-list-tile v-show="user.webpage">
                     <v-list-tile-avatar>
-                        <v-icon  color="brown lighten-2">fas fa-mouse-pointer</v-icon>
+                        <v-icon  color="blue-grey darken-3">fas fa-mouse-pointer</v-icon>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title class="colorGreyDarken"><a :href="user.webpage" target="_blanck">Página Web</a></v-list-tile-title>
+                        <v-list-tile-title class="greyColorBlueDarken1"><a :href="user.webpage" target="_blanck">Página Web</a></v-list-tile-title>
                         <v-list-tile-sub-title class="grey--text">Página web de {{ user.nom }} {{ user.ape }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
@@ -57,19 +57,19 @@
          </div>
 
         <div class="biografia" v-if="user.biografia">
-            <p class="headline font-weight-light colorGreyDarken2">Biografía</p>
-            <p class="colorGreyDarken subheading" v-html="user.biografia"></p>
+            <p class="headline font-weight-light greyColorBlueDarken2">Biografía</p>
+            <p class="greyColorBlueDarken1 subheading" v-html="user.biografia"></p>
         </div>
 
         <div class="conciertos" v-if="user.nom">
-            <p class="headline font-weight-light text-xs-left colorGreyDarken2">No te pierdas ningún concierto de {{ user.nom }}</p>
+            <p class="headline font-weight-light text-xs-left greyColorBlueDarken2">No te pierdas ningún concierto de {{ user.nom }}</p>
             <a :href="urlToConciertosUser">
-                <v-btn block dark color="brown lighten-1"><v-icon class="mr-2">fas fa-music</v-icon>conciertos</v-btn>
+                <v-btn block dark color="blue-grey darken-3"><v-icon class="mr-2">fas fa-music</v-icon>conciertos</v-btn>
             </a>
         </div>
 
         <div class="redes" v-if="user.redes.length > 0">
-            <p class="headline font-weight-light colorGreyDarken2">Sigue a {{ user.nom }} {{ user.ape }}</p>
+            <p class="headline font-weight-light greyColorBlueDarken2">Sigue a {{ user.nom }} {{ user.ape }}</p>
             <v-item-group multiple>
                 <v-item v-show="getRed('Facebook')">
                     <a :href="getLinkRed('Facebook')" target="_blank">
@@ -238,15 +238,15 @@ export default {
         margin-top: 6rem;
     }
     .hrColor {
-        background-image: linear-gradient(90deg, #8D6E63, transparent);
+        background-image: linear-gradient(90deg, #78909C, transparent);
         border: 0;
         height: 1px;
     }
-    .colorGreyDarken {
-        color: #616161;
+    .greyColorBlueDarken1 {
+        color: #546E7A;
     }
-    .colorGreyDarken2 {
-        color: #2e2e2e;
+    .greyColorBlueDarken2 {
+        color: #455A64;
     }
     .lessOpacity {
         opacity: 0.9;

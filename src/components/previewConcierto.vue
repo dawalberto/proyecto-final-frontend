@@ -9,7 +9,7 @@
         </v-img>
 
         <div class="cuerpoCard">
-            <p class="titulo headline font-weight-light brown--text text-darken-2">{{ conciertoObj.titulo }}</p>
+            <p class="titulo headline font-weight-light greyColorBlueDarken4">{{ conciertoObj.titulo }}</p>
             <hr>
             <p class="subheading">
                 <a :href="urlToUser" :title="conciertoObj.usuario.nombre">
@@ -19,19 +19,19 @@
                     {{ conciertoObj.usuario.nombre }} {{ conciertoObj.usuario.apellidos }}
                 </a>
             </p>
-            <p class="subheading colorGreyDarken"><v-icon class="mr-2" color="brown lighten-2">event</v-icon>{{ getFecha }}</p>
-            <p class="subheading colorGreyDarken"><v-icon class="mr-2" color="brown lighten-2">fas fa-clock</v-icon>{{ conciertoObj.hora }}</p>
-            <p class="subheading colorGreyDarken"><v-icon class="mr-2" color="brown lighten-2">fas fa-map-marker-alt</v-icon>{{ conciertoObj.ubicacion }}</p>
-            <p class="subheading colorGreyDarken"><v-icon class="mr-2" color="brown lighten-2">fas fa-money-bill</v-icon>{{ conciertoObj.precio }} €</p>
+            <p class="subheading greyColorBlueDarken1"><v-icon class="mr-2" color="blue-grey darken-3">event</v-icon>{{ getFecha }}</p>
+            <p class="subheading greyColorBlueDarken1"><v-icon class="mr-2" color="blue-grey darken-3">fas fa-clock</v-icon>{{ conciertoObj.hora }}</p>
+            <p class="subheading greyColorBlueDarken1"><v-icon class="mr-2" color="blue-grey darken-3">fas fa-map-marker-alt</v-icon>{{ conciertoObj.ubicacion }}</p>
+            <p class="subheading greyColorBlueDarken1"><v-icon class="mr-2" color="blue-grey darken-3">fas fa-money-bill</v-icon>{{ conciertoObj.precio }} €</p>
             <p @click="showDescription = !showDescription">
-                <span class="subheading mr-2 colorGreyDarken"><v-icon class="mr-2" color="brown lighten-2">fas fa-align-left</v-icon>Descripción</span>
+                <span class="subheading mr-2 greyColorBlueDarken1"><v-icon class="mr-2" color="blue-grey darken-3">fas fa-align-left</v-icon>Descripción</span>
                 <v-icon>{{ !showDescription ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
             </p>
             <v-slide-y-transition>
-                <v-card-text v-show="showDescription" class="colorGreyDarken subheading">{{ conciertoObj.descripcion }}</v-card-text>
+                <v-card-text v-show="showDescription" class="greyColorBlueDarken1 subheading">{{ conciertoObj.descripcion }}</v-card-text>
             </v-slide-y-transition>
             <v-card-actions>
-                <v-btn dark @click="dialogVistaPreviaProgram = true" block color="brown lighten-1">ver programa<v-icon class="ml-2">fas fa-book-open</v-icon></v-btn>
+                <v-btn dark @click="dialogVistaPreviaProgram = true" block color="blue-grey darken-3">ver programa<v-icon class="ml-2">fas fa-book-open</v-icon></v-btn>
             </v-card-actions>
             <v-card-actions v-if="ownConcierto">
                 <v-btn dark block @click="dialogConfirmDeleteConcierto = true" color="red darken-3">eliminar<v-icon class="ml-2">fas fa-trash-alt</v-icon></v-btn>                
@@ -168,11 +168,14 @@ export default {
     .deleted {
         display: none;
     }
-    .colorGreyDarken {
-        color: #616161;
+    .greyColorBlueDarken1 {
+        color: #546E7A;
+    }
+    .greyColorBlueDarken4 {
+        color: #263238;
     }
     .lessOpacity {
-        opacity: 0.8;
+        opacity: 0.9;
     }
     .cursorNormal {
         cursor: context-menu;
@@ -181,8 +184,7 @@ export default {
         margin-bottom: 1rem;
     }
     a {
-        /* text-decoration: none; */
-        color: #8D6E63;
+        text-decoration: none;
     }
 
     @media (min-width: 960px) {

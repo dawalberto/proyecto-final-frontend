@@ -10,9 +10,9 @@
                     </v-flex>
                 </v-layout>
             </v-container>
-            <p class="headline font-weight-light text-xs-center brown--text text--darken-2">{{ guitarristaProp | shortNom }}</p>
+            <p class="headline font-weight-light text-xs-center greyColorBlueDarken4">{{ guitarristaProp | shortNom }}</p>
             <hr class="hrColor">
-            <p class="font-weight-light subheading mt-3 colorGreyDarken">{{ guitarristaProp | shortBiografia }}</p>
+            <p class="font-weight-light subheading mt-3 colorGreyDarken greyColorBlueDarken1">{{ guitarristaProp | shortBiografia }}</p>
         </v-card>
     </a>
 </template>
@@ -57,12 +57,18 @@ export default {
         padding: 2rem;
     }
     .hrColor {
-        background-image: linear-gradient(90deg, #8D6E63, transparent);
+        background-image: linear-gradient(90deg, #78909C, transparent);
         border: 0;
         height: 1px;
     }
     .colorGreyDarken {
         color: #616161;
+    }
+    .greyColorBlueDarken1 {
+        color: #546E7A;
+    }
+    .greyColorBlueDarken4 {
+        color: #263238;
     }
     a {
         text-decoration: none;

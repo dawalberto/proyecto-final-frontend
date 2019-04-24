@@ -56,12 +56,12 @@
         <v-text-field v-model="user.ape" class="inputApes" id="inputApesId" type="text" :label="mobile ? 'Apellidos' : ''"></v-text-field>
         <label for="radioSexId" class="labelSex">GENERO</label>
         <v-radio-group row v-model="user.sexo" class="radioSex" id="radioSexId">
-            <v-radio :value="false" id="radioHombre" color="brown lighten-1">
+            <v-radio :value="false" id="radioHombre" color="blue-grey darken-4">
                 <template slot="label">
                     <v-icon class="mr-2">fas fa-male</v-icon>Hombre
                 </template>
             </v-radio>
-            <v-radio :value="true" id="radioMujer" color="brown lighten-1">
+            <v-radio :value="true" id="radioMujer" color="blue-grey darken-4">
                 <template slot="label">
                     <v-icon class="mr-2">fas fa-female</v-icon>Mujer
                 </template>

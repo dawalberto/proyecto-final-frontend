@@ -142,7 +142,7 @@ export default {
         .nomPrograma {
             grid-column: 1;
             justify-self: start;
-            align-self: center;
+            align-self: end;
         }
         .botones {
             grid-column: 2;

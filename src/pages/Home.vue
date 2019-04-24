@@ -6,13 +6,13 @@
                 <v-layout align-center justify-center>
                     <v-flex xs12>
                         <transition name="slide-fade">
-                            <p class="display-1 brown--text font-weight-thin font-italic text-xs-center" v-show="!pageLoading">clasicaguitarra.com</p>
+                            <p class="display-2 greyColorBlueDarken2 font-weight-thin text-xs-center" v-show="!pageLoading">clasicaguitarra.com</p>
                         </transition>
                         <transition name="fade">
-                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
+                            <p class="headline mt-4 greyColorBlueDarken1 font-weight-light text-xs-center" v-show="!pageLoading">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
                         </transition>
                         <transition name="slide-fade-row">
-                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading"><a href="#screen2anchor" v-smooth-scroll="{ duration: 1500, offset: -50 }"><v-icon medium color="brown lighten-1">fas fa-chevron-down</v-icon></a></p>
+                            <p class="display-3 mt-4 greyColorBlueDarken1 font-weight-light text-xs-center" v-show="!pageLoading"><a href="#screen2anchor" v-smooth-scroll="{ duration: 1500, offset: -50 }"><v-icon large color="#B0BEC5">fas fa-chevron-down</v-icon></a></p>
                         </transition>
                     </v-flex>
                 </v-layout>
@@ -23,7 +23,7 @@
                 <v-layout align-center justify-center>
                     <v-flex xs12>
                         <transition name="fade">
-                            <p class="headline brown--text font-weight-light text-xs-center" v-show="!pageLoading">Conciertos de esta semana</p>
+                            <p class="headline greyColorBlueDarken1 font-weight-light text-xs-center" v-show="!pageLoading">Conciertos de esta semana</p>
                         </transition>
                         <transition name="fadeConcierto">
                             <div class="containerConciertos" v-show="!pageLoading">
@@ -134,11 +134,16 @@ export default {
         transform: translateX(10px);
         opacity: 0;
     }
-
     .screen1, .screen2 {
         width: 100%;
         height: 100vh;
         padding-bottom: 6rem;
+    }
+    .greyColorBlueDarken1 {
+        color: #546E7A;
+    }
+    .greyColorBlueDarken2 {
+        color: #455A64;
     }
     a {
         text-decoration: none;

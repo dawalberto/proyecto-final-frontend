@@ -1,9 +1,9 @@
 <template>
     <v-card>
-        <v-toolbar dark color="brown darken-3" id="toolbarAddConcierto">
+        <v-toolbar dark color="blue-grey darken-4" id="toolbarAddConcierto">
             <v-spacer></v-spacer>
             <v-toolbar-items>
-            <v-btn dark @click="cancelDialogUpdateConciertoEvent" color="grey darken-3">cancelar</v-btn>
+            <v-btn dark @click="cancelDialogUpdateConciertoEvent" color="blue-grey darken-3">cancelar</v-btn>
             <v-btn dark @click="putConcierto" color="green darken-3" :disable="loading" :loading="loading"><v-icon class="mr-2">fas fa-save</v-icon>guardar</v-btn>
             </v-toolbar-items>
         </v-toolbar>
@@ -235,7 +235,7 @@ export default {
           let programasDB = res.data.programas
           this.programas = programasDB
           if (programasDB.length > 0) {
-            this.concierto.programa = programasDB[0]
+            this.concierto.programa = programasDB[programasDB.length - 1]
           }
         })
         .catch((err) => {
