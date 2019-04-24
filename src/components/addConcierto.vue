@@ -135,7 +135,17 @@
             label="Seleccione un programa"
             >
             </v-select>
-            <v-btn block dark color="blue darken-3" @click="dialogPrograma = true" id="btnAddProgramaId" class="btnAddPrograma"><v-icon class="mr-2">add</v-icon> AÑADIR PROGRAMA</v-btn>
+
+            <div class="btnAddPrograma">
+                <v-btn dark small fab :loading="loadingPreview" color="blue-grey darken-3" @click="viewPrograma" id="" class=""><v-icon>fas fa-eye</v-icon></v-btn>
+                <v-btn dark color="blue darken-3" @click="dialogPrograma = true" id="btnAddProgramaId" class=""><v-icon class="mr-2">add</v-icon> AÑADIR PROGRAMA</v-btn>
+            </div>
+
+            <v-dialog v-model="dialogVistaPreviaPrograma">
+                <previewprograma
+                :obrasObj="obrasObj"
+                ></previewprograma>
+            </v-dialog>
 
             <v-dialog v-model="dialogPrograma" persistent max-width="800" color="red">
               <addPrograma 
@@ -160,10 +170,11 @@ import axios from 'axios'
 import qs from 'qs'
 import { mapState, mapGetters } from 'vuex'
 import addPrograma from '../components/addPrograma'
+import previewprograma from '../components/previewPrograma'
 
 export default {
   name: 'addConcierto',
-  components: { addPrograma },
+  components: { addPrograma, previewprograma },
   data() {
     return {
       conciertos: [],
@@ -198,7 +209,10 @@ export default {
         hora: null
       },
       dialogConciertoAgregado: false,
-      loading: false
+      dialogVistaPreviaPrograma: false,
+      loading: false,
+      obrasObj: null,
+      loadingPreview: false
     }
   },
   mounted() {
@@ -345,8 +359,30 @@ export default {
       this.concierto.hora = null
       this.concierto.precio = 0
       this.concierto.ubicacion = null
+    },
+    viewPrograma() {
+      if (this.concierto.programa === null || this.concierto.programa === undefined || this.concierto.programa === '') { return }
+      if (!this.login) { return }
+      if (this.paramId === undefined) { return }
+
+      this.loadingPreview = true
+
+      let programa
+      typeof this.concierto.programa === 'object' ? programa = this.concierto.programa._id : programa = this.concierto.programa
+      
+      axios.get(`${ this.$store.state.urlBackend }/programas/${ programa }`)
+        .then((res) => {
+          console.log(res)
+          this.obrasObj = res.data.programa.obras
+          this.dialogVistaPreviaPrograma = true
+          this.loadingPreview = false
+        })
+        .catch((err) => {
+          console.log(err.response)
+          this.loadingPreview = false
+        })
     }
-  },
+  }
 }
 </script>
 
@@ -370,6 +406,9 @@ export default {
     }
     .dialogConciertoAgregado {
       padding: 2rem;
+    }
+    .btnAddPrograma {
+      justify-self: center;
     }
 
     @media (min-width: 960px) {

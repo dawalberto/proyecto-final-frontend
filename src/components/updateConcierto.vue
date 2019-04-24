@@ -136,7 +136,17 @@
             label="Seleccione un programa"
             >
             </v-select>
-            <v-btn block dark color="blue darken-3" @click="dialogPrograma = true" id="btnAddProgramaId" class="btnAddPrograma"><v-icon class="mr-2">add</v-icon> AÑADIR PROGRAMA</v-btn>
+
+            <div class="btnAddPrograma">
+              <v-btn dark small fab color="blue-grey darken-3" @click="viewPrograma" id="" class=""><v-icon>fas fa-eye</v-icon></v-btn>
+              <v-btn dark color="blue darken-3" @click="dialogPrograma = true" id="btnAddProgramaId" class=""><v-icon class="mr-2">add</v-icon> AÑADIR PROGRAMA</v-btn>
+            </div>
+
+            <v-dialog v-model="dialogVistaPreviaPrograma">
+              <previewprograma
+              :obrasObj="obrasObj"
+              ></previewprograma>
+            </v-dialog>
 
             <v-dialog v-model="dialogPrograma" persistent max-width="800">
               <addPrograma 
@@ -161,11 +171,12 @@ import axios from 'axios'
 import qs from 'qs'
 import { mapState, mapGetters } from 'vuex'
 import addPrograma from '../components/addPrograma'
-import { constants } from 'crypto';
+import previewprograma from '../components/previewPrograma'
+import { constants } from 'crypto'
 
 export default {
   name: 'updateConcierto',
-  components: { addPrograma },
+  components: { addPrograma, previewprograma },
   props: ['conciertoObj'],
   data() {
     return {
@@ -202,7 +213,10 @@ export default {
         programa: null
       },
       dialogConciertoActualizado: false,
-      loading: false
+      loading: false,
+      dialogVistaPreviaPrograma: false,
+      obrasObj: null,
+      loadingPreview: false
     }
   },
   mounted() {
@@ -336,6 +350,28 @@ export default {
             this.loading = false
           })
       }
+    },    
+    viewPrograma() {
+      if (this.concierto.programa === null || this.concierto.programa === undefined || this.concierto.programa === '') { return }
+      if (!this.login) { return }
+      if (this.paramId === undefined) { return }
+
+      this.loadingPreview = true
+
+      let programa
+      typeof this.programa === 'object' ? programa = this.programa._id : programa = this.programa
+      
+      axios.get(`${ this.$store.state.urlBackend }/programas/${ programa }`)
+        .then((res) => {
+          console.log(res)
+          this.obrasObj = res.data.programa.obras
+          this.dialogVistaPreviaPrograma = true
+          this.loadingPreview = false
+        })
+        .catch((err) => {
+          console.log(err.response)
+          this.loadingPreview = false
+        })
     }
   }
 }
@@ -361,6 +397,9 @@ export default {
     }
     .dialogConciertoActualizado {
       padding: 2rem;
+    }
+    .btnAddPrograma {
+      justify-self: center;
     }
 
     @media (min-width: 960px) {
