@@ -6,7 +6,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    urlBackend: 'https://clasicaguitarra-backend.herokuapp.com',
+    // urlBackend: 'https://clasicaguitarra-backend.herokuapp.com',
+    // urlBackend: 'http://localhost:3000',
+    urlBackend: 'http://192.168.56.101:3000',
     user: {},
     login: false,
     token: null

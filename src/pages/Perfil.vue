@@ -58,7 +58,7 @@
 
         <div class="biografia" v-if="user.biografia">
             <p class="headline font-weight-light colorGreyDarken2">Biografía</p>
-            <p class="colorGreyDarken subheading">{{ user.biografia }}</p>
+            <p class="colorGreyDarken subheading" v-html="user.biografia"></p>
         </div>
 
         <div class="conciertos" v-if="user.nom">
@@ -174,7 +174,7 @@ export default {
 
             this.user.nacionalidad = user.nacionalidad
             this.user.guitarra = user.guitarra
-            this.user.biografia = user.biografia
+            this.user.biografia = this.formatBiografia(user.biografia)
             this.user.webpage = user.webpage
             this.user.redes = user.redes
             let self = this
@@ -196,6 +196,9 @@ export default {
                     return r.link
                 }
             }
+        },
+        formatBiografia(biografia) {
+            return biografia.replace(/(\n)/g, '<br/>')
         }
     }
 }
