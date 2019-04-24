@@ -57,7 +57,7 @@
     <v-spacer></v-spacer>
     <v-btn color="red darken-3" @click="closeProgramEvent" class="btnCancelar" dark>cancelar</v-btn>
     <v-btn color="blue-grey darken-3" @click="obras.length > 0 ? dialogVistaPrevia = true : ''" class="btnVistaPrevia" dark>vista previa<v-icon class="ml-2">fas fa-eye</v-icon></v-btn>
-    <v-btn color="green darken-3" @click="updateProgram" class="btnConfirmar" dark>actualizar<v-icon class="ml-2">fas fa-sync-alt</v-icon></v-btn>
+    <v-btn color="green darken-3" :loading="loadingBtnUpdate" @click="updateProgram" class="btnConfirmar" dark>actualizar<v-icon class="ml-2">fas fa-sync-alt</v-icon></v-btn>
 
     <v-dialog v-model="dialogVistaPrevia">
       <previewprograma
@@ -89,7 +89,8 @@ export default {
       dialogVistaPrevia: false,
       dialogAlertProgramSaved: false,
       msgErrorNombrePrograma: null,
-      counterNombrePrograma: 30
+      counterNombrePrograma: 30,
+      loadingBtnUpdate: false
     };
   },
   created() {
@@ -126,12 +127,16 @@ export default {
         return
       }
 
+      this.loadingBtnUpdate = true
+
       axios.put(`${ this.$store.state.urlBackend }/programas/${ this.programaProp._id }`, qs.stringify(programa))
         .then((res) => {
-          console.log(res)
+          console.log('actualizado')
+          this.loadingBtnUpdate = false
           this.dialogAlertProgramSaved = true
         })
         .catch((err) => {
+          this.loadingBtnUpdate = false
           console.log(err.response)
         })
     },

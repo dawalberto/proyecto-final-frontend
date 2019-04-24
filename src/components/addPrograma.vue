@@ -57,7 +57,7 @@
     <v-spacer></v-spacer>
     <v-btn color="red darken-3" @click="closeProgramEvent" class="btnCancelar" dark>cancelar</v-btn>
     <v-btn color="blue-grey darken-3" @click="obras.length > 0 ? dialogVistaPrevia = true : ''" class="btnVistaPrevia" dark>vista previa<v-icon class="ml-2">fas fa-eye</v-icon></v-btn>
-    <v-btn color="green darken-3" @click="savePrograma" class="btnConfirmar" dark>guardar<v-icon class="ml-2">fas fa-save</v-icon></v-btn>
+    <v-btn color="green darken-3" :loading="loadingBtnSave" @click="savePrograma" class="btnConfirmar" dark>guardar<v-icon class="ml-2">fas fa-save</v-icon></v-btn>
 
     <v-dialog v-model="dialogVistaPrevia">
       <previewprograma
@@ -88,7 +88,8 @@ export default {
       dialogVistaPrevia: false,
       dialogAlertProgramSaved: false,
       msgErrorNombrePrograma: null,
-      counterNombrePrograma: 30
+      counterNombrePrograma: 30,
+      loadingBtnSave: false
     };
   },
   created() {
@@ -123,12 +124,17 @@ export default {
         return
       }
 
+      this.loadingBtnSave = true
+
       axios.post(`${ this.$store.state.urlBackend }/programas`, qs.stringify(programa))
         .then((res) => {
+          console.log('guardado')
           this.dialogAlertProgramSaved = true
+          this.loadingBtnSave = false
         })
         .catch((err) => {
           console.log(err.response)
+          this.loadingBtnSave = false
         })
     },
     generateId() {
