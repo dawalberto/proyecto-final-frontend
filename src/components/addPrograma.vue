@@ -125,7 +125,6 @@ export default {
 
       axios.post(`${ this.$store.state.urlBackend }/programas`, qs.stringify(programa))
         .then((res) => {
-          console.log(res)
           this.dialogAlertProgramSaved = true
         })
         .catch((err) => {
@@ -140,7 +139,6 @@ export default {
     },
     deleteObra(id) {
       for (let i = 0; i < this.obras.length; i++) {
-        console.log(this.obras[i])
         if (id === this.obras[i].id) {
           this.obras.splice(i, 1)
           return

@@ -62,12 +62,11 @@ export default {
         getConciertosThisWeek() {
             axios.get(`${ this.$store.state.urlBackend }/conciertos/this/week`)
                 .then((res) => {
-                    console.log(res)
                     this.conciertosWeek =  this.getConciertosNotFinished(res.data.conciertos)
                     this.pageLoading = false
                 })
                 .catch((err) => {
-                    console.log(err)
+                    console.log(err.response)
                     this.pageLoading = false
                 })
         },

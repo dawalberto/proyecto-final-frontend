@@ -144,7 +144,6 @@ export default {
         logout() {
             this.$router.push('/')
             this.$store.commit('logout')
-            console.log('Logout ok')
         },
         search() {
             if (this.toSearch) {

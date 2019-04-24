@@ -372,7 +372,6 @@ export default {
       
       axios.get(`${ this.$store.state.urlBackend }/programas/${ programa }`)
         .then((res) => {
-          console.log(res)
           this.obrasObj = res.data.programa.obras
           this.dialogVistaPreviaPrograma = true
           this.loadingPreview = false

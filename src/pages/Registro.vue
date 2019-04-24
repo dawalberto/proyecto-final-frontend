@@ -49,11 +49,25 @@
                     id="password" 
                     prepend-icon="lock" 
                     name="password" 
-                    label="Contraseña" 
+                    label="Contraseña"
+                    :error-messages="msgRegistroPassword"
                     :rules="[v => !!v || 'La contraseña es obligatoria']"
                     :type="showPassword ? 'text' : 'password'"
                     :append-icon="showPassword ? 'visibility' : 'visibility_off'"
                     @click:append="showPassword = !showPassword"
+                    >
+                  </v-text-field>
+                  <v-text-field
+                    v-model="passwordRepeat"
+                    id="passwordRepeat" 
+                    prepend-icon="lock" 
+                    name="passwordRepeat" 
+                    label="Repetir contraseña"
+                    :error-messages="msgRegistroPasswordRepeat"
+                    :rules="[v => !!v || 'La contraseña es obligatoria']"
+                    :type="showPasswordRepeat ? 'text' : 'password'"
+                    :append-icon="showPasswordRepeat ? 'visibility' : 'visibility_off'"
+                    @click:append="showPasswordRepeat = !showPasswordRepeat"
                     >
                   </v-text-field>
                 </v-form>
@@ -82,17 +96,23 @@ export default {
           email: null,
           password: null,
           nomUsuario: null,
+          passwordRepeat: null,
           loading: false,
           msgRegistroEmail: null,
           msgRegistroNomUsuario: null,
+          msgRegistroPassword: null,
+          msgRegistroPasswordRepeat: null,
           dialog: false,
-          showPassword: false
+          showPassword: false,
+          showPasswordRepeat: false
         }
     },
     methods: {
         registrar () {
           this.msgRegistroEmail = null
           this.msgRegistroNomUsuario = null
+          this.msgRegistroPassword = null
+          this.msgRegistroPasswordRepeat = null
 
             let email = this.email
             let password = this.password
@@ -105,12 +125,21 @@ export default {
             }
 
             if (this.$refs.form.validate() && this.validateEmail(this.email)) {
-              console.log('validado')
+              let regEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+              if (!regEx.test(this.password)) {
+                this.msgRegistroPassword = 'La contraseña debe tener como mínimo 8 caracteres, al menos una letra minúscula, una mayúscula, un número y un caracter especial(@ $ ! % * ? &)'
+                return
+              }
+
+              if (this.password !== this.passwordRepeat) {
+                this.msgRegistroPasswordRepeat = 'Las contaseñas no coinciden'
+                return
+              }
+
               this.loading = true
 
               axios.post(`${ this.$store.state.urlBackend }/usuarios`, qs.stringify(newUser))
                   .then(res => {
-                    console.log(res.data)
                     this.dialog = true
                     this.loading = false
                   })
