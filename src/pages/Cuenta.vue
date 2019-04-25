@@ -37,7 +37,18 @@
         @click:append="showNewPasswordRepeat = !showNewPasswordRepeat">
         </v-text-field>
 
-        <v-btn dark :block="mobile" @click="changePassword" :loading="loadingChangePassword" class="btnChangePassword" color="blue darken-3">cambiar contraseña<v-icon class="ml-2">fas fa-sync-alt</v-icon></v-btn>
+        <v-btn 
+            :block="mobile" 
+            :loading="loadingChangePassword" 
+            :disabled="loadingChangePassword" 
+            :dark="!loadingChangePassword" 
+            @click="changePassword" 
+            class="btnChangePassword" 
+            color="blue darken-3"
+        >
+            cambiar contraseña
+            <v-icon class="ml-2">fas fa-sync-alt</v-icon>
+        </v-btn>
 
         <v-dialog v-model="dialogs.passwordChanged" persistent max-width="500">
             <v-card class="cardDialogAlertPasswordChanged" color="grey lighten-3">
@@ -54,7 +65,16 @@
                 <p class="subheading">¿Está useted seguro/a de que desea eliminar su cuenta?</p>
                 <p class="subheading">En caso de eliminarla no podrá volver a entrar con esta cuenta y todos sus conciertos y programas serán eliminados de forma permanente.</p>
                 <v-btn block dark color="black" @click="dialogs.confirmDeleteCuenta = false">cancelar</v-btn>
-                <v-btn block dark color="red darken-3" :loading="loading" @click="dialogs.passwordToDeleteCuenta = true">eliminar</v-btn>
+                <v-btn 
+                    :loading="loading" 
+                    :disabled="loading"
+                    :dark="!loading" 
+                    block 
+                    color="red darken-3" 
+                    @click="dialogs.passwordToDeleteCuenta = true"
+                >
+                    eliminar
+                </v-btn>
             </v-card>
         </v-dialog>
 
@@ -71,7 +91,17 @@
                 @click:append="showSupposedPasswordToDelete = !showSupposedPasswordToDelete"
                 ></v-text-field>
                 <v-btn block dark color="black" @click="cancelDialogPasswordToDelete">cancelar</v-btn>
-                <v-btn block dark color="red darken-3" :loading="loading" @click="deleteCuenta">eliminar cuenta<v-icon class="ml-2">fas fa-exclamation-triangle</v-icon></v-btn>
+                <v-btn 
+                    :loading="loading" 
+                    :disabled="loading" 
+                    :dark="!loading"
+                    @click="deleteCuenta"
+                    color="red darken-3" 
+                    block 
+                >
+                    eliminar cuenta
+                    <v-icon class="ml-2">fas fa-exclamation-triangle</v-icon>
+                </v-btn>
             </v-card>
         </v-dialog>
 

@@ -74,7 +74,16 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn block color="blue-grey darken-4" dark @click="registrar" :disable="loading" :loading="loading">registrar</v-btn>
+                <v-btn 
+                  :disable="loading" 
+                  :loading="loading"
+                  :dark="!loading" 
+                  @click="registrar" 
+                  color="blue-grey darken-4" 
+                  block 
+                >
+                  registrar
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>

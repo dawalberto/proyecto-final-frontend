@@ -7,8 +7,8 @@
             small
             dark
             color="grey darken-3"
-            title="ver programa"
             @click="dialogs.vistaPrevia = true"
+            title="Vista previa del programa"
             >
                 <v-icon>fas fa-eye</v-icon>
             </v-btn>
@@ -17,8 +17,8 @@
             small
             dark
             color="blue darken-3"
-            title="editar"
             @click="dialogs.updatePrograma = true"
+            title="Editar programa"
             >
                 <v-icon>fas fa-edit</v-icon>
             </v-btn>
@@ -27,8 +27,8 @@
             small
             dark
             color="red darken-3"
-            title="eliminar"
             @click="dialogs.deletePrograma = true"
+            title="Eliminar programa"
             >
                 <v-icon>fas fa-trash</v-icon>
             </v-btn>
@@ -52,7 +52,7 @@
             <v-card class="cardDialogAlerDeletePrograma" color="grey lighten-3">
                 <p class="subheading">¿Deseas eliminar el programa?</p>
                 <v-btn block color="grey darken-3" dark @click="dialogs.deletePrograma = false">cancelar</v-btn>
-                <v-btn block color="red darken-3" dark :loading="loadingBtnEliminar" @click="deletePrograma">eliminar</v-btn>
+                <v-btn block color="red darken-3" :dark="!loadingBtnEliminar" :loading="loadingBtnEliminar" :disabled="loadingBtnEliminar" @click="deletePrograma">eliminar</v-btn>
             </v-card>
         </v-dialog>
 

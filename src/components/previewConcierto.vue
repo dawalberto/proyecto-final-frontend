@@ -49,14 +49,14 @@
             <v-card class="cardDialogAlerDeleteConcierto" color="grey lighten-3">
                 <p class="subheading">¿Deseas eliminar el concierto?</p>
                 <v-btn block color="grey darken-3" dark @click="dialogConfirmDeleteConcierto = false">cancelar</v-btn>
-                <v-btn block color="red darken-3" dark :loading="loading" @click="deleteConcierto">eliminar</v-btn>
+                <v-btn block color="red darken-3" :dark="!loading" :loading="loading" :disabled="loading" @click="deleteConcierto">eliminar</v-btn>
             </v-card>
         </v-dialog>
 
         <v-dialog v-model="dialogAlertConciertoDeleted" max-width="500">
-            <v-card class="cardDialogAlertConciertoDeleted" dark color="blue darken-3">
+            <v-card class="cardDialogAlertConciertoDeleted" color="grey lighten-3">
                 <p class="subheading">Concierto eliminado correctamente</p>
-                <v-btn block color="grey darken-3" @click="dialogAlertConciertoDeleted = false">aceptar</v-btn>
+                <v-btn block dark color="blue darken-3" @click="dialogAlertConciertoDeleted = false">aceptar</v-btn>
             </v-card>
         </v-dialog>
 

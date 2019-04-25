@@ -57,7 +57,17 @@
     <v-spacer></v-spacer>
     <v-btn color="red darken-3" @click="closeProgramEvent" class="btnCancelar" dark>cancelar</v-btn>
     <v-btn color="blue-grey darken-3" @click="obras.length > 0 ? dialogVistaPrevia = true : ''" class="btnVistaPrevia" dark>vista previa<v-icon class="ml-2">fas fa-eye</v-icon></v-btn>
-    <v-btn color="green darken-3" :loading="loadingBtnSave" @click="savePrograma" class="btnConfirmar" dark>guardar<v-icon class="ml-2">fas fa-save</v-icon></v-btn>
+    <v-btn 
+      color="green darken-3" 
+      :loading="loadingBtnSave" 
+      :disabled="loadingBtnSave" 
+      :dark="!loadingBtnSave"
+      @click="savePrograma" 
+      class="btnConfirmar" 
+    >
+      guardar
+      <v-icon class="ml-2">fas fa-save</v-icon>
+    </v-btn>
 
     <v-dialog v-model="dialogVistaPrevia">
       <previewprograma

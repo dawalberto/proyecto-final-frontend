@@ -16,6 +16,7 @@
         dark
         @click="dialogCreateProgram = true"
         color="blue darken-3"
+        title="Añadir programa"
         >
         <v-icon>add</v-icon>
         </v-btn>

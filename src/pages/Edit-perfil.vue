@@ -160,7 +160,17 @@
                 {{ data.item }}
             </template>
         </v-select>
-        <v-btn @click="updateUser" :disable="loading" :loading="loading" dark color="green darken-3" id="btnUpdate"><v-icon class="mr-3">fas fa-save</v-icon>guardar</v-btn>
+        <v-btn 
+            :loading="loading" 
+            :disabled="loading" 
+            :dark="!loading" 
+            @click="updateUser" 
+            color="green darken-3" 
+            id="btnUpdate"
+        >
+            <v-icon class="mr-3">fas fa-save</v-icon>
+            guardar
+        </v-btn>
     
         <v-dialog v-model="dialogAlertUserUpdated" persistent max-width="500">
             <v-card class="cardDialogAlertUserUpdated">

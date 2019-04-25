@@ -44,7 +44,16 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn block dark color="blue-grey darken-4" @click="login" :disable="loading" :loading="loading">entrar</v-btn>
+                <v-btn 
+                  :loading="loading"
+                  :disabled="loading" 
+                  :dark="!loading" 
+                  @click="login" 
+                  block 
+                  color="blue-grey darken-4" 
+                >
+                  entrar
+                </v-btn>
               </v-card-actions>
             </v-card>
             <p class="subheading mt-3 text-xs-center grey--text">O registrate <a href="#/registro">aquí</a> si no estás registrado</p>

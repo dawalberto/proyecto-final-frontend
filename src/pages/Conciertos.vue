@@ -20,6 +20,7 @@
     dark
     @click="dialogCreateConcierto = true"
     color="blue darken-3"
+    title="Añadir concierto"
     >
       <v-icon>add</v-icon>
     </v-btn>

@@ -57,7 +57,17 @@
     <v-spacer></v-spacer>
     <v-btn color="red darken-3" @click="closeProgramEvent" class="btnCancelar" dark>cancelar</v-btn>
     <v-btn color="blue-grey darken-3" @click="obras.length > 0 ? dialogVistaPrevia = true : ''" class="btnVistaPrevia" dark>vista previa<v-icon class="ml-2">fas fa-eye</v-icon></v-btn>
-    <v-btn color="green darken-3" :loading="loadingBtnUpdate" @click="updateProgram" class="btnConfirmar" dark>actualizar<v-icon class="ml-2">fas fa-sync-alt</v-icon></v-btn>
+    <v-btn 
+      color="green darken-3" 
+      :loading="loadingBtnUpdate"
+      :disabled="loadingBtnUpdate" 
+      :dark="!loadingBtnUpdate"
+      @click="updateProgram" 
+      class="btnConfirmar" 
+    >
+      actualizar
+      <v-icon class="ml-2">fas fa-sync-alt</v-icon>
+    </v-btn>
 
     <v-dialog v-model="dialogVistaPrevia">
       <previewprograma

@@ -4,7 +4,16 @@
             <v-spacer></v-spacer>
             <v-toolbar-items>
             <v-btn dark @click="cancelDialogUpdateConciertoEvent" color="blue-grey darken-3">cancelar</v-btn>
-            <v-btn dark @click="putConcierto" color="green darken-3" :disable="loading" :loading="loading"><v-icon class="mr-2">fas fa-save</v-icon>guardar</v-btn>
+            <v-btn 
+              @click="putConcierto" 
+              color="green darken-3" 
+              :disabled="loading"  
+              :loading="loading"
+              :dark="!loading" 
+            >
+                <v-icon class="mr-2">fas fa-save</v-icon>
+                guardar
+            </v-btn>
             </v-toolbar-items>
         </v-toolbar>
 
