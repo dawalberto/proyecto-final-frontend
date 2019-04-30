@@ -1,29 +1,38 @@
 <template>
     <div>
         <v-progress-linear :indeterminate="true" color="grey darken-3" v-show="pageLoading"></v-progress-linear>
+        <div class="backgroundScreen1"></div>
         <div class="screen1">
             <v-container fluid fill-height>
-                <v-layout align-center justify-center>
+                <v-layout align-center justify-center class="containerContentScreen1">
                     <v-flex xs12>
                         <transition name="slide-fade">
-                            <p class="display-2 greyColorBlueDarken2 font-weight-thin text-xs-center" v-show="!pageLoading">clasicaguitarra.com</p>
+                            <p class="display-2 greyColorBlueDarken1 font-weight-thin text-xs-center" v-show="!pageLoading">clasicaguitarra.com</p>
                         </transition>
                         <transition name="fade">
                             <p class="headline mt-4 greyColorBlueDarken1 font-weight-light text-xs-center" v-show="!pageLoading">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
                         </transition>
                         <transition name="slide-fade-row">
-                            <p class="display-3 mt-4 greyColorBlueDarken1 font-weight-light text-xs-center" v-show="!pageLoading"><a href="#screen2anchor" v-smooth-scroll="{ duration: 1500, offset: -50 }"><v-icon large color="#B0BEC5">fas fa-chevron-down</v-icon></a></p>
+                            <p 
+                            class="display-3 mt-4 greyColorBlueDarken1 font-weight-light text-xs-center" 
+                            :class="conciertosWeek.length <= 0 ? 'displayNone' : ''"
+                            v-show="!pageLoading"
+                            >
+                                <a href="#screen2anchor" v-smooth-scroll="{ duration: 1500, offset: -50 }">
+                                    <v-icon large class="greyColorBlueDarken1">fas fa-chevron-down</v-icon>
+                                </a>
+                            </p>
                         </transition>
                     </v-flex>
                 </v-layout>
             </v-container>
         </div>
-        <div class="screen2" id="screen2anchor">
+        <div class="screen2" id="screen2anchor" :class="conciertosWeek.length <= 0 ? 'displayNone' : ''">
             <v-container fluid fill-height>
                 <v-layout align-center justify-center>
                     <v-flex xs12>
                         <transition name="fade">
-                            <p class="headline greyColorBlueDarken1 font-weight-light text-xs-center" v-show="!pageLoading">Conciertos de esta semana</p>
+                            <p class="headline greyColorBlueDarken2 font-weight-light text-xs-center" v-show="!pageLoading">Conciertos de esta semana</p>
                         </transition>
                         <transition name="fadeConcierto">
                             <div class="containerConciertos" v-show="!pageLoading">
@@ -139,10 +148,30 @@ export default {
         padding-bottom: 6rem;
     }
     .greyColorBlueDarken1 {
-        color: #546E7A;
+        color: rgba(245, 245, 245, 0.897);
     }
     .greyColorBlueDarken2 {
-        color: #455A64;
+        color: #546E7A;
+    }
+    .backgroundScreen1 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        min-height: 100vh;
+        background-image: url("https://jonathanestevearanda.files.wordpress.com/2018/03/jonathan-esteve-aranda-4.jpg?w=1180");
+        /* background-image: url("https://cdn.pixabay.com/photo/2015/10/12/15/13/man-984307_960_720.jpg"); */
+	    filter: blur(6px);
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .containerContentScreen1 {
+        z-index: 1;
+    }
+    .displayNone {
+        display: none;
     }
     a {
         text-decoration: none;
