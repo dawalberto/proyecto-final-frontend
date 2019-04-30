@@ -2,6 +2,7 @@
     <div>
         <v-progress-linear :indeterminate="true" color="grey darken-3" v-show="pageLoading"></v-progress-linear>
         <div class="backgroundScreen1"></div>
+        <!-- <div class="backgroundColor"></div> -->
         <div class="screen1">
             <v-container fluid fill-height>
                 <v-layout align-center justify-center class="containerContentScreen1">
@@ -73,9 +74,11 @@ export default {
                 .then((res) => {
                     this.conciertosWeek =  this.getConciertosNotFinished(res.data.conciertos)
                     this.pageLoading = false
+                    this.$store.commit('homeLoaded')
                 })
                 .catch((err) => {
                     console.log(err.response)
+                    this.$store.commit('homeLoaded')
                     this.pageLoading = false
                 })
         },
@@ -173,6 +176,15 @@ export default {
     .displayNone {
         display: none;
     }
+    /* .backgroundColor {
+        position: fixed;
+        z-index: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #263238;
+    } */
     a {
         text-decoration: none;
     }

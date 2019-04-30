@@ -92,5 +92,9 @@ export default new Router({
       name: 'page404',
       component: () => import('./pages/404.vue')
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    // page scroll to top for all route navigations
+    return { x: 0, y: 0 }
+  }
 })

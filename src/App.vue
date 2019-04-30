@@ -2,21 +2,28 @@
   <v-app>
     <vueNav id="vueNavId"></vueNav>
     <router-view :key="$route.fullPath" id="router"></router-view>
+    <vueFooter v-show="homeLoaded"></vueFooter>
   </v-app>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import vueNav from '@/components/nav'
+import vueFooter from '@/components/footer'
 
 export default {
   name: 'app',
-  components: { vueNav }
+  components: { vueNav, vueFooter },
+  computed: {
+    ...mapState(['homeLoaded'])
+  }
 }
 </script>
 
 <style>
   #router {
     padding: 1rem;
+    min-height: 100vh;
   }
   #vueNavId {
     position: -webkit-sticky;

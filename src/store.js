@@ -11,7 +11,8 @@ export default new Vuex.Store({
     // urlBackend: 'http://192.168.56.101:3000',
     user: {},
     login: false,
-    token: null
+    token: null,
+    homeLoaded: false
   },
   getters: {
     userLoginStore: (state) => {
@@ -47,6 +48,9 @@ export default new Vuex.Store({
       state.user = {},
       state.login = false,
       state.token = null
+    },
+    homeLoaded: (state) => {
+      state.homeLoaded = true
     }
   },
   actions: {
