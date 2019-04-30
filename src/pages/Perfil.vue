@@ -169,18 +169,26 @@ export default {
             this.user.ape = user.apellidos
             this.user.sexo = user.sexo
 
-            let fechaNac = new Date(user.fechaNac)
-            this.user.fechaNac = fechaNac.toLocaleDateString()
+            if (user.fechaNac !== null && user.fechaNac !== undefined && user.fechaNac !== '') {
+                let fechaNac = new Date(user.fechaNac)
+                this.user.fechaNac = fechaNac.toLocaleDateString()
+            }
 
             this.user.nacionalidad = user.nacionalidad
             this.user.guitarra = user.guitarra
-            this.user.biografia = this.formatBiografia(user.biografia)
+
+            if (user.biografia !== null && user.biografia !== undefined && user.biografia !== '') {
+                this.user.biografia = this.formatBiografia(user.biografia)
+            }
+
             this.user.webpage = user.webpage
             this.user.redes = user.redes
-            let self = this
-            this.$store.dispatch('getImage', user.img)
-                .then(img => self.user.img = img)
-                .catch(err => console.log(err))
+
+            if (!user.hasOwnProperty('img') || user.img === null || user.img === undefined || user.img === '') {
+                this.user.img = require('@/assets/no-image.png')
+            } else {
+                this.user.img = user.img
+            }
         },
         getRed(red) {
             for (let r of this.user.redes) {

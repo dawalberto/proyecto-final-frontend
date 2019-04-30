@@ -83,7 +83,7 @@ export default {
     props: ['conciertoObj', 'paramId'],
     data() {
         return {
-            imgUser: null,
+            imgUser: require('@/assets/no-image.png'),
             showDescription: false,
             urlToUser: `#/perfil/${ this.conciertoObj.usuario._id }`,
             dialogVistaPreviaProgram: false,
@@ -95,9 +95,9 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('getImage', this.conciertoObj.usuario.img)
-            .then(img => this.imgUser = img)
-            .catch(err => console.log('ERROR getImage previewConcierto.vue', err))
+        if (this.conciertoObj.usuario.hasOwnProperty('img') && this.conciertoObj.usuario.img !== null && this.conciertoObj.usuario.img !== undefined && this.conciertoObj.usuario.img !== '') {
+            this.imgUser = this.conciertoObj.usuario.img
+        }
     },
     computed: {
         ...mapState(['login']),

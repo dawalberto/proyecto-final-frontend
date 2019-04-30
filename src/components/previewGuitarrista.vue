@@ -23,14 +23,14 @@ export default {
     props: ['guitarristaProp'],
     data() {
         return {
-            imgUser: null,
+            imgUser: require('@/assets/no-image.png'),
             urlToUser: `#/perfil/${ this.guitarristaProp._id }`,
         }
     },
     mounted() {
-        this.$store.dispatch('getImage', this.guitarristaProp.img)
-            .then(img => this.imgUser = img)
-            .catch(err => console.log('ERROR getImage previewConcierto.vue', err))
+        if (this.guitarristaProp.hasOwnProperty('img') && this.guitarristaProp.img !== null && this.guitarristaProp.img !== undefined && this.guitarristaProp.img !== '') {
+            this.imgUser = this.guitarristaProp.img
+        }
     },
     filters: {
         shortBiografia(value) {

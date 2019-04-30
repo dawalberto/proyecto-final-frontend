@@ -216,7 +216,7 @@ export default {
             dialogImg: false,
             dialogRedes: false,
             croppa: {},
-            imgUrl: '',
+            imgUrl: null,
             mobile: true,
             itemsRedes: ['Facebook', 'Instagram', 'Twitter', 'Flickr', 'Snapchat', 'Tumblr'],
             enlaceRed: null,
@@ -305,14 +305,19 @@ export default {
             this.user.ape = user.apellidos
             this.user.sexo = user.sexo
             this.user.nacionalidad = user.nacionalidad
-            this.datePicker = user.fechaNac.substr(0, 10)
+
+            if (user.fechaNac !== null && user.fechaNac !== undefined && user.fechaNac !== '') {
+                this.datePicker = user.fechaNac.substr(0, 10)
+            }
+
             this.user.guitarra = user.guitarra
             this.user.biografia = user.biografia
 
-            let self = this
-            this.$store.dispatch('getImage', user.img)
-                .then(img => self.imgUrl = img)
-                .catch(err => console.log('ERROR getImage Edit-perfil.vue', err))
+            if (!user.hasOwnProperty('img') || user.img === null || user.img === undefined || user.img === '') {
+                this.imgUrl = require('@/assets/no-image.png')
+            } else {
+                this.imgUrl = user.img
+            }
 
             this.getUserRedes(user)
             this.user.webpage = user.webpage
