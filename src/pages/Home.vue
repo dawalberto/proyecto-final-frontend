@@ -13,25 +13,23 @@
             <v-container fluid fill-height>
                 <v-layout align-center justify-center class="containerContentScreen1">
                     <v-flex xs12>
-                        <div class="contentText">
-                            <transition name="slide-fade">
-                                <p class="display-1 greyColorBlueDarken1 font-weight-thin text-xs-center" v-show="!pageLoading">clasicaguitarra.com</p>
-                            </transition>
-                            <transition name="fade">
-                                <p class="headline mt-4 greyColorBlueDarken1 font-weight-light text-xs-center" v-show="!pageLoading">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
-                            </transition>
-                            <transition name="slide-fade-row">
-                                <p 
-                                class="display-3 mt-4 greyColorBlueDarken1 font-weight-light text-xs-center" 
-                                :class="conciertosWeek.length <= 0 ? 'displayNone' : ''"
-                                v-show="!pageLoading"
-                                >
-                                    <a href="#screen2anchor" v-smooth-scroll="{ duration: 1500, offset: -50 }">
-                                        <v-icon large class="greyColorBlueDarken1">fas fa-chevron-down</v-icon>
-                                    </a>
-                                </p>
-                            </transition>
-                        </div>
+                        <transition name="slide-fade">
+                            <p class="display-1 greyColorBlueDarken1 font-weight-thin text-xs-center" v-show="!pageLoading"><span>clasicaguitarra.com</span></p>
+                        </transition>
+                        <transition name="fade">
+                            <p class="headline mt-4 greyColorBlueDarken1 font-weight-light text-xs-center contentText" v-show="!pageLoading">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
+                        </transition>
+                        <transition name="slide-fade-row">
+                            <p 
+                            class="display-1 mt-2 greyColorBlueDarken1 font-weight-light text-xs-center" 
+                            :class="conciertosWeek.length <= 0 ? 'displayNone' : ''"
+                            v-show="!pageLoading"
+                            >
+                                <a href="#screen2anchor" v-smooth-scroll="{ duration: 1500, offset: -50 }">
+                                    <span><v-icon large class="greyColorBlueDarken1">fas fa-chevron-down</v-icon></span>
+                                </a>
+                            </p>
+                        </transition>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -186,15 +184,6 @@ export default {
     .screen1 {
         position: relative;
     }
-    .contentText {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        /* background: rgba(0, 0, 0, 0.5); */
-        width: 100%;
-        padding: 2rem;
-        margin-bottom: 7.6rem;
-    }
     .hiddeVideo {
         display: none;
     }
@@ -217,6 +206,13 @@ export default {
         }
         .backgroundScreen1 {
             background-image: none;
+        }
+        span, .contentText {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+        }
+        p {
+            margin: 3rem;
         }
     }
 </style>
