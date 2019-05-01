@@ -37,7 +37,7 @@
         </div>
         <div class="screen2" id="screen2anchor" :class="conciertosWeek.length <= 0 ? 'displayNone' : ''">
             <v-container fluid fill-height>
-                <v-layout align-center justify-center>
+                <v-layout align-center justify-center class="zindex3">
                     <v-flex xs12>
                         <transition name="fade">
                             <p class="headline greyColorBlueDarken2 font-weight-light text-xs-center" v-show="!pageLoading">Conciertos de esta semana</p>
@@ -219,13 +219,16 @@ export default {
             left: 0;
             top: 0;
             min-width: 100%;
-            min-height: 100vh;
+            min-height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
             background-attachment: fixed;
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
             z-index: 2;
+        }
+        .greyColorBlueDarken2 {
+            color: rgba(245, 245, 245, 0.897);
         }
         span, .contentText {
             padding: 2rem;
