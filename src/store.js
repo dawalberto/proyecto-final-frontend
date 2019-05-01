@@ -12,7 +12,7 @@ export default new Vuex.Store({
     user: {},
     login: false,
     token: null,
-    homeLoaded: false
+    pageIsMounted: false
   },
   getters: {
     userLoginStore: (state) => {
@@ -35,8 +35,8 @@ export default new Vuex.Store({
       state.login = false,
       state.token = null
     },
-    homeLoaded: (state) => {
-      state.homeLoaded = true
+    pageIsMounted: (state) => {
+      state.pageIsMounted = true
     }
   }
 })

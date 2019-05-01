@@ -147,7 +147,8 @@ export default {
         this.getUser()
     },
     mounted() {
-        this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false        
+        this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false   
+        this.$store.commit('pageIsMounted')
     },
     computed: {
         getGenero() {

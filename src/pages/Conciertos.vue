@@ -65,6 +65,7 @@ export default {
   },
   mounted() {
     this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
+    this.$store.commit('pageIsMounted')        
   },
   computed: {
     ...mapState(['login']),

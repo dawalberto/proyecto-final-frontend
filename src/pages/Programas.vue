@@ -48,6 +48,7 @@ export default {
     },
     mounted() {
         this.getProgramas()
+        this.$store.commit('pageIsMounted')
     },
     computed: {
         ...mapGetters(['userLoginStore'])

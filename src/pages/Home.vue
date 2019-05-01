@@ -73,6 +73,7 @@ export default {
     },
     mounted() {
         this.getConciertosThisWeek()
+        this.$store.commit('pageIsMounted')
     },
     methods: {
         getConciertosThisWeek() {
@@ -80,11 +81,9 @@ export default {
                 .then((res) => {
                     this.conciertosWeek =  this.getConciertosNotFinished(res.data.conciertos)
                     this.pageLoading = false
-                    this.$store.commit('homeLoaded')
                 })
                 .catch((err) => {
                     console.log(err.response)
-                    this.$store.commit('homeLoaded')
                     this.pageLoading = false
                 })
         },

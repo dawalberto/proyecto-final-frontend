@@ -79,8 +79,8 @@ export default {
           showPassword: false
         }
     },
-    computed: {
-
+    mounted() {
+      this.$store.commit('pageIsMounted')      
     },
     methods: {
         login () {

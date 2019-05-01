@@ -2,7 +2,7 @@
   <v-app>
     <vueNav id="vueNavId"></vueNav>
     <router-view :key="$route.fullPath" id="router"></router-view>
-    <vueFooter v-show="homeLoaded"></vueFooter>
+    <vueFooter v-show="pageIsMounted"></vueFooter>
   </v-app>
 </template>
 
@@ -15,7 +15,7 @@ export default {
   name: 'app',
   components: { vueNav, vueFooter },
   computed: {
-    ...mapState(['homeLoaded'])
+    ...mapState(['pageIsMounted'])
   }
 }
 </script>

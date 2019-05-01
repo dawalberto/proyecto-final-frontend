@@ -32,6 +32,9 @@ export default {
   created () {
     this.getGuitarristas()
   },
+  mounted() {
+    this.$store.commit('pageIsMounted')    
+  },
   methods: {
     getGuitarristas () {
       if (this.toSearch) {

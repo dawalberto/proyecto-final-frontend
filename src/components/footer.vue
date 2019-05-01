@@ -58,9 +58,6 @@ export default {
         padding: 2rem;
         justify-content: center;
     }
-    .newsletter {
-        padding-right: 8rem;
-    }
     .separatorHr {
         border: none;
         margin: 0 6rem;
@@ -89,6 +86,9 @@ export default {
         }
         .col1-3 {
             grid-column: 1 / 4;
+        }
+        .newsletter {
+            padding-right: 8rem;
         }
     }
 </style>

@@ -116,6 +116,9 @@ export default {
           showPasswordRepeat: false
         }
     },
+    mounted() {
+      this.$store.commit('pageIsMounted')      
+    },
     methods: {
         registrar () {
           this.msgRegistroEmail = null
