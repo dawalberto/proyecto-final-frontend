@@ -2,6 +2,7 @@
     <div>
         <v-progress-linear :indeterminate="true" color="grey darken-3" v-show="pageLoading"></v-progress-linear>
         <div class="backgroundScreen1"></div>
+        <div class="backgroundScreen1-1"></div>
 
         <video autoplay muted loop class="backgroundScreen1 hiddeVideo">
             <source src="@/assets/video/background-guitar.mp4" type="video/mp4">
@@ -9,7 +10,7 @@
         </video>
 
         <!-- <div class="backgroundColor"></div> -->
-        <div class="screen1">
+        <div class="screen1 zindex3">
             <v-container fluid fill-height>
                 <v-layout align-center justify-center class="containerContentScreen1">
                     <v-flex xs12>
@@ -174,6 +175,9 @@ export default {
         background-repeat: no-repeat;
         background-size: cover;
     }
+    .backgroundScreen1-1 {
+        display: none;
+    }
     .containerContentScreen1 {
         z-index: 1;
     }
@@ -185,6 +189,9 @@ export default {
     }
     .hiddeVideo {
         display: none;
+    }
+    .zindex3 {
+        z-index: 3;
     }
     /* .backgroundColor {
         position: fixed;
@@ -206,8 +213,21 @@ export default {
         .backgroundScreen1 {
             background-image: none;
         }
+        .backgroundScreen1-1 {
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            min-width: 100%;
+            min-height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            z-index: 2;
+        }
         span, .contentText {
-            background: rgba(0, 0, 0, 0.5);
             padding: 2rem;
         }
         p {

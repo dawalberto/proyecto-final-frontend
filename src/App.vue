@@ -2,7 +2,7 @@
   <v-app>
     <vueNav id="vueNavId"></vueNav>
     <router-view :key="$route.fullPath" id="router"></router-view>
-    <vueFooter v-show="pageIsMounted"></vueFooter>
+    <vueFooter v-show="pageIsMounted" id="vueFooterId"></vueFooter>
   </v-app>
 </template>
 
@@ -29,6 +29,9 @@ export default {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
+    z-index: 10;
+  }
+  #vueFooterId {
     z-index: 10;
   }
 
