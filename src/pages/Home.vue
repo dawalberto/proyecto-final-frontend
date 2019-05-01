@@ -2,28 +2,36 @@
     <div>
         <v-progress-linear :indeterminate="true" color="grey darken-3" v-show="pageLoading"></v-progress-linear>
         <div class="backgroundScreen1"></div>
+
+        <video autoplay muted loop class="backgroundScreen1 hiddeVideo">
+            <source src="@/assets/video/background-guitar.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+
         <!-- <div class="backgroundColor"></div> -->
         <div class="screen1">
             <v-container fluid fill-height>
                 <v-layout align-center justify-center class="containerContentScreen1">
                     <v-flex xs12>
-                        <transition name="slide-fade">
-                            <p class="display-2 greyColorBlueDarken1 font-weight-thin text-xs-center" v-show="!pageLoading">clasicaguitarra.com</p>
-                        </transition>
-                        <transition name="fade">
-                            <p class="headline mt-4 greyColorBlueDarken1 font-weight-light text-xs-center" v-show="!pageLoading">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
-                        </transition>
-                        <transition name="slide-fade-row">
-                            <p 
-                            class="display-3 mt-4 greyColorBlueDarken1 font-weight-light text-xs-center" 
-                            :class="conciertosWeek.length <= 0 ? 'displayNone' : ''"
-                            v-show="!pageLoading"
-                            >
-                                <a href="#screen2anchor" v-smooth-scroll="{ duration: 1500, offset: -50 }">
-                                    <v-icon large class="greyColorBlueDarken1">fas fa-chevron-down</v-icon>
-                                </a>
-                            </p>
-                        </transition>
+                        <div class="contentText">
+                            <transition name="slide-fade">
+                                <p class="display-1 greyColorBlueDarken1 font-weight-thin text-xs-center" v-show="!pageLoading">clasicaguitarra.com</p>
+                            </transition>
+                            <transition name="fade">
+                                <p class="headline mt-4 greyColorBlueDarken1 font-weight-light text-xs-center" v-show="!pageLoading">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
+                            </transition>
+                            <transition name="slide-fade-row">
+                                <p 
+                                class="display-3 mt-4 greyColorBlueDarken1 font-weight-light text-xs-center" 
+                                :class="conciertosWeek.length <= 0 ? 'displayNone' : ''"
+                                v-show="!pageLoading"
+                                >
+                                    <a href="#screen2anchor" v-smooth-scroll="{ duration: 1500, offset: -50 }">
+                                        <v-icon large class="greyColorBlueDarken1">fas fa-chevron-down</v-icon>
+                                    </a>
+                                </p>
+                            </transition>
+                        </div>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -148,7 +156,7 @@ export default {
     .screen1, .screen2 {
         width: 100%;
         height: 100vh;
-        padding-bottom: 6rem;
+        /* padding-bottom: 6rem; */
     }
     .greyColorBlueDarken1 {
         color: rgba(245, 245, 245, 0.897);
@@ -160,11 +168,10 @@ export default {
         position: absolute;
         left: 0;
         top: 0;
-        width: 100%;
+        min-width: 100%;
         min-height: 100vh;
-        background-image: url("https://jonathanestevearanda.files.wordpress.com/2018/03/jonathan-esteve-aranda-4.jpg?w=1180");
-        /* background-image: url("https://cdn.pixabay.com/photo/2015/10/12/15/13/man-984307_960_720.jpg"); */
-	    filter: blur(6px);
+        background-image: url("../assets/imgs/man.jpg");
+	    filter: grayscale(60%);
         background-attachment: fixed;
         background-position: center;
         background-repeat: no-repeat;
@@ -174,6 +181,21 @@ export default {
         z-index: 1;
     }
     .displayNone {
+        display: none;
+    }
+    .screen1 {
+        position: relative;
+    }
+    .contentText {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        /* background: rgba(0, 0, 0, 0.5); */
+        width: 100%;
+        padding: 2rem;
+        margin-bottom: 7.6rem;
+    }
+    .hiddeVideo {
         display: none;
     }
     /* .backgroundColor {
@@ -187,5 +209,14 @@ export default {
     } */
     a {
         text-decoration: none;
+    }
+
+    @media (min-width: 960px) {
+        .hiddeVideo {
+            display: block;
+        }
+        .backgroundScreen1 {
+            background-image: none;
+        }
     }
 </style>

@@ -8,7 +8,7 @@
             >
                 <img :src="user.img" alt="" loading="lazy">
             </v-avatar>
-            <p class="display-3 font-weight-thin greyColorBlueDarken2">{{ user.nom }} {{ user.ape }}</p>
+            <p class="font-weight-thin greyColorBlueDarken2" :class="mobile ? 'display-1 mt-2' : 'display-2 mt-1'">{{ user.nom }} {{ user.ape }}</p>
             <hr class="hrColor">
         </div>
          
@@ -138,11 +138,16 @@ export default {
                 img: null,
                 redes: []
             },
-            urlToConciertosUser: `#/conciertos/${ this.$route.params.id }`
+            urlToConciertosUser: `#/conciertos/${ this.$route.params.id }`,
+            breakpoint: this.$vuetify.breakpoint,
+            mobile: true
         }
     },
     created() {
         this.getUser()
+    },
+    mounted() {
+        this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false        
     },
     computed: {
         getGenero() {
@@ -246,7 +251,8 @@ export default {
         margin-top: 6rem;
     }
     .hrColor {
-        background-image: linear-gradient(90deg, #78909C, transparent);
+        /* background-image: linear-gradient(90deg, #78909C, transparent); */
+        background-color: lightslategray;
         border: 0;
         height: 1px;
     }

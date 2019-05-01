@@ -14,6 +14,7 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-text-field
+        v-show="!mobile"
         v-model="toSearch"
         class="mr-4 ml-2 mt-1"
         solo
@@ -59,8 +60,25 @@
         <v-toolbar-side-icon class="hidden-md-and-up" @click="drawer = !drawer"></v-toolbar-side-icon>
     </v-toolbar>
 
-    <v-navigation-drawer v-model="drawer" class="brown darken-2" app right disable-resize-watcher dark>
+    <v-navigation-drawer v-model="drawer" class="blue-grey darken-4" app right disable-resize-watcher dark>
         <v-list>
+            <v-list-tile>
+                <v-list-tile-content>
+                    <v-text-field
+                    v-model="toSearch"
+                    class="mr-4 ml-2 mt-4"
+                    solo
+                    color="white"
+                    :label="labelSearch"
+                    append-outer-icon="fas fa-search"
+                    :append-icon="icon"
+                    @click:append-outer="search"
+                    @click:append="changeIcon"
+                    @keyup.enter="search"
+                    >
+                    </v-text-field>
+                </v-list-tile-content>
+            </v-list-tile>
             <v-list-tile v-if="!userLogin">
                 <v-list-tile-content><v-btn flat to="/login"><v-icon class="mr-3">fas fa-sign-in-alt</v-icon>entrar</v-btn></v-list-tile-content>
             </v-list-tile>
