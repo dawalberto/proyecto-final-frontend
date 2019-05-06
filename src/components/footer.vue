@@ -17,9 +17,10 @@
             </div>
         </div>
         <div class="section2 mt-4">
-            <p class="col1 text-xs-center font-weight-light"><v-icon class="mr-2" dark>fas fa-guitar</v-icon>GUITARRISTAS</p>
-            <p class="col2 text-xs-center font-weight-light"><v-icon class="mr-2" dark>fas fa-music</v-icon>CONCIERTOS</p>
-            <p class="col3 text-xs-center font-weight-light"><v-icon class="mr-2" dark>fas fa-sign-in-alt</v-icon>LOGIN</p>
+            <a href="#/" class="linksMenu col1-3" style="margin-left: auto; margin-right: auto;"><img src="@/assets/logo-proyecto-white.png" class="logo" width="80" height="80" alt="Logo clasicaguitarra.com"></a>
+            <a href="#/guitarristas" class="col1 linksMenu"><p class="text-xs-center font-weight-light"><v-icon class="mr-2" dark>fas fa-guitar</v-icon>GUITARRISTAS</p></a>
+            <a href="#/conciertos" class="col2 linksMenu"><p class="text-xs-center font-weight-light"><v-icon class="mr-2" dark>fas fa-music</v-icon>CONCIERTOS</p></a>
+            <a href="#/login" class="col3 linksMenu"><p class="text-xs-center font-weight-light"><v-icon class="mr-2" dark>fas fa-sign-in-alt</v-icon>LOGIN</p></a>
             <hr class="separatorHr col1-3">
             <p class="col1 text-xs-center font-weight-light"><a href="">Terms of Use</a> <a href="" class="ml-2">Privavy Policy</a></p>
             <p class="col2 text-xs-center font-weight-light">&copy; Copyright clasicaguitarra.com 2019</p>
@@ -63,6 +64,15 @@ export default {
         margin: 0 6rem;
         background-color: #B0BEC5;
         height: 1px;
+    }
+    .linksMenu {
+        color: white;
+    }
+    .logo {
+        align-self: center;
+    }
+    .section1 {
+        background-color: #37474F;
     }
     a {
         text-decoration: none;
