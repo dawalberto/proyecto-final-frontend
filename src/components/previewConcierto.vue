@@ -1,5 +1,9 @@
 <template>
     <v-card hover width="100%" id="card" :class="[conciertoDeleted ? 'deleted' : '']" class="cursorNormal">
+        <div v-show="!ownConcierto" :class="conciertoFinished ? 'classConciertoFinished': 'deleted'">
+            <p class="headline">FINALIZADO</p>
+        </div>
+
         <v-img
             id="imgCard"
             :src="require('@/assets/logo-proyecto.png')"
@@ -91,13 +95,16 @@ export default {
             dialogAlertConciertoDeleted: false,
             loading: false,
             conciertoDeleted: false,
-            dialogUpdateConcierto: false
+            dialogUpdateConcierto: false,
+            conciertoFinished: false,
         }
     },
     mounted() {
         if (this.conciertoObj.usuario.hasOwnProperty('img') && this.conciertoObj.usuario.img !== null && this.conciertoObj.usuario.img !== undefined && this.conciertoObj.usuario.img !== '') {
             this.imgUser = this.conciertoObj.usuario.img
         }
+
+        this.isConciertoFinished()
     },
     computed: {
         ...mapState(['login']),
@@ -131,6 +138,14 @@ export default {
         afterUpdateConcierto() {
             this.dialogUpdateConcierto = false
             this.$router.push('/conciertos')
+        },
+        isConciertoFinished() {
+            let hoy = new Date()
+            hoy = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate(), 0, 0, 0);
+
+            if (new Date(this.conciertoObj.fecha) <hoy) {
+                this.conciertoFinished = true
+            }
         }
     }
 }
@@ -179,6 +194,18 @@ export default {
     }
     .cursorNormal {
         cursor: context-menu;
+    }
+    .classConciertoFinished {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: grid;
+        justify-content: center;
+        align-content: center;
+        color: white;
     }
     hr {
         margin-bottom: 1rem;

@@ -83,11 +83,7 @@ export default {
         axios.get(`${ this.$store.state.urlBackend }/conciertos/usuarios/${ this.paramId }`)
           .then((res) => {
             if (res.data.ok) {
-              if (this.login && this.paramId === this.userLoginStore._id) {
-                this.conciertos = res.data.conciertos
-              } else {
-                this.conciertos = this.getConciertosNotFinished(res.data.conciertos)    
-              }
+              this.conciertos = this.firstConciertosNotFinished(res.data.conciertos)
               this.showMsg = false
             } else {
               this.showMsg = true
@@ -135,6 +131,18 @@ export default {
 
         return dateConcierto >= hoy
       })
+    },
+    firstConciertosNotFinished(conciertos) {
+      let conciertosNotFinished = this.getConciertosNotFinished(conciertos)
+      let conciertosFinished = conciertos.filter(concierto => {
+        let today = new Date()
+        let hoy = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
+        let dateConcierto = new Date(concierto.fecha)
+
+        return dateConcierto < hoy
+      })
+
+      return conciertosNotFinished.concat(conciertosFinished)
     }
   }
 }
