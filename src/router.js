@@ -88,6 +88,11 @@ export default new Router({
       }
     },
     {
+      path: '/screen2anchor',
+      name: 'screen2anchor',
+      redirect: { name: 'home' }
+    },
+    {
       path: '/*',
       name: 'page404',
       component: () => import('./pages/404.vue')

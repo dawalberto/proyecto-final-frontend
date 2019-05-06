@@ -1,14 +1,15 @@
 <template>
     <div>
         <v-progress-linear :indeterminate="true" color="grey darken-3" v-show="pageLoading"></v-progress-linear>
-        <div class="backgroundScreen1"></div>
-        <div class="backgroundAllScreen"></div>
+        <div class="backgroundShadow"></div>
         <div class="showInDesktopHiddeInMobile backgroundColor" :class="conciertosWeek.length <= 0 ? '' : 'bgWhite'"></div>
 
-        <video autoplay muted loop class="backgroundScreen1 showInDesktopHiddeInMobile">
-            <source src="@/assets/video/background-guitar.mp4" type="video/mp4">
-            Your browser does not support HTML5 video.
-        </video>
+        <div class="backgroundScreen1">
+            <video autoplay muted loop class="backgroundScreen1 showInDesktopHiddeInMobile">
+                <source src="@/assets/video/background-guitar.mp4" type="video/mp4">
+                Your browser does not support HTML5 video.
+            </video>
+        </div>
 
         <div class="screen1 zindex3">
             <v-container fluid fill-height>
@@ -174,6 +175,7 @@ export default {
         background-repeat: no-repeat;
         background-size: cover;
         z-index: 1;
+        overflow:hidden;
     }
     .containerContentScreen1 {
         z-index: 1;
@@ -184,7 +186,7 @@ export default {
     .screen1 {
         position: relative;
     }
-    .showInDesktopHiddeInMobile, .backgroundAllScreen {
+    .showInDesktopHiddeInMobile, .backgroundShadow {
         display: none;
     }
     .zindex3 {
@@ -222,13 +224,13 @@ export default {
         .backgroundScreen1 {
             background-image: none;
         }
-        .backgroundAllScreen {
+        .backgroundShadow {
             display: block;
             position: absolute;
             left: 0;
             top: 0;
             min-width: 100%;
-            min-height: 100%;
+            height: 100vh;
             background-color: rgba(0, 0, 0, 0.5);
             background-attachment: fixed;
             background-position: center;
@@ -237,7 +239,7 @@ export default {
             z-index: 2;
         }
         .greyColorBlueDarken2 {
-            color: rgba(245, 245, 245, 0.897);
+            color: #37474F;
         }
         span, .contentText {
             padding: 2rem;
