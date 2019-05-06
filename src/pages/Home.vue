@@ -48,7 +48,7 @@
                                 v-for="concierto of conciertosWeek"
                                 :key="concierto._id"
                                 :conciertoObj="concierto"
-                                class="conciertosThisWeek"
+                                class="conciertosThisWeek widthCards"
                                 ></previewConcierto>
                             </div>
                         </transition>
@@ -206,6 +206,10 @@ export default {
     }
     .bgWhite {
         background-color: white;
+    }
+    .widthCards {
+        max-width: 400px;
+        min-width: 320px;
     }
     a {
         text-decoration: none;
