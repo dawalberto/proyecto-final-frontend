@@ -5,12 +5,17 @@
                 class="imgUser elevation-20 lessOpacity"
                 color="#EEEEEE" 
                 size="200"
+                @click="dialogImg = true"
             >
                 <img :src="user.img" alt="" loading="lazy">
             </v-avatar>
             <p class="font-weight-thin greyColorBlueDarken2" :class="mobile ? 'display-1 mt-2' : 'display-2 mt-1'">{{ user.nom }} {{ user.ape }}</p>
             <hr class="hrColor">
         </div>
+
+         <v-dialog v-model="dialogImg" max-width="400">
+            <img :src="user.img" alt="" loading="lazy">
+         </v-dialog>
          
          <div class="detallesUser">
             <div v-if="user.guitarra || user.nacionalidad || user.webpage">
@@ -140,7 +145,8 @@ export default {
             },
             urlToConciertosUser: `#/conciertos/${ this.$route.params.id }`,
             breakpoint: this.$vuetify.breakpoint,
-            mobile: true
+            mobile: true,
+            dialogImg: false
         }
     },
     created() {
@@ -265,6 +271,9 @@ export default {
     }
     .lessOpacity {
         opacity: 0.9;
+    }
+    .imgUser {
+        cursor: pointer;
     }
     a {
         text-decoration: none;
