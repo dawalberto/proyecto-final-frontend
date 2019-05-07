@@ -22,6 +22,11 @@ export default new Router({
       component: () => import('./pages/Guitarristas.vue')
     },
     {
+      path: '/guitarristas/:id/unsuscribe',
+      name: 'unsuscribe-user',
+      component: () => import('./pages/Unsuscribe.vue')
+    },
+    {
       path: '/conciertos',
       name: 'conciertos',
       component: () => import('./pages/Conciertos.vue')
@@ -86,6 +91,11 @@ export default new Router({
           next('/login')
         }
       }
+    },
+    {
+      path: '/unsuscribe',
+      name: 'unsuscribe-newsletter',
+      component: () => import('./pages/Unsuscribe.vue')
     },
     {
       path: '/screen2anchor',
