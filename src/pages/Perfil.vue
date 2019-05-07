@@ -66,8 +66,33 @@
             <p class="greyColorBlueDarken1 subheading" v-html="user.biografia"></p>
         </div>
 
+        <div class="suscriptores">
+            <p class="headline font-weight-light text-xs-left greyColorBlueDarken2">Hazte suscriptor de {{ user.nom }} y enteraté de todos sus conciertos</p>
+            <v-text-field
+            v-model="emailSuscriptor"
+            :error-messages="msgEmail"
+            label="Email"
+            ></v-text-field>
+            <v-btn 
+            block color="blue-grey darken-3" 
+            :loading="loadidngBtnSuscribir" 
+            :disabled="loadidngBtnSuscribir" 
+            :dark="!loadidngBtnSuscribir" 
+            @click="suscribir">
+            suscribirme
+            </v-btn>
+        </div>
+
+        <v-dialog v-model="dialogSuscriptor" persistent max-width="500">
+            <v-card class="dialogSuscriptor" color="grey lighten-3">
+                <p class="subheading">¡Enhorabuena! ahora eres suscriptor de {{ user.nom }}</p>
+                <p class="subheading">Ahora cada vez que {{ user.nom }} cree un concierto se te notificará por email.</p>
+                <v-btn block dark color="blue darken-3" @click="dialogSuscriptor = false">aceptar</v-btn>
+            </v-card>
+        </v-dialog>
+
         <div class="conciertos" v-if="user.nom">
-            <p class="headline font-weight-light text-xs-left greyColorBlueDarken2">No te pierdas ningún concierto de {{ user.nom }}</p>
+            <p class="headline font-weight-light text-xs-center greyColorBlueDarken2">Todos los conciertos de {{ user.nom }}</p>
             <a :href="urlToConciertosUser">
                 <v-btn block dark color="blue-grey darken-3"><v-icon class="mr-2">fas fa-music</v-icon>conciertos</v-btn>
             </a>
@@ -125,6 +150,7 @@
 
 <script>
 import axios from 'axios'
+import qs from 'qs'
 
 export default {
     name: 'perfil',
@@ -146,7 +172,11 @@ export default {
             urlToConciertosUser: `#/conciertos/${ this.$route.params.id }`,
             breakpoint: this.$vuetify.breakpoint,
             mobile: true,
-            dialogImg: false
+            dialogImg: false,
+            msgEmail: null,
+            emailSuscriptor: null,
+            dialogSuscriptor: false,
+            loadidngBtnSuscribir: false
         }
     },
     created() {
@@ -219,6 +249,37 @@ export default {
         },
         formatBiografia(biografia) {
             return biografia.replace(/(\n)/g, '<br/>')
+        },
+        validateEmail(email) {
+            if (this.emailSuscriptor === null || this.emailSuscriptor === undefined || this.emailSuscriptor === '') {
+                this.msgEmail = 'El email es obligatório'
+                return false
+            }
+            this.msgEmail = null
+
+            let regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            let res = regEx.test(String(email).toLowerCase())
+            res ? this.msgEmail = null : this.msgEmail = 'El email no es válido'
+            return res
+        },
+        suscribir() {
+            if ( this.validateEmail(this.emailSuscriptor) ) {
+
+                this.loadidngBtnSuscribir = true
+                let email = { email: this.emailSuscriptor }
+
+                axios.post(`${ this.$store.state.urlBackend }/usuarios/${ this.user.id }/subscribe`, qs.stringify(email))
+                    .then((res) => {
+                        this.dialogSuscriptor = true
+                        this.loadidngBtnSuscribir = false
+                        this.emailSuscriptor = null
+                    })
+                    .catch((err) => {
+                        this.loadidngBtnSuscribir = false
+                        console.log('err', err.response)
+                    })
+
+            }
         }
     }
 }
@@ -248,13 +309,17 @@ export default {
         margin-top: 6rem;
     }
     .redes {
-        grid-row: 5;
+        grid-row: 6;
         margin-top: 6rem;
         justify-self: center;
         text-align: center;
     }
-    .conciertos {
+    .suscriptores {
         grid-row: 4;
+        margin-top: 6rem;
+    }
+    .conciertos {
+        grid-row: 5;
         margin-top: 6rem;
     }
     .hrColor {
@@ -274,6 +339,9 @@ export default {
     }
     .imgUser {
         cursor: pointer;
+    }
+    .dialogSuscriptor {
+        padding: 2rem;
     }
     a {
         text-decoration: none;
@@ -295,8 +363,11 @@ export default {
             grid-column: 2 / 5;
             text-align: justify;
         }
-        .conciertos {
+        .suscriptores {
             grid-column: 1;
+        }
+        .conciertos {
+            grid-column: 3 / 5;
         }
         .redes {
             grid-column: 1 / 5;
