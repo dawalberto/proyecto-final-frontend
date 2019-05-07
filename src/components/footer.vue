@@ -5,12 +5,33 @@
                 <p class="headline font-weight-light">Newsletter</p>
                 <p class="font-weight-light">No te pierdas ningún concierto!</p>
                 <v-text-field
-                    label="email"
-                    solo
+                v-model="emailSuscriptor"
+                :error-messages="msgEmail"
+                label="Email"
+                solo
                 ></v-text-field>
-                <v-btn class="ml-0 mt-0" color="white">Suscribirme</v-btn>
+                <v-btn 
+                :loading="loadidngBtnSuscribir" 
+                :disabled="loadidngBtnSuscribir" 
+                :dark="loadidngBtnSuscribir" 
+                @click="suscribir"
+                class="ml-0 mt-0" 
+                color="white"
+                >
+                Suscribirme
+                </v-btn>
             </div>
-            <div class="contact">
+
+            <v-dialog v-model="dialogNewsletter" persistent max-width="500">
+                <v-card class="dialogNewsletter" color="grey lighten-3">
+                    <p class="subheading">¡Enhorabuena, te has suscrito a las Newsletter!</p>
+                    <p class="subheading">Ahora estarás al tanto de las novedades de clasicaguitarra.com</p>
+                    <p class="subheading">Y cada vez que un guitarrista cree un concierto se te notificará por email para que no se te pase ninguno</p>
+                    <v-btn block dark color="blue darken-3" @click="dialogNewsletter = false">aceptar</v-btn>
+                </v-card>
+            </v-dialog>
+
+            <div class="contact col3 row1 align-self-center">
                 <p class="headline font-weight-light">Contacto</p>
                 <p class="font-weight-light blue-grey-lighten-4 mb-0">EMAIL</p>
                 <p>clasicaguitarra.com.email@gmail.com</p>
@@ -34,8 +55,51 @@
 </template>
 
 <script>
+import axios from 'axios'
+import qs from 'qs'
+
 export default {
-    
+    data() {
+        return {
+            emailSuscriptor: null,
+            msgEmail: null,
+            dialogNewsletter: false,
+            loadidngBtnSuscribir: false
+        }
+    },
+    methods: {
+        validateEmail(email) {
+            if (this.emailSuscriptor === null || this.emailSuscriptor === undefined || this.emailSuscriptor === '') {
+                this.msgEmail = 'El email es obligatório'
+                return false
+            }
+            this.msgEmail = null
+
+            let regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            let res = regEx.test(String(email).toLowerCase())
+            res ? this.msgEmail = null : this.msgEmail = 'El email no es válido'
+            return res
+        },
+        suscribir() {
+            if ( this.validateEmail(this.emailSuscriptor) ) {
+
+                this.loadidngBtnSuscribir = true
+                let suscriptor = { suscriptor: this.emailSuscriptor }
+
+                axios.post(`${ this.$store.state.urlBackend }/suscriptores`, qs.stringify(suscriptor))
+                    .then((res) => {
+                        this.dialogNewsletter = true
+                        this.loadidngBtnSuscribir = false
+                        this.emailSuscriptor = null
+                    })
+                    .catch((err) => {
+                        this.loadidngBtnSuscribir = false
+                        console.log('err', err.response)
+                    })
+
+            }
+        }
+    },
 }
 </script>
 
@@ -74,6 +138,9 @@ export default {
     .section1 {
         background-color: #37474F;
     }
+    .dialogNewsletter {
+        padding: 2rem;
+    }
     a {
         text-decoration: none;
     }
@@ -99,6 +166,12 @@ export default {
         }
         .newsletter {
             padding-right: 8rem;
+        }
+        .row1 {
+            grid-row: 1;
+        }
+        .align-self-center {
+            align-self: center;
         }
     }
 </style>

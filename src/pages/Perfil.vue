@@ -67,7 +67,7 @@
         </div>
 
         <div class="suscriptores">
-            <p class="headline font-weight-light text-xs-left greyColorBlueDarken2">Hazte suscriptor de {{ user.nom }} y enteraté de todos sus conciertos</p>
+            <p class="headline font-weight-light text-xs-left greyColorBlueDarken2">Hazte suscriptor de {{ user.nom }} y entérate de todos sus conciertos</p>
             <v-text-field
             v-model="emailSuscriptor"
             :error-messages="msgEmail"
