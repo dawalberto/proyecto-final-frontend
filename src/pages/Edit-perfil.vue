@@ -338,7 +338,7 @@ export default {
         subirImagenUsuario() {
             let bodyFormData = new FormData()
             bodyFormData.append('archivo', this.imgUrl)
-
+            console.log('this.imgUrl usuario', this.imgUrl)
             axios({
                 method: 'put',
                 url: `${ this.$store.state.urlBackend }/uploads/imgusuarios/${ this.userLoginStore._id }`,

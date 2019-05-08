@@ -264,7 +264,7 @@ export default {
       dialogImg: false,
       croppa: {},
       imgUrl: null,
-      imgUrlToUpload: null
+      imgUrlToUpload: {}
     }
   },
   mounted() {
@@ -442,15 +442,15 @@ export default {
       this.dialogImg = false
 
       this.croppa.generateBlob((blob) => {
-          this.imgUrlToUpload = blob
-          // this.subirImagenConcierto()
-          this.imgUrl = URL.createObjectURL(blob)
+        this.setBlobToProperty(blob)
+        console.log('this.imgUrlToUpload generateImage', this.imgUrlToUpload)
+        this.imgUrl = URL.createObjectURL(blob)
       })
     },
     subirImagenConcierto(idConcierto) {
         let bodyFormData = new FormData()
-        bodyFormData.append('archivo', this.imgUrl)
-        console.log('this.imgUrlToUpload', this.imgUrl)
+        bodyFormData.append('archivo', this.imgUrlToUpload)
+        console.log('this.imgUrlToUpload', this.imgUrlToUpload)
 
         axios({
             method: 'put',
@@ -459,11 +459,14 @@ export default {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
             })
             .then((res) => {
-              console.log(res)
+              console.log('res', res)
             })
             .catch((err) => {
               console.log(err.response)
             })
+    },
+    setBlobToProperty(blob) {
+      this.imgUrlToUpload = blob
     }
   }
 }
