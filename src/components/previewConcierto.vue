@@ -4,13 +4,15 @@
             <p class="headline">FINALIZADO</p>
         </div>
 
-        <v-img
-            id="imgCard"
-            :src="require('@/assets/logo-proyecto.png')"
-            alt="img"
-            loading="lazy"
-        >
-        </v-img>
+        <div class="containerImg">
+            <v-img
+                id="imgCard"
+                src="https://www.google.com/logos/doodles/2015/teachers-day-2015-puerto-rico-5099123925581824.2-hp.gif"
+                alt="img"
+                loading="lazy"
+            >
+            </v-img>
+        </div>
 
         <div class="cuerpoCard">
             <p class="titulo headline font-weight-light greyColorBlueDarken4">{{ conciertoObj.titulo }}</p>
@@ -152,18 +154,22 @@ export default {
 </script>
 
 <style scoped>
+    .containerImg {
+        width: 100%;
+        height: 10rem;
+    }
     #imgCard {
         opacity: 0.9;
-        height: 5rem;
-        width: 5rem;
+        height: 100%;
+        width: 100%;
         margin-left: auto;
         margin-right: auto;
 
-        -webkit-transform: rotate(0);
+        /* -webkit-transform: rotate(0);
         -moz-transform: rotate(0);
         -o-transform: rotate(0);
         -ms-transform: rotate(0);
-        transform: rotate(0);
+        transform: rotate(0); */
     }
     #imgUser {
         filter: grayscale(20%);
@@ -215,10 +221,10 @@ export default {
     }
 
     @media (min-width: 960px) {
-        #imgCard {
-            opacity: 0.5;
+        .containerImg {
+            opacity: 0.9;
 
-            -webkit-transform: rotate(-180deg);
+            /* -webkit-transform: rotate(-180deg);
             -moz-transform: rotate(-180deg);
             -o-transform: rotate(-180deg);
             -ms-transform: rotate(-180deg);
@@ -227,17 +233,17 @@ export default {
             -webkit-transition: all 0.5s ease;
             -moz-transition: all 0.5s ease;
             -o-transition: all 0.5s ease;
-            -ms-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease; */
             transition: all 0.5s ease;
         }
-        #card:hover > #imgCard {
+        #card:hover > .containerImg {
             opacity: 1;
 
-            -webkit-transform: rotate(-360deg);
+            /* -webkit-transform: rotate(-360deg);
             -moz-transform: rotate(-360deg);
             -o-transform: rotate(-360deg);
             -ms-transform: rotate(-360deg);
-            transform: rotate(-360deg);
+            transform: rotate(-360deg); */
         }
     }
 </style>

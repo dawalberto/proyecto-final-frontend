@@ -7,6 +7,7 @@
 
         <v-text-field 
         v-model="emailSuscriptor"
+        @keyup.enter="baja"
         :error-messages="msgEmail"
         label="Indica tu email"
         placeholder="email@email.com"
@@ -28,7 +29,7 @@
         <v-dialog v-model="dialogBaja" persistent max-width="500">
             <v-card class="dialogBaja" color="grey lighten-3">
                 <p class="subheading">Te has dado de baja correctamente, ya no recibirás mas notificaciones</p>
-                <v-btn block dark color="blue darken-3" @click="dialogBaja = false">aceptar</v-btn>
+                <v-btn block dark color="blue darken-3" @click="acceptDialogBaja">aceptar</v-btn>
             </v-card>
         </v-dialog>
     </div>
@@ -86,7 +87,8 @@ export default {
                             console.log('res', res)
                         })
                         .catch((err) => {
-                            this.loadidngBtnUnsuscribe = false                            
+                            this.loadidngBtnUnsuscribe = false    
+                            err.response.data.msg ? this.msgEmail = 'Este email no está suscrito' : ''
                             console.log('err', err.response)
                         })
                 } else {
@@ -99,11 +101,16 @@ export default {
                         })
                         .catch((err) => {
                             this.loadidngBtnUnsuscribe = false
+                            err.response.data.msg ? this.msgEmail = 'Este email no está suscrito' : ''
                             console.log('err', err.response)
                         })
                 }
 
             }
+        },
+        acceptDialogBaja() {
+            this.dialogBaja = false
+            this.$router.push('/')
         }
     }
 }

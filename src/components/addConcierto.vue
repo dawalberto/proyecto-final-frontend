@@ -8,7 +8,55 @@
             </v-toolbar-items>
         </v-toolbar>
 
+        <v-dialog v-model="dialogImg" color="grey lighten-3" max-width="500">
+          <v-card>
+            <croppa
+                id="croppaId"
+                v-model="croppa"
+                :placeholder="!mobile ? 'Haz zoom para recortar la imagen' : ''"
+                accept=".jpg,.jpeg,.png"
+                :placeholder-font-size="16"
+                :show-remove-button="false"
+                :prevent-white-space="true"
+                :zoom-speed="5"
+                :width="500"
+                :height="200"
+                :quality="1"
+            ></croppa>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+                color="blue darken-3"
+                dark
+                @click="croppaChoseFile"
+            >
+                <v-icon :class="[!mobile ? 'mr-3' : '']" v-show="mobile">fas fa-cloud-upload-alt</v-icon><span v-show="!mobile">SUBIR</span>
+            </v-btn>
+            <v-btn
+                color="red darken-3"
+                dark
+                @click="dialogImg = false"
+            >
+                <v-icon :class="[!mobile ? 'mr-3' : '']" v-show="mobile">fas fa-times-circle</v-icon><span v-if="!mobile">CANCELAR</span>
+            </v-btn>
+            <v-btn
+                color="green darken-3"
+                dark
+                @click="generateImage"
+            >
+                <v-icon :class="[!mobile ? 'mr-3' : '']" v-show="mobile">fas fa-check-circle</v-icon><span v-if="!mobile">GUARDAR</span>
+            </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
         <div class="containerGridCreateConcierto">
+            <label for="inputImagenId" class="label font-weight-medium">IMAGEN</label>
+            <div class="input divImg" @click="dialogImg = true" :class="imgUrl ? 'imgSelected' : 'elevation-10'">
+              <p v-show="!imgUrl" style="margin: auto; display: inline-block">Haga clic aquí y seleccione una foto 📷</p>
+              <img v-show="imgUrl" :src="imgUrl" alt="imagen concierto">
+            </div>
+
             <label for="inputTituloId" class="label font-weight-medium">TITULO</label>
             <v-text-field 
             id="inputTituloId" 
@@ -212,7 +260,11 @@ export default {
       dialogVistaPreviaPrograma: false,
       loading: false,
       obrasObj: null,
-      loadingPreview: false
+      loadingPreview: false,
+      dialogImg: false,
+      croppa: {},
+      imgUrl: null,
+      imgUrlToUpload: null
     }
   },
   mounted() {
@@ -343,6 +395,8 @@ export default {
 
         axios.post(`${ this.$store.state.urlBackend }/conciertos`, qs.stringify(newConcierto))
           .then((res) => {
+            console.log(res)
+            this.subirImagenConcierto(res.data.concierto._id)
             this.dialogConciertoAgregado = true
             this.loading = false
           })
@@ -380,6 +434,36 @@ export default {
           console.log(err.response)
           this.loadingPreview = false
         })
+    },
+    croppaChoseFile() {
+        this.croppa.chooseFile()
+    },
+    generateImage() {
+      this.dialogImg = false
+
+      this.croppa.generateBlob((blob) => {
+          this.imgUrlToUpload = blob
+          // this.subirImagenConcierto()
+          this.imgUrl = URL.createObjectURL(blob)
+      })
+    },
+    subirImagenConcierto(idConcierto) {
+        let bodyFormData = new FormData()
+        bodyFormData.append('archivo', this.imgUrl)
+        console.log('this.imgUrlToUpload', this.imgUrl)
+
+        axios({
+            method: 'put',
+            url: `${ this.$store.state.urlBackend }/uploads/imgconciertos/${ idConcierto }`,
+            data: bodyFormData,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+            })
+            .then((res) => {
+              console.log(res)
+            })
+            .catch((err) => {
+              console.log(err.response)
+            })
     }
   }
 }
@@ -409,6 +493,23 @@ export default {
     .btnAddPrograma {
       justify-self: center;
     }
+    .divImg {
+      width: 100%;
+      height: 200px;
+      border: 1px solid grey;
+      display: grid;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 0.3rem;
+    }
+    .imgSelected {
+      border: none;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 0.3rem;
+    }
 
     @media (min-width: 960px) {
         .containerGridCreateConcierto {
@@ -434,6 +535,9 @@ export default {
         }
         .btnAddPrograma {
           grid-column: 3 / 4;
+        }
+        .divImg {
+          width: 500px;
         }
     }
 </style>

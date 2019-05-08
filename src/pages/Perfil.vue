@@ -44,7 +44,7 @@
                         <v-icon  color="blue-grey darken-3">fas fa-map-marked-alt</v-icon>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title class="greyColorBlueDarken1">{{ user.nacionalidad }}</v-list-tile-title>
+                        <v-list-tile-title class="greyColorBlueDarken1">{{ getGenero | capitalize }} en {{ user.nacionalidad }}</v-list-tile-title>
                         <v-list-tile-sub-title class="grey--text">Guitarrista {{ getGenero }} en {{ user.nacionalidad }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
@@ -185,6 +185,13 @@ export default {
     mounted() {
         this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false   
         this.$store.commit('pageIsMounted')
+    },
+    filters: {
+        capitalize (value) {
+            if (!value) return ''
+            value = value.toString()
+            return value.charAt(0).toUpperCase() + value.slice(1)
+        }
     },
     computed: {
         getGenero() {

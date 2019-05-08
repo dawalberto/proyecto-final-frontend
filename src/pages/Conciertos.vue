@@ -10,6 +10,7 @@
         :key="c._id"
         :conciertoObj="c"
         :paramId="paramId"
+        class="widthCards"
       ></previewConcierto>
     </div>
 
