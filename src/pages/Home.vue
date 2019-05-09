@@ -2,7 +2,7 @@
     <div>
         <v-progress-linear :indeterminate="true" color="grey darken-3" v-show="pageLoading"></v-progress-linear>
         <div class="backgroundShadow"></div>
-        <div class="showInDesktopHiddeInMobile backgroundColor" :class="conciertosWeek.length <= 0 ? 'bgWhite' : ''"></div>
+        <!-- <div class="showInDesktopHiddeInMobile backgroundColor" :class="conciertosWeek.length <= 0 ? 'bgWhite' : ''"></div> -->
 
         <div class="backgroundScreen1">
             <video autoplay muted loop class="backgroundScreen1 showInDesktopHiddeInMobile">
