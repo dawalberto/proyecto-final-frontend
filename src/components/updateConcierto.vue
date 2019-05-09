@@ -17,7 +17,55 @@
             </v-toolbar-items>
         </v-toolbar>
 
+        <v-dialog v-model="dialogImg" color="grey lighten-3" max-width="500">
+          <v-card>
+            <croppa
+                id="croppaId"
+                v-model="croppa"
+                :placeholder="!mobile ? 'Haz zoom para recortar la imagen' : ''"
+                accept=".jpg,.jpeg,.png"
+                :placeholder-font-size="16"
+                :show-remove-button="false"
+                :prevent-white-space="true"
+                :zoom-speed="5"
+                :width="500"
+                :height="200"
+                :quality="1"
+            ></croppa>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+                color="blue darken-3"
+                dark
+                @click="croppaChoseFile"
+            >
+                <v-icon :class="[!mobile ? 'mr-3' : '']" v-show="mobile">fas fa-cloud-upload-alt</v-icon><span v-show="!mobile">SUBIR</span>
+            </v-btn>
+            <v-btn
+                color="red darken-3"
+                dark
+                @click="dialogImg = false"
+            >
+                <v-icon :class="[!mobile ? 'mr-3' : '']" v-show="mobile">fas fa-times-circle</v-icon><span v-if="!mobile">CANCELAR</span>
+            </v-btn>
+            <v-btn
+                color="green darken-3"
+                dark
+                @click="generateImage"
+            >
+                <v-icon :class="[!mobile ? 'mr-3' : '']" v-show="mobile">fas fa-check-circle</v-icon><span v-if="!mobile">GUARDAR</span>
+            </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
         <div class="containerGridUpdateConcierto">
+            <label for="inputImagenId" class="label font-weight-medium">IMAGEN</label>
+            <div class="input divImg" @click="dialogImg = true" :class="concierto.img ? 'imgSelected' : 'elevation-10'">
+              <p v-show="!concierto.img" style="margin: auto; display: inline-block">Haga clic aquí y seleccione una foto 📷</p>
+              <img v-show="concierto.img" :src="concierto.img" alt="imagen concierto">
+            </div>
+
             <label for="inputTituloId" class="label font-weight-medium">TITULO</label>
             <v-text-field 
             id="inputTituloId" 
@@ -196,7 +244,8 @@ export default {
         precio: this.conciertoObj.precio,
         ubicacion: this.conciertoObj.ubicacion,
         usuarioId: this.conciertoObj.usuario._id,
-        programa: null
+        programa: null,
+        img: this.conciertoObj.img
       },
       programa: this.conciertoObj.programa,
       dialogPrograma: false,
@@ -225,7 +274,10 @@ export default {
       loading: false,
       dialogVistaPreviaPrograma: false,
       obrasObj: null,
-      loadingPreview: false
+      loadingPreview: false,
+      dialogImg: false,
+      croppa: {},
+      imgUrlToUpload: this.conciertoObj.img
     }
   },
   mounted() {
@@ -272,14 +324,14 @@ export default {
       this.msgsErrors.precio = null
       this.msgsErrors.fecha = null
       this.msgsErrors.hora = null
-      this.msgsErrors.programa = null
+      // this.msgsErrors.programa = null
       let errorTitulo = false,
       errorDescripcion = false,
       errorUbicacion = false,
       errorPrecio = false,
       errorFecha = false,
-      errorHora = false,
-      errorPrograma = false
+      errorHora = false
+      // errorPrograma = false
 
       // Validaciones
       if (this.concierto.titulo === null || this.concierto.titulo === undefined || this.concierto.titulo === '') {
@@ -306,12 +358,12 @@ export default {
         this.msgsErrors.hora = 'La hora es obligatoria'
         errorHora = true
       }
-      if (this.programa === undefined) {
-        this.msgsErrors.programa = 'Seleccione un programa para el concierto'
-        errorPrograma = true
-      }
+      // if (this.programa === undefined) {
+      //   this.msgsErrors.programa = 'Seleccione un programa para el concierto'
+      //   errorPrograma = true
+      // }
 
-      if (errorTitulo || errorDescripcion || errorUbicacion || errorPrecio || errorFecha || errorHora || errorPrograma) { return false }
+      if (errorTitulo || errorDescripcion || errorUbicacion || errorPrecio || errorFecha || errorHora) { return false }
 
       if (this.concierto.titulo.length > this.counters.titulo) {
         this.msgsErrors.titulo = `La longitud del título supera los ${ this.counters.titulo } caracteres`
@@ -346,7 +398,8 @@ export default {
           precio: this.concierto.precio,
           ubicacion: this.concierto.ubicacion,
           usuario: this.userLoginStore._id,
-          programa
+          // programa,
+          img: this.concierto.img
         }
 
         axios.put(`${ this.$store.state.urlBackend }/conciertos/${ this.conciertoObj._id }`, qs.stringify(conciertoUpdated))
@@ -381,6 +434,39 @@ export default {
           console.log(err.response)
           this.loadingPreview = false
         })
+    },
+    croppaChoseFile() {
+        this.croppa.chooseFile()
+    },
+    generateImage() {
+      this.dialogImg = false
+
+      this.croppa.generateBlob((blob) => {
+        this.setBlobToProperty(blob)
+        this.concierto.img = URL.createObjectURL(blob)
+        this.subirImagenConcierto(this.conciertoObj._id)
+      })
+    },
+    setBlobToProperty(blob) {
+      this.imgUrlToUpload = blob
+    },
+    subirImagenConcierto(idConcierto) {
+        let bodyFormData = new FormData()
+        bodyFormData.append('archivo', this.imgUrlToUpload)
+
+        axios({
+            method: 'put',
+            url: `${ this.$store.state.urlBackend }/uploads/imgconciertos/${ idConcierto }`,
+            data: bodyFormData,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+            })
+            .then((res) => {
+              console.log('res', res)
+              this.concierto.img = res.data.img
+            })
+            .catch((err) => {
+              console.log(err.response)
+            })
     }
   }
 }
@@ -410,6 +496,23 @@ export default {
     .btnAddPrograma {
       justify-self: center;
     }
+    .divImg {
+      width: 100%;
+      height: 200px;
+      border: 1px solid grey;
+      display: grid;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 0.3rem;
+    }
+    .imgSelected {
+      border: none;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 0.3rem;
+    }
 
     @media (min-width: 960px) {
         .containerGridUpdateConcierto {
@@ -435,6 +538,9 @@ export default {
         }
         .btnAddPrograma {
           grid-column: 3 / 4;
+        }
+        .divImg {
+          width: 500px;
         }
     }
 </style>

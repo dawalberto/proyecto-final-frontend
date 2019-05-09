@@ -7,7 +7,7 @@
         <div class="containerImg">
             <v-img
                 id="imgCard"
-                src="https://www.google.com/logos/doodles/2015/teachers-day-2015-puerto-rico-5099123925581824.2-hp.gif"
+                :src="giveImgConcierto"
                 alt="img"
                 loading="lazy"
             >
@@ -120,6 +120,9 @@ export default {
                 return true
             }
             return false
+        },
+        giveImgConcierto() {
+            return this.conciertoObj.img ? this.conciertoObj.img : require('@/assets/imgs/guitar2.jpg')
         }
     },
     methods: {
@@ -164,12 +167,6 @@ export default {
         width: 100%;
         margin-left: auto;
         margin-right: auto;
-
-        /* -webkit-transform: rotate(0);
-        -moz-transform: rotate(0);
-        -o-transform: rotate(0);
-        -ms-transform: rotate(0);
-        transform: rotate(0); */
     }
     #imgUser {
         filter: grayscale(20%);
