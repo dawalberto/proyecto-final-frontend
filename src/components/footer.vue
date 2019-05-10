@@ -43,7 +43,7 @@
             <a href="#/conciertos" class="col2 linksMenu"><p class="text-xs-center font-weight-light"><v-icon class="mr-2" dark>fas fa-music</v-icon>CONCIERTOS</p></a>
             <a href="#/login" class="col3 linksMenu"><p class="text-xs-center font-weight-light"><v-icon class="mr-2" dark>fas fa-sign-in-alt</v-icon>LOGIN</p></a>
             <hr class="separatorHr col1-3">
-            <p class="col1 text-xs-center font-weight-light"><a href="">Terms of Use</a> <a href="" class="ml-2">Privavy Policy</a></p>
+            <p class="col1 text-xs-center font-weight-light"><a href="#/terms-of-use">Terms of Use</a> <a href="#/privacy-policy" class="ml-2">Privavy Policy</a></p>
             <p class="col2 text-xs-center font-weight-light">&copy; Copyright clasicaguitarra.com 2019</p>
             <p class="redes col3 text-xs-center">
                 <a href=""><v-icon color="#CFD8DC">fab fa-twitter</v-icon></a>

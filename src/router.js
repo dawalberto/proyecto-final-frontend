@@ -98,6 +98,16 @@ export default new Router({
       component: () => import('./pages/Unsuscribe.vue')
     },
     {
+      path: '/terms-of-use',
+      name: 'terms-of-use',
+      component: () => import('./pages/Terms-of-use.vue')
+    },
+    {
+      path: '/privacy-policy',
+      name: 'privacy-policy',
+      component: () => import('./pages/Privacy-policy.vue')
+    },
+    {
       path: '/screen2anchor',
       name: 'screen2anchor',
       redirect: { name: 'home' }

@@ -86,6 +86,15 @@
                 </v-btn>
               </v-card-actions>
             </v-card>
+            <div class="containerConditions">
+              <v-checkbox
+                v-model="checkboxTerms"
+                color="blue-grey darken-3"
+                :error="errorCheckbox"
+                class="checkbox"
+              ></v-checkbox>
+              <p class="subheading mt-3 text-xs-center grey--text conditions">He leido y acepto los <a href="#/terms-of-use">Terminos de uso</a> y la <a href="#/privacy-policy">Politica de privacidad</a></p>
+            </div>
           </v-flex>
         </v-layout>
       </v-container>
@@ -113,7 +122,9 @@ export default {
           msgRegistroPasswordRepeat: null,
           dialog: false,
           showPassword: false,
-          showPasswordRepeat: false
+          showPasswordRepeat: false,
+          checkboxTerms: false,
+          errorCheckbox: false
         }
     },
     mounted() {
@@ -136,7 +147,7 @@ export default {
                 nomUsuario
             }
 
-            if (this.$refs.form.validate() && this.validateEmail(this.email)) {
+            if (this.$refs.form.validate() && this.validateEmail(this.email) && this.validateTerms()) {
               let regEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
               if (!regEx.test(this.password)) {
                 this.msgRegistroPassword = 'La contraseña debe tener como mínimo 8 caracteres, al menos una letra minúscula, una mayúscula, un número y un caracter especial(@ $ ! % * ? &)'
@@ -176,11 +187,27 @@ export default {
           let res = regEx.test(String(email).toLowerCase())
           res ? this.msgRegistroEmail = null : this.msgRegistroEmail = 'El email no es válido'
           return res
+        },
+        validateTerms() {
+          this.checkboxTerms ? this.errorCheckbox = false : this.errorCheckbox = true
+
+          return this.checkboxTerms
         }
     }
 }
 </script>
 
 <style scoped>
-
+  .containerConditions {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+  .checkbox {
+    grid-column: 1;
+    justify-self: end;
+  }
+  .conditions {
+    align-self: center;
+    grid-column: 2;
+  }
 </style>
