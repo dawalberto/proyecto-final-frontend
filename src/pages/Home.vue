@@ -6,7 +6,7 @@
 
         <div class="backgroundScreen1">
             <video autoplay muted loop class="backgroundScreen1 showInDesktopHiddeInMobile">
-                <source src="@/assets/video/background-guitar.mp4" type="video/mp4">
+                <source v-if="!mobile" src="@/assets/video/background-guitar.mp4" type="video/mp4">
                 Your browser does not support HTML5 video.
             </video>
         </div>
@@ -86,10 +86,13 @@ export default {
     data() {
         return {
             conciertosWeek: [],
-            pageLoading: true
+            pageLoading: true,
+            mobile: true,
+            breakpoint: this.$vuetify.breakpoint
         }
     },
     mounted() {
+        this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
         this.getConciertosThisWeek()
         this.$store.commit('pageIsMounted')
     },
