@@ -5,7 +5,7 @@
         <!-- <div class="showInDesktopHiddeInMobile backgroundColor" :class="conciertosWeek.length <= 0 ? 'bgWhite' : ''"></div> -->
 
         <div class="backgroundScreen1">
-            <video autoplay muted loop class="backgroundScreen1 showInDesktopHiddeInMobile">
+            <video autoplay muted loop playsinline class="backgroundScreen1 showInDesktopHiddeInMobile">
                 <source v-if="!mobile" src="@/assets/video/background-guitar.mp4" type="video/mp4">
                 Your browser does not support HTML5 video.
             </video>
