@@ -150,7 +150,6 @@
 
 <script>
 import axios from 'axios'
-import qs from 'qs'
 
 export default {
     name: 'perfil',
@@ -275,7 +274,7 @@ export default {
                 this.loadidngBtnSuscribir = true
                 let email = { email: this.emailSuscriptor }
 
-                axios.post(`${ this.$store.state.urlBackend }/usuarios/${ this.user.id }/subscribe`, qs.stringify(email))
+                axios.post(`${ this.$store.state.urlBackend }/usuarios/${ this.user.id }/suscribe/${ this.emailSuscriptor }`)
                     .then((res) => {
                         this.dialogSuscriptor = true
                         this.loadidngBtnSuscribir = false
