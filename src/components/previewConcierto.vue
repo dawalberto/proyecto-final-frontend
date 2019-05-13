@@ -4,7 +4,7 @@
             <p class="headline">FINALIZADO</p>
         </div>
 
-        <div class="containerImg">
+        <div class="containerImg" @click="dialogImg = true">
             <v-img
                 id="imgCard"
                 :src="giveImgConcierto"
@@ -13,6 +13,10 @@
             >
             </v-img>
         </div>
+
+        <v-dialog v-model="dialogImg" v-if="this.conciertoObj.img" max-width="500">
+            <img :src="this.conciertoObj.img" alt="" loading="lazy">
+         </v-dialog>
 
         <div class="cuerpoCard">
             <p class="titulo headline font-weight-light greyColorBlueDarken4">{{ conciertoObj.titulo }}</p>
@@ -99,6 +103,7 @@ export default {
             conciertoDeleted: false,
             dialogUpdateConcierto: false,
             conciertoFinished: false,
+            dialogImg: false
         }
     },
     mounted() {
@@ -160,6 +165,7 @@ export default {
     .containerImg {
         width: 100%;
         height: 10rem;
+        cursor: pointer;
     }
     #imgCard {
         opacity: 0.9;

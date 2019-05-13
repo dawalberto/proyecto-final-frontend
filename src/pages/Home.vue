@@ -36,12 +36,12 @@
                 </v-layout>
             </v-container>
         </div>
-        <div class="screen2" id="screen2anchor" :class="conciertosWeek.length <= 0 ? 'displayNone' : ''">
+        <div class="screen2" id="screen2anchor" v-if="conciertosWeek.length > 0">
             <v-container fluid fill-height>
                 <v-layout align-center justify-center class="zindex3">
                     <v-flex xs12>
                         <transition name="fade">
-                            <p class="headline greyColorBlueDarken2 font-weight-light text-xs-center" v-show="!pageLoading">Conciertos de esta semana</p>
+                            <p class="headline greyColorBlueDarken2 font-weight-light text-xs-center" v-show="!pageLoading">Conciertos para esta semana</p>
                         </transition>
                         <transition name="fadeConcierto">
                             <div class="containerConciertos" v-show="!pageLoading">
@@ -56,6 +56,22 @@
                     </v-flex>
                 </v-layout>
             </v-container>
+        </div>
+        <div v-else>
+            <p class="headline greyColorBlueDarken2 font-weight-light text-xs-center" v-show="!pageLoading">No hay conciertos para esta semana</p>
+            <p 
+            class="headline greyColorBlueDarken2 font-weight-light text-xs-center" 
+            v-show="!pageLoading">
+                Pero puedes ver los que están por llegar
+                <v-btn 
+                to="/conciertos" 
+                dark 
+                color="blue-grey darken-3" 
+                class="letterSpacing01">
+                    <v-icon class="mr-2">fas fa-music</v-icon>
+                    conciertos
+                </v-btn>
+            </p> 
         </div>
     </div>
 </template>
@@ -211,6 +227,9 @@ export default {
     }
     .widthCards {
         min-width: 320px;
+    }
+    .letterSpacing01 {
+        letter-spacing: 0.2rem;
     }
     a {
         text-decoration: none;

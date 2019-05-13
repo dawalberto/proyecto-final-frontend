@@ -53,7 +53,7 @@
         <div class="containerGridCreateConcierto">
             <label for="inputImagenId" class="label font-weight-medium">IMAGEN</label>
             <div class="input divImg" @click="dialogImg = true" :class="imgUrl ? 'imgSelected' : 'elevation-10'">
-              <p v-show="!imgUrl" style="margin: auto; display: inline-block">Haga clic aquí y seleccione una foto 📷</p>
+              <p v-show="!imgUrl" style="margin: auto; display: inline-block">Haga clic aquí y seleccione una imagen 📷</p>
               <img v-show="imgUrl" :src="imgUrl" alt="imagen concierto">
             </div>
 
@@ -62,6 +62,7 @@
             id="inputTituloId" 
             v-model="concierto.titulo" 
             class="input" 
+            color="blue-grey darken-3"
             type="text" 
             :counter="counters.titulo"
             :error-messages="msgsErrors.titulo"
@@ -107,6 +108,7 @@
               no-title
               scrollable
               :min="new Date().toISOString().substr(0, 10)"
+              color="blue-grey darken-3"
               >
                   <v-spacer></v-spacer>
                   <v-btn flat color="grey darken-3" @click="menuFecha = false">CANCELAR</v-btn>
@@ -145,6 +147,7 @@
               v-model="concierto.hora"
               full-width
               @click:minute="$refs.menu.save(concierto.hora)"
+              color="blue-grey darken-3"
               ></v-time-picker>
             </v-menu>
 

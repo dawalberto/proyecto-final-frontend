@@ -19,6 +19,7 @@
     class="btnAddConcierto"
     fab
     dark
+    :large="!mobile"
     @click="dialogCreateConcierto = true"
     color="blue darken-3"
     title="Añadir concierto"
@@ -103,7 +104,7 @@ export default {
           })
           .catch((err) => {
             if (err.response.status === 400) {
-              this.noResultsSearch = `No se encontraon conciertos que contengan el termino "${ this.toSearch }"`
+              this.noResultsSearch = `No se encontraron conciertos con el titulo "${ this.toSearch }"`
             }
             console.log(err.response)
             this.pageLoading = false
@@ -156,7 +157,7 @@ export default {
       grid-template-columns: 100fr;
     }
     .btnAddConcierto {
-      z-index: 10;
+      z-index: 20;
       position: fixed;
       right: 2rem;
       bottom: 1.5rem;

@@ -62,7 +62,7 @@
         <div class="containerGridUpdateConcierto">
             <label for="inputImagenId" class="label font-weight-medium">IMAGEN</label>
             <div class="input divImg" @click="dialogImg = true" :class="concierto.img ? 'imgSelected' : 'elevation-10'">
-              <p v-show="!concierto.img" style="margin: auto; display: inline-block">Haga clic aquí y seleccione una foto 📷</p>
+              <p v-show="!concierto.img" style="margin: auto; display: inline-block">Haga clic aquí y seleccione una imagen 📷</p>
               <img v-show="concierto.img" :src="concierto.img" alt="imagen concierto">
             </div>
 
@@ -116,6 +116,7 @@
               no-title
               scrollable
               :min="new Date().toISOString().substr(0, 10)"
+              color="blue-grey darken-3"
               >
                   <v-spacer></v-spacer>
                   <v-btn flat color="grey darken-3" @click="menuFecha = false">CANCELAR</v-btn>
@@ -154,6 +155,7 @@
               v-model="concierto.hora"
               full-width
               @click:minute="$refs.menu.save(concierto.hora)"
+              color="blue-grey darken-3"
               ></v-time-picker>
             </v-menu>
 
@@ -195,7 +197,7 @@
             </v-select>
 
             <div class="btnAddPrograma">
-              <v-btn dark small fab color="blue-grey darken-3" @click="viewPrograma" id="" class=""><v-icon>fas fa-eye</v-icon></v-btn>
+              <v-btn dark small fab color="blue-grey darken-3" @click="viewPrograma" :loading="loadingPreview" id="" class=""><v-icon>fas fa-eye</v-icon></v-btn>
               <v-btn dark color="blue darken-3" @click="dialogPrograma = true" id="btnAddProgramaId" class=""><v-icon class="mr-2">add</v-icon> AÑADIR PROGRAMA</v-btn>
             </div>
 
@@ -309,9 +311,9 @@ export default {
         .then((res) => {
           let programasDB = res.data.programas
           this.programas = programasDB
-          if (programasDB.length > 0) {
-            this.concierto.programa = programasDB[programasDB.length - 1]
-          }
+          // if (programasDB.length > 0) {
+          //   this.concierto.programa = programasDB[programasDB.length - 1]
+          // }
         })
         .catch((err) => {
           console.log(err.response)
@@ -398,7 +400,7 @@ export default {
           precio: this.concierto.precio,
           ubicacion: this.concierto.ubicacion,
           usuario: this.userLoginStore._id,
-          // programa,
+          programa,
           img: this.concierto.img
         }
 
@@ -414,7 +416,7 @@ export default {
       }
     },    
     viewPrograma() {
-      if (this.concierto.programa === null || this.concierto.programa === undefined || this.concierto.programa === '') { return }
+      if (this.programa === null || this.programa === undefined || this.programa === '') { return }
       if (!this.login) { return }
       if (this.paramId === undefined) { return }
 
