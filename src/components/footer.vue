@@ -24,8 +24,9 @@
 
             <v-dialog v-model="dialogNewsletter" persistent max-width="500">
                 <v-card class="dialogNewsletter" color="grey lighten-3">
-                    <p class="subheading">¡Enhorabuena, te has suscrito a las Newsletter!</p>
-                    <p class="subheading">Ahora estarás al tanto de las novedades de clasicaguitarra.com</p>
+                    <p class="subheading">Se ha enviado un email de confimrmación a tu correo, por favor acceda a el y haga clic en el enlace proporcionado.</p>
+                    <p class="subheading">Una vez confirmado pasará a ser suscriptor de las Newsletter.</p>
+                    <p class="subheading">Estarás al tanto de las novedades de clasicaguitarra.com</p>
                     <p class="subheading">Y cada vez que un guitarrista cree un concierto se te notificará por email para que no se te pase ninguno</p>
                     <v-btn block dark color="blue darken-3" @click="dialogNewsletter = false">aceptar</v-btn>
                 </v-card>
@@ -56,7 +57,6 @@
 
 <script>
 import axios from 'axios'
-import qs from 'qs'
 
 export default {
     data() {
@@ -84,9 +84,8 @@ export default {
             if ( this.validateEmail(this.emailSuscriptor) ) {
 
                 this.loadidngBtnSuscribir = true
-                let suscriptor = { suscriptor: this.emailSuscriptor }
 
-                axios.post(`${ this.$store.state.urlBackend }/suscriptores`, qs.stringify(suscriptor))
+                axios.post(`${ this.$store.state.urlBackend }/suscriptores/${ this.emailSuscriptor }`)
                     .then((res) => {
                         this.dialogNewsletter = true
                         this.loadidngBtnSuscribir = false

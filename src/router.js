@@ -22,11 +22,6 @@ export default new Router({
       component: () => import('./pages/Guitarristas.vue')
     },
     {
-      path: '/guitarristas/:id/unsuscribe',
-      name: 'unsuscribe-user',
-      component: () => import('./pages/Unsuscribe.vue')
-    },
-    {
       path: '/conciertos',
       name: 'conciertos',
       component: () => import('./pages/Conciertos.vue')
@@ -94,7 +89,7 @@ export default new Router({
     },
     {
       path: '/unsuscribe',
-      name: 'unsuscribe-newsletter',
+      name: 'unsuscribe',
       component: () => import('./pages/Unsuscribe.vue')
     },
     {
@@ -106,6 +101,11 @@ export default new Router({
       path: '/privacy-policy',
       name: 'privacy-policy',
       component: () => import('./pages/Privacy-policy.vue')
+    },
+    {
+      path: '/thank-suscribe',
+      name: 'thank-suscribe',
+      component: () => import('./pages/Thank-suscribe.vue')
     },
     {
       path: '/screen2anchor',

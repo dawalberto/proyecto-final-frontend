@@ -85,8 +85,9 @@
 
         <v-dialog v-model="dialogSuscriptor" persistent max-width="500">
             <v-card class="dialogSuscriptor" color="grey lighten-3">
-                <p class="subheading">¡Enhorabuena! ahora eres suscriptor de {{ user.nom }}</p>
-                <p class="subheading">Ahora cada vez que {{ user.nom }} cree un concierto se te notificará por email.</p>
+                <p class="subheading">Se ha enviado un email de confimrmación a tu correo, por favor acceda a el y haga clic en el enlace proporcionado.</p>
+                <p class="subheading">Una vez confirmado pasará a ser suscriptor de {{ user.nom }}.</p>
+                <p class="subheading">Y cada vez que {{ user.nom }} cree un concierto se te notificará por email.</p>
                 <v-btn block dark color="blue darken-3" @click="dialogSuscriptor = false">aceptar</v-btn>
             </v-card>
         </v-dialog>
@@ -272,7 +273,6 @@ export default {
             if ( this.validateEmail(this.emailSuscriptor) ) {
 
                 this.loadidngBtnSuscribir = true
-                let email = { email: this.emailSuscriptor }
 
                 axios.post(`${ this.$store.state.urlBackend }/usuarios/${ this.user.id }/suscribe/${ this.emailSuscriptor }`)
                     .then((res) => {

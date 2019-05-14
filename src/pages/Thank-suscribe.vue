@@ -1,7 +1,7 @@
 <template>
     <div class="container">
-        <p class="subheading color">Te has dado de baja correctamente.</p>
-    </div> 
+        <p class="subheading color">Gracias por suscribirte</p>
+    </div>
 </template>
 
 <script>
@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .color {
         color: #37474F;
     }
