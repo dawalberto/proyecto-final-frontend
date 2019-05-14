@@ -16,10 +16,10 @@
                 <v-layout align-center justify-center class="containerContentScreen1">
                     <v-flex xs12>
                         <transition name="slide-fade">
-                            <p class="display-1 greyColorBlueDarken1 font-weight-thin text-xs-center" v-show="!pageLoading"><span>clasicaguitarra.com</span></p>
+                            <p class="display-1 greyColorBlueDarken1 font-weight-thin text-xs-center"><span>clasicaguitarra.com</span></p>
                         </transition>
                         <transition name="fade">
-                            <p class="headline mt-4 greyColorBlueDarken1 font-weight-light text-xs-center contentText" v-show="!pageLoading">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
+                            <p class="headline mt-4 greyColorBlueDarken1 font-weight-light text-xs-center contentText">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
                         </transition>
                         <transition name="slide-fade-row">
                             <p 
