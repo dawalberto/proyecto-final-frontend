@@ -108,6 +108,11 @@ export default new Router({
       component: () => import('./pages/Thank-suscribe.vue')
     },
     {
+      path: '/donate',
+      name: 'donate',
+      component: () => import('./pages/Donate.vue')
+    },
+    {
       path: '/screen2anchor',
       name: 'screen2anchor',
       redirect: { name: 'home' }
