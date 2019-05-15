@@ -104,7 +104,7 @@ export default {
                     this.$store.commit('setTokenLogin', res.data.token)
                     this.$router.push(`/perfil/${ this.$store.state.user._id }`)
                     this.loading = false
-                    console.log('Login ok')
+                    // console.log('Login ok')
                 })
                 .catch((err) => { 
                   this.loading = false

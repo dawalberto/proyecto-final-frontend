@@ -316,7 +316,7 @@ export default {
           // }
         })
         .catch((err) => {
-          console.log(err.response)
+          // console.log(err.response)
         })
     },
     validaciones() {
@@ -410,7 +410,7 @@ export default {
             this.loading = false
           })
           .catch((err) => {
-            console.log(err.response)
+            // console.log(err.response)
             this.loading = false
           })
       }
@@ -427,13 +427,13 @@ export default {
       
       axios.get(`${ this.$store.state.urlBackend }/programas/${ programa }`)
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           this.obrasObj = res.data.programa.obras
           this.dialogVistaPreviaPrograma = true
           this.loadingPreview = false
         })
         .catch((err) => {
-          console.log(err.response)
+          // console.log(err.response)
           this.loadingPreview = false
         })
     },
@@ -463,11 +463,11 @@ export default {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
             })
             .then((res) => {
-              console.log('res', res)
+              // console.log('res', res)
               this.concierto.img = res.data.img
             })
             .catch((err) => {
-              console.log(err.response)
+              // console.log(err.response)
             })
     }
   }

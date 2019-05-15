@@ -96,7 +96,7 @@ export default {
                     })
                     .catch((err) => {
                         this.loadidngBtnSuscribir = false
-                        console.log('err', err.response)
+                        // console.log('err', err.response)
                     })
 
             }

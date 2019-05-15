@@ -302,7 +302,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err.response)
+          // console.log(err.response)
         })
     },
     validaciones() {
@@ -398,13 +398,13 @@ export default {
 
         axios.post(`${ this.$store.state.urlBackend }/conciertos`, qs.stringify(newConcierto))
           .then((res) => {
-            console.log(res)
+            // console.log(res)
             this.subirImagenConcierto(res.data.concierto._id)
             this.dialogConciertoAgregado = true
             this.loading = false
           })
           .catch((err) => {
-            console.log(err.response)
+            // console.log(err.response)
             this.loading = false
           })
       }
@@ -434,7 +434,7 @@ export default {
           this.loadingPreview = false
         })
         .catch((err) => {
-          console.log(err.response)
+          // console.log(err.response)
           this.loadingPreview = false
         })
     },
@@ -446,14 +446,14 @@ export default {
 
       this.croppa.generateBlob((blob) => {
         this.setBlobToProperty(blob)
-        console.log('this.imgUrlToUpload generateImage', this.imgUrlToUpload)
+        // console.log('this.imgUrlToUpload generateImage', this.imgUrlToUpload)
         this.imgUrl = URL.createObjectURL(blob)
       })
     },
     subirImagenConcierto(idConcierto) {
         let bodyFormData = new FormData()
         bodyFormData.append('archivo', this.imgUrlToUpload)
-        console.log('this.imgUrlToUpload', this.imgUrlToUpload)
+        // console.log('this.imgUrlToUpload', this.imgUrlToUpload)
 
         axios({
             method: 'put',
@@ -462,10 +462,10 @@ export default {
             config: { headers: {'Content-Type': 'multipart/form-data' }}
             })
             .then((res) => {
-              console.log('res', res)
+              // console.log('res', res)
             })
             .catch((err) => {
-              console.log(err.response)
+              // console.log(err.response)
             })
     },
     setBlobToProperty(blob) {

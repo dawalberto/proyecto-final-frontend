@@ -210,7 +210,7 @@ export default {
                     this.fillDataUser(user)
                 })
                 .catch((err) => {
-                    console.log('ERROR getUser en Perfil.vue', err.response)
+                    // console.log('ERROR getUser en Perfil.vue', err.response)
                 })
         },
         fillDataUser(user) {
@@ -282,7 +282,7 @@ export default {
                     })
                     .catch((err) => {
                         this.loadidngBtnSuscribir = false
-                        console.log('err', err.response)
+                        // console.log('err', err.response)
                     })
 
             }

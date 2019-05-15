@@ -138,12 +138,12 @@ export default {
 
       axios.post(`${ this.$store.state.urlBackend }/programas`, qs.stringify(programa))
         .then((res) => {
-          console.log('guardado')
+          // console.log('guardado')
           this.dialogAlertProgramSaved = true
           this.loadingBtnSave = false
         })
         .catch((err) => {
-          console.log(err.response)
+          // console.log(err.response)
           this.loadingBtnSave = false
         })
     },

@@ -61,7 +61,7 @@ export default {
                     this.pageLoading = false
                 })
                 .catch((err) => {
-                    console.log(err)
+                    // console.log(err)
                     this.pageLoading = false
                 })
         },

@@ -239,12 +239,12 @@ export default {
 
             axios.delete(`${ this.$store.state.urlBackend }/usuarios/${ this.userLoginStore._id }`, { data: {supposedPassword: this.supposedPasswordToDelete} })
                 .then((res) => {
-                    console.log(res)
+                    // console.log(res)
                     this.loading = false
                     this.dialogs.alertCuentaDeleted = true
                 })
                 .catch((err) => {
-                    console.log(err.response)
+                    // console.log(err.response)
                     this.errors.supposedPasswordToDelete = 'Contraseña incorrecta'
                     this.loading = false
                 })

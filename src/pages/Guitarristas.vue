@@ -44,7 +44,7 @@ export default {
             this.pageLoading = false
           })
           .catch((err) => {
-            console.log(err.response)
+            // console.log(err.response)
             if (err.response.status === 400) {
               this.noResultsSearch = `No se encontró ningún guitarrista llamado "${ this.toSearch }"`
             }
@@ -57,7 +57,7 @@ export default {
             this.pageLoading = false
           })
           .catch((err) => {
-            console.log(err.response)
+            // console.log(err.response)
             this.pageLoading = false
           })
       }

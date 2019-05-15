@@ -93,7 +93,7 @@ export default {
             this.pageLoading = false
           })
           .catch((err) => {
-            console.log(err.response)
+            // console.log(err.response)
             this.pageLoading = false
           })
       } else if (this.toSearch) {
@@ -106,7 +106,7 @@ export default {
             if (err.response.status === 400) {
               this.noResultsSearch = `No se encontraron conciertos con el titulo "${ this.toSearch }"`
             }
-            console.log(err.response)
+            // console.log(err.response)
             this.pageLoading = false
           })
       }else {
@@ -116,7 +116,7 @@ export default {
             this.pageLoading = false
           })
           .catch((err) => {
-            console.log(err.response)
+            // console.log(err.response)
             this.pageLoading = false
           })
       }

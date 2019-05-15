@@ -141,13 +141,13 @@ export default {
 
       axios.put(`${ this.$store.state.urlBackend }/programas/${ this.programaProp._id }`, qs.stringify(programa))
         .then((res) => {
-          console.log('actualizado')
+          // console.log('actualizado')
           this.loadingBtnUpdate = false
           this.dialogAlertProgramSaved = true
         })
         .catch((err) => {
           this.loadingBtnUpdate = false
-          console.log(err.response)
+          // console.log(err.response)
         })
     },
     generateId() {
@@ -158,7 +158,7 @@ export default {
     },
     deleteObra(id) {
       for (let i = 0; i < this.obras.length; i++) {
-        console.log(this.obras[i])
+        // console.log(this.obras[i])
         if (id === this.obras[i].id) {
           this.obras.splice(i, 1)
           return

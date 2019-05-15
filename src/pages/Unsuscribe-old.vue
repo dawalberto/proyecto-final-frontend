@@ -77,19 +77,19 @@ export default {
                 if (this.getParamId) {
                     let suscriptor = { suscriptor: this.emailSuscriptor }
                     JSON.stringify(suscriptor)
-                    console.log('suscriptor', suscriptor)
+                    // console.log('suscriptor', suscriptor)
 
                     axios.put(`${ this.$store.state.urlBackend }/usuarios/${ this.getParamId }/unsuscribe`, suscriptor)
                         .then((res) => {
                             this.dialogBaja = true
                             this.loadidngBtnUnsuscribe = false
                             this.emailSuscriptor = null
-                            console.log('res', res)
+                            // console.log('res', res)
                         })
                         .catch((err) => {
                             this.loadidngBtnUnsuscribe = false    
                             err.response.data.msg ? this.msgEmail = 'Este email no está suscrito' : ''
-                            console.log('err', err.response)
+                            // console.log('err', err.response)
                         })
                 } else {
                     axios.delete(`${ this.$store.state.urlBackend }/suscriptores`, { data: {email: this.emailSuscriptor} })
@@ -97,12 +97,12 @@ export default {
                             this.loadidngBtnUnsuscribe = false
                             this.dialogBaja = true
                             this.emailSuscriptor = null
-                            console.log('res', res)
+                            // console.log('res', res)
                         })
                         .catch((err) => {
                             this.loadidngBtnUnsuscribe = false
                             err.response.data.msg ? this.msgEmail = 'Este email no está suscrito' : ''
-                            console.log('err', err.response)
+                            // console.log('err', err.response)
                         })
                 }
 

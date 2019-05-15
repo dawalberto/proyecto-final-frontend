@@ -167,7 +167,7 @@ export default {
                     this.loading = false
                   })
                   .catch(err => {
-                    console.log(err.response)
+                    // console.log(err.response)
                     if (err.response.data.err.errors.email) {
                       this.msgRegistroEmail = 'Este email ya está registrado'
                     }

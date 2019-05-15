@@ -282,23 +282,23 @@ export default {
 
             axios.put(`${ this.$store.state.urlBackend }/usuarios/${ this.userLoginStore._id }`, qs.stringify(updatedUser))
                 .then((res) => { 
-                    console.log('Updated ok', res)
+                    // console.log('Updated ok', res)
                     this.loading = false
                     this.dialogAlertUserUpdated = true
                 })
                 .catch((err) => { 
-                    console.log(err)
+                    // console.log(err)
                     this.loading = false
                 })
         },
         getUser() {
             axios.get(`${ this.$store.state.urlBackend }/usuarios/${ this.userLoginStore._id }`)
                 .then((res) => {
-                    console.log(res.data.usuario)
+                    // console.log(res.data.usuario)
                     this.fillDataUser(res.data.usuario)
                 })
                 .catch((err) => {
-                    console.log(err.data)
+                    // console.log(err.data)
                 })
         },
         fillDataUser(user) {
@@ -338,7 +338,7 @@ export default {
         subirImagenUsuario() {
             let bodyFormData = new FormData()
             bodyFormData.append('archivo', this.imgUrl)
-            console.log('this.imgUrl usuario', this.imgUrl)
+            // console.log('this.imgUrl usuario', this.imgUrl)
             axios({
                 method: 'put',
                 url: `${ this.$store.state.urlBackend }/uploads/imgusuarios/${ this.userLoginStore._id }`,
@@ -349,7 +349,7 @@ export default {
                     this.dialogAlertImageUpdated = true
                 })
                 .catch((err) => {
-                    console.log(err)
+                    // console.log(err)
                 })
         },
         addEnlaceRed() {

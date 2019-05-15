@@ -101,7 +101,7 @@ export default {
                     this.loadingBtnEliminar = false
                 })
                 .catch((err) => {
-                    console.log(err.response)
+                    // console.log(err.response)
                     this.loadingBtnEliminar = false
                 })
         },
