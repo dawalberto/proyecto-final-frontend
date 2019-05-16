@@ -16,22 +16,34 @@
                 <v-layout align-center justify-center class="containerContentScreen1">
                     <v-flex xs12>
                         <transition name="slide-fade">
-                            <p class="display-1 greyColorBlueDarken1 font-weight-thin text-xs-center"><span>clasicaguitarra.com</span></p>
+                            <p v-show="transition1" class="display-1 greyColorBlueDarken1 font-weight-thin text-xs-center"><span>clasicaguitarra.com</span></p>
                         </transition>
+                        <p style="visibility: hidden;" v-show="!transition1" class="display-1 greyColorBlueDarken1 font-weight-thin text-xs-center"><span>clasicaguitarra.com</span></p>
                         <transition name="fade">
-                            <p class="headline mt-4 greyColorBlueDarken1 font-weight-light text-xs-center contentText">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
+                            <p v-show="transition2" class="headline mt-4 greyColorBlueDarken1 font-weight-light text-xs-center contentText">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
                         </transition>
+                            <p style="visibility: hidden;" v-show="!transition2" class="headline mt-4 greyColorBlueDarken1 font-weight-light text-xs-center contentText">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
                         <transition name="slide-fade-row">
                             <p 
                             class="display-1 mt-2 greyColorBlueDarken1 font-weight-light text-xs-center" 
                             :class="conciertosWeek.length <= 0 ? 'displayNone' : ''"
-                            v-show="!pageLoading"
+                            v-show="transition3"
                             >
                                 <a href="#screen2anchor" v-smooth-scroll="{ duration: 1500, offset: -50 }">
                                     <span><v-icon large class="greyColorBlueDarken1">fas fa-chevron-down</v-icon></span>
                                 </a>
                             </p>
                         </transition>
+                        <p 
+                            style="visibility: hidden;" 
+                            class="display-1 mt-2 greyColorBlueDarken1 font-weight-light text-xs-center" 
+                            :class="conciertosWeek.length <= 0 ? 'displayNone' : ''"
+                            v-show="!transition3"
+                            >
+                                <a href="#screen2anchor" v-smooth-scroll="{ duration: 1500, offset: -50 }">
+                                    <span><v-icon large class="greyColorBlueDarken1">fas fa-chevron-down</v-icon></span>
+                                </a>
+                        </p>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -79,6 +91,7 @@
 <script>
 import axios from 'axios'
 import previewConcierto from '@/components/previewConcierto'
+import { setTimeout } from 'timers';
 
 export default {
     name: 'home',
@@ -88,13 +101,29 @@ export default {
             conciertosWeek: [],
             pageLoading: true,
             mobile: true,
-            breakpoint: this.$vuetify.breakpoint
+            breakpoint: this.$vuetify.breakpoint,
+            transition1: false,
+            transition2: false,
+            transition3: false
         }
     },
     mounted() {
         this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
         this.getConciertosThisWeek()
         this.$store.commit('pageIsMounted')
+    },
+    watch: {
+        pageLoading(newVal) {
+            setTimeout(() => {
+                this.transition1 = true
+            }, 500)
+            setTimeout(() => {
+                this.transition2 = true
+            }, 1500)
+            setTimeout(() => {
+                this.transition3 = true
+            }, 2500)
+        }
     },
     methods: {
         getConciertosThisWeek() {
