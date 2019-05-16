@@ -19,11 +19,11 @@
                             <p v-show="transition1" class="display-1 greyColorBlueDarken1 font-weight-thin text-xs-center"><span>clasicaguitarra.com</span></p>
                         </transition>
                         <p style="visibility: hidden;" v-show="!transition1" class="display-1 greyColorBlueDarken1 font-weight-thin text-xs-center"><span>clasicaguitarra.com</span></p>
-                        <transition name="fade">
+                        <transition name="slide-fade">
                             <p v-show="transition2" class="headline mt-4 greyColorBlueDarken1 font-weight-light text-xs-center contentText">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
                         </transition>
                             <p style="visibility: hidden;" v-show="!transition2" class="headline mt-4 greyColorBlueDarken1 font-weight-light text-xs-center contentText">Un espacio creado para guitarristas clásicos/as donde podrás ver la trayectoria de los/las guitarristas y estar al tanto de todos sus conciertos</p>
-                        <transition name="slide-fade-row">
+                        <transition name="slide-fade">
                             <p 
                             class="display-1 mt-2 greyColorBlueDarken1 font-weight-light text-xs-center" 
                             :class="conciertosWeek.length <= 0 ? 'displayNone' : ''"
@@ -52,10 +52,10 @@
             <v-container fluid fill-height>
                 <v-layout align-center justify-center class="zindex3">
                     <v-flex xs12>
-                        <transition name="fade">
+                        <transition name="slide-fade">
                             <p class="headline greyColorBlueDarken2 font-weight-light text-xs-center" v-show="!pageLoading">Conciertos para esta semana</p>
                         </transition>
-                        <transition name="fadeConcierto">
+                        <transition name="slide-fade">
                             <div class="containerConciertos" v-show="!pageLoading">
                                 <previewConcierto
                                 v-for="concierto of conciertosWeek"
@@ -119,10 +119,10 @@ export default {
             }, 500)
             setTimeout(() => {
                 this.transition2 = true
-            }, 1500)
+            }, 2000)
             setTimeout(() => {
                 this.transition3 = true
-            }, 2500)
+            }, 3000)
         }
     },
     methods: {
@@ -172,34 +172,10 @@ export default {
         transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }
     .slide-fade-enter, .slide-fade-leave-to {
-        transform: translateX(10px);
+        transform: translateX(60px);
         opacity: 0;
     }
 
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity 2s;
-    }
-    .fade-enter, .fade-leave-to {
-        opacity: 0;
-    }
-
-    .fadeConcierto-enter-active, .fadeConcierto-leave-active {
-        transition: opacity 3s;
-    }
-    .fadeConcierto-enter, .fadeConcierto-leave-to {
-        opacity: 0;
-    }
-
-    .slide-fade-row-enter-active {
-        transition: all 5s ease;
-    }
-    .slide-fade-row-leave-active {
-        transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-    }
-    .slide-fade-row-enter, .slide-fade-row-leave-to {
-        transform: translateX(10px);
-        opacity: 0;
-    }
     .screen1, .screen2 {
         width: 100%;
         height: 100vh;
