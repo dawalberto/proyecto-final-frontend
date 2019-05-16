@@ -52,7 +52,7 @@
                 <a href="" class="ml-4"><v-icon color="#CFD8DC">fab fa-youtube</v-icon></a>
             </p>
             <div class="col1-3 buttonToDonate mb-0">
-                <v-btn to="/donate" color="#FFAA28" class="mb-0"><span style="color: #00174F;">¿Te gusta clasicaguitarra? ¡Puedes ayudar!</span></v-btn>
+                <v-btn to="/donate" color="#FFAA28" class="mb-0"><span style="color: #00174F;">¿Te gusta clasicaguitarra? ¡ayuda!</span></v-btn>
             </div>
         </div>
     </div>
