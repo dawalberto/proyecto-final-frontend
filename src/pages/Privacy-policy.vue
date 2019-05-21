@@ -3,7 +3,7 @@
         <div class="container">
             <p class="title">Responsable</p>
             <p>clasicaguitarra</p>
-            <p>Contacto: clasicaguitarra.com.admin@gmail.com</p>
+            <p>Contacto: clasicaguitarra.com.root@gmail.com</p>
 
             <p class="title">¿Qué se hace con tus datos?</p>
             <p>• Nuevos clientes</p>
@@ -24,7 +24,7 @@
                 <li>Podrá solicitar que se corrija la inexactitud de sus datos personales.</li>
                 <li>Podrá solicitar la eliminación de sus datos personales.</li>
             </ul>
-            <p>Para ello deberá dirigirse a nuestro correo clasicaguitarra.com.admin@gmail.com</p>
+            <p>Para ello deberá dirigirse a nuestro correo clasicaguitarra.com.root@gmail.com</p>
 
             <p class="title">Redes sociales</p>
             <p>
