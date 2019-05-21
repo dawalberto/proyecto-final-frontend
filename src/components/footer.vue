@@ -47,9 +47,9 @@
             <p class="col1 text-xs-center font-weight-light"><a href="#/terms-of-use">Terms of Use</a> <a href="#/privacy-policy" class="ml-2">Privavy Policy</a></p>
             <p class="col2 text-xs-center font-weight-light">&copy; Copyright clasicaguitarra.com 2019</p>
             <p class="redes col3 text-xs-center">
-                <a href=""><v-icon color="#CFD8DC">fab fa-twitter</v-icon></a>
-                <a href="" class="ml-4"><v-icon color="#CFD8DC">fab fa-facebook</v-icon></a>
-                <a href="" class="ml-4"><v-icon color="#CFD8DC">fab fa-youtube</v-icon></a>
+                <a href="https://twitter.com/clasica_guitar" target="_blanck"><v-icon color="#CFD8DC">fab fa-twitter</v-icon></a>
+                <a href="https://www.facebook.com/clasica.guitarra.35" target="_blanck" class="ml-4"><v-icon color="#CFD8DC">fab fa-facebook</v-icon></a>
+                <a href="https://www.youtube.com/channel/UC7dWL63FBmre80TTycsvMzw" target="_blanck" class="ml-4"><v-icon color="#CFD8DC">fab fa-youtube</v-icon></a>
             </p>
             <div class="col1-3 buttonToDonate mb-0">
                 <v-btn to="/donate" color="#FFAA28" class="mb-0"><span style="color: #00174F;">¿Te gusta clasicaguitarra? ¡ayuda!</span></v-btn>

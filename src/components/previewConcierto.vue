@@ -33,7 +33,7 @@
             <p class="subheading greyColorBlueDarken1"><v-icon class="mr-2" color="blue-grey darken-3">fas fa-clock</v-icon>{{ conciertoObj.hora }}</p>
             <p class="subheading greyColorBlueDarken1"><v-icon class="mr-2" color="blue-grey darken-3">fas fa-map-marker-alt</v-icon>{{ conciertoObj.ubicacion }}</p>
             <p class="subheading greyColorBlueDarken1"><v-icon class="mr-2" color="blue-grey darken-3">fas fa-money-bill</v-icon>{{ conciertoObj.precio }} €</p>
-            <p @click="showDescription = !showDescription">
+            <p @click="showDescription = !showDescription" class="pdescription">
                 <span class="subheading mr-2 greyColorBlueDarken1"><v-icon class="mr-2" color="blue-grey darken-3">fas fa-align-left</v-icon>Descripción</span>
                 <v-icon>{{ !showDescription ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
             </p>
@@ -215,6 +215,9 @@ export default {
         justify-content: center;
         align-content: center;
         color: white;
+    }
+    .pdescription {
+        cursor: pointer;
     }
     hr {
         margin-bottom: 1rem;

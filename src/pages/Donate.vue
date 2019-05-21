@@ -1,8 +1,8 @@
 <template>
     <div>
-        <p class="title font-weight-light">clasicaguitarra.com es un proyecto que nace a causa del gran desconocimiento que hay con respecto a la guitarra clásica y música clásica en general en España, sobre todo entre los/las más jovenes.</p>
-        <p class="title font-weight-light">El objetivo de la web es conseguir un punto de referencia(la web) donde se pueda encontrar a cualquier guitarrsita clásico/a e información sobre el/ella y sus conciertos, recopilando en un único lugar un gran cúmulo de información disponible para todos los usuarios de la web y muy fácil de hacer llegar a otros usuarios.</p>
-        <p class="title font-weight-light">clasicaguitarra.com es una web completamente gratuita que pretende ayudar a los/las guitarristas clásicos/as dandolos a conocer a ellos/ellas y sus conciertos a través de internet.</p>
+        <p class="title font-weight-light">clasicaguitarra.com es un proyecto que nace a causa del gran desconocimiento que hay con respecto a la guitarra clásica y música clásica en general en España, sobre todo entre los/las más jóvenes.</p>
+        <p class="title font-weight-light">El objetivo de la web es conseguir un punto de referencia(la web) donde se pueda encontrar a cualquier guitarrista clásico/a e información sobre el/ella y sus conciertos, recopilando en un único lugar un gran cúmulo de información disponible para todos los usuarios de la web y muy fácil de hacer llegar a otros usuarios.</p>
+        <p class="title font-weight-light">clasicaguitarra.com es una web completamente gratuita que pretende ayudar a los/las guitarristas clásicos/as dandolos a conocer a ellos/ellas y sus conciertos a través de Internet.</p>
         <hr class="mt-4">
         <p class="title font-weight-light mt-2">Si te gusta clasicaguitarra.com o disfrutas de sus servicios y te gustaría ayudar a mantenerla, puedes considerar hacer una donación a través de PayPal, tú eliges el precio.</p>
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
