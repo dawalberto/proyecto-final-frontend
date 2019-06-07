@@ -144,6 +144,7 @@
             label="Selecciona tus redes sociales"
             id="inputRedesId"
             class="inputRedes"
+            style="z-index: 11;"
             multiple
             chips
             solo

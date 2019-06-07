@@ -168,7 +168,8 @@ export default {
             this.errors.newPasswordRepeat = null
             let errorSupposedPassword = false,
             errorNewPassword = false,
-            errorNewPasswordRepeat = false
+            errorNewPasswordRepeat = false,
+            errorFormat = false
 
             if (this.supposedPassword === null || this.supposedPassword === undefined || this.supposedPassword === '') {
                 this.errors.supposedPassword = 'Contraseña obligatoria'
@@ -191,8 +192,17 @@ export default {
                 errorNewPasswordRepeat = true
             }
 
+            let regEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+            if (!regEx.test(this.newPassword)) {
+                this.errors.newPassword = 'La contraseña debe tener como mínimo 8 caracteres, al menos una letra minúscula, una mayúscula, un número y un caracter especial(@ $ ! % * ? &)'
+                errorFormat = true
+            }
+            if (!regEx.test(this.newPasswordRepeat)) {
+                this.errors.newPasswordRepeat = 'La contraseña debe tener como mínimo 8 caracteres, al menos una letra minúscula, una mayúscula, un número y un caracter especial(@ $ ! % * ? &)'
+                errorFormat = true
+            }
 
-            if (errorSupposedPassword || errorNewPassword || errorNewPasswordRepeat) {
+            if (errorSupposedPassword || errorNewPassword || errorNewPasswordRepeat || errorFormat) {
                 return false
             } else {
                 return true
