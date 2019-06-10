@@ -51,7 +51,7 @@ export default {
       conciertos: [],
       paramId: this.$route.params.id,
       toSearch: this.$route.params.titulo,
-      msg: 'Guitarrista sin conciertos publicados',
+      msg: '',
       showMsg: false,
       dialogCreateConcierto: false,
       dialogPrograma: false,
@@ -93,6 +93,8 @@ export default {
                   let user = res.data.usuario
                   this.msg = `Conciertos de <a style="text-decoration: none;" href="#/perfil/${ user._id }">${ user.nombre } ${ user.apellidos }</a>`
                 })
+            } else {
+              this.msg = 'Guitarrista sin conciertos publicados'
             }
             this.showMsg = true
             this.pageLoading = false
