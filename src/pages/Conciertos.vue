@@ -1,7 +1,16 @@
 <template>
   <div>
     <v-progress-linear :indeterminate="true" color="grey darken-3" v-show="pageLoading"></v-progress-linear>
-    <p v-show="showMsg" class="text-xs-center title mb-4" v-html="msg"></p>
+    <p v-show="showMsg" class="text-xs-center title" v-html="msg"></p>
+    <p v-show="buttonsShare" class="text-xs-center title">Comparte los conciertos de {{ sexo }} guitarrista</p>
+    <p v-show="buttonsShare" class="text-xs-center mb-4">
+      <facebook has_icon :page_url="urlToShare"></facebook>
+      <twitter has_icon :page_url="urlToShare"></twitter>
+      <pinterest has_icon :page_url="urlToShare"></pinterest>
+      <tumblr has_icon :page_url="urlToShare"></tumblr>
+      <whatsapp has_icon :page_url="urlToShare"></whatsapp>
+      <telegram has_icon :page_url="urlToShare"></telegram>
+    </p>
     <p v-if="msgAllConcerts" class="text-xs-center title mb-4">{{ msgAllConcerts() }}</p>
     <p v-show="toSearch && !noResultsSearch" class="subheading">Conciertos que coinciden con "{{ toSearch }}"</p>
     <p v-show="toSearch && noResultsSearch" class="subheading">{{ noResultsSearch }}</p>
@@ -42,10 +51,25 @@ import axios from 'axios'
 import { mapState, mapGetters } from 'vuex'
 import previewConcierto from '../components/previewConcierto'
 import addConcierto from '../components/addConcierto'
+import facebook from 'vue-goodshare/src/providers/Facebook.vue'
+import twitter from 'vue-goodshare/src/providers/Twitter.vue'
+import pinterest from 'vue-goodshare/src/providers/Pinterest.vue'
+import tumblr from 'vue-goodshare/src/providers/Tumblr.vue'
+import whatsapp from 'vue-goodshare/src/providers/WhatsApp.vue'
+import telegram from 'vue-goodshare/src/providers/Telegram.vue'
 
 export default {
   name: 'conciertos',
-  components: { previewConcierto, addConcierto },
+  components: { 
+    previewConcierto, 
+    addConcierto,
+    facebook,
+    twitter,
+    pinterest,
+    tumblr,
+    whatsapp,
+    telegram
+  },
   data() {
     return {
       conciertos: [],
@@ -60,7 +84,10 @@ export default {
       menuFecha: false,
       menuHora: false,
       pageLoading: true,
-      noResultsSearch: null
+      noResultsSearch: null,
+      buttonsShare: false,
+      urlToShare: '',
+      sexo: ''
     }
   },
   created() {
@@ -93,6 +120,9 @@ export default {
                 .then(res => {
                   let user = res.data.usuario
                   this.msg = `Conciertos de <a style="text-decoration: none;" href="#/perfil/${ user._id }">${ user.nombre } ${ user.apellidos }</a>`
+                  !user.sexo ? this.sexo = 'este' : this.sexo = 'esta'
+                  this.urlToShare = `https://clasicaguitarra.com/#/conciertos/${ user._id }`
+                  this.buttonsShare = true
                 })
             } else {
               this.msg = 'Guitarrista sin conciertos publicados'

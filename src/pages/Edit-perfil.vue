@@ -279,7 +279,7 @@ export default {
                 webpage
             }
 
-            console.log(updatedUser)
+            // console.log(updatedUser)
 
             axios.put(`${ this.$store.state.urlBackend }/usuarios/${ this.userLoginStore._id }`, qs.stringify(updatedUser))
                 .then((res) => { 
