@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-progress-linear :indeterminate="true" color="grey darken-3" v-show="pageLoading"></v-progress-linear>
-    <p v-show="showMsg">{{ msgNingunConcierto }}</p>
+    <p v-show="showMsg" class="text-xs-center title mb-4" v-html="msg"></p>
+    <p v-if="msgAllConcerts" class="text-xs-center title mb-4">{{ msgAllConcerts() }}</p>
     <p v-show="toSearch && !noResultsSearch" class="subheading">Conciertos que coinciden con "{{ toSearch }}"</p>
     <p v-show="toSearch && noResultsSearch" class="subheading">{{ noResultsSearch }}</p>
     <div class="containerGrid">
@@ -50,7 +51,7 @@ export default {
       conciertos: [],
       paramId: this.$route.params.id,
       toSearch: this.$route.params.titulo,
-      msgNingunConcierto: 'Guitarrista sin conciertos publicados',
+      msg: 'Guitarrista sin conciertos publicados',
       showMsg: false,
       dialogCreateConcierto: false,
       dialogPrograma: false,
@@ -87,14 +88,20 @@ export default {
             if (res.data.ok) {
               this.conciertos = this.firstConciertosNotFinished(res.data.conciertos)
               this.showMsg = false
-            } else {
-              this.showMsg = true
+              this.getUser()
+                .then(res => {
+                  let user = res.data.usuario
+                  this.msg = `Conciertos de <a style="text-decoration: none;" href="#/perfil/${ user._id }">${ user.nombre } ${ user.apellidos }</a>`
+                })
             }
+            this.showMsg = true
             this.pageLoading = false
           })
           .catch((err) => {
             // console.log(err.response)
+            this.showMsg = true
             this.pageLoading = false
+            this.msg = 'No se encontró guitarrista'
           })
       } else if (this.toSearch) {
         axios.get(`${ this.$store.state.urlBackend }/conciertos/buscar/${ this.toSearch }`)
@@ -121,6 +128,12 @@ export default {
           })
       }
     },
+    async getUser() {
+      if (this.paramId) {
+        let user = await axios.get(`${ this.$store.state.urlBackend }/usuarios/${ this.paramId }`)
+        return user
+      }
+    },
     reloadConciertosAndCloseDialog() {
       this.getConciertos()
       this.dialogCreateConcierto = false
@@ -145,6 +158,10 @@ export default {
       })
 
       return conciertosNotFinished.concat(conciertosFinished)
+    },
+    msgAllConcerts() {
+      if (!this.paramId) { return 'Todos los conciertos' }
+      return ''
     }
   }
 }
