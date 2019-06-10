@@ -14,6 +14,7 @@
         class="btnAddPrograma"
         fab
         dark
+        :large="!mobile"
         @click="dialogCreateProgram = true"
         color="blue darken-3"
         title="Añadir programa"
@@ -43,10 +44,13 @@ export default {
         return {
             programas: [],
             pageLoading: true,
-            dialogCreateProgram: false
+            dialogCreateProgram: false,
+            breakpoint: this.$vuetify.breakpoint,
+            mobile: true
         }
     },
     mounted() {
+        this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
         this.getProgramas()
         this.$store.commit('pageIsMounted')
     },
@@ -74,7 +78,7 @@ export default {
 
 <style scoped>
     .btnAddPrograma {
-        z-index: 10;
+        z-index: 20;
         position: fixed;
         right: 2rem;
         bottom: 1.5rem;
