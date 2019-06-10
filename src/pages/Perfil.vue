@@ -151,6 +151,7 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
 
 export default {
     name: 'perfil',
@@ -185,6 +186,7 @@ export default {
     mounted() {
         this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false   
         this.$store.commit('pageIsMounted')
+        this.login ? this.emailSuscriptor = this.$store.state.user.email : ''
     },
     filters: {
         capitalize (value) {
@@ -194,6 +196,7 @@ export default {
         }
     },
     computed: {
+        ...mapState(['login']),
         getGenero() {
             if (this.user.sexo) {
                 return 'nacida'

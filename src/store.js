@@ -24,6 +24,7 @@ export default new Vuex.Store({
       state.user._id = user._id
       state.user.nomUsuario = user.nomUsuario
       state.user.img = user.img
+      state.user.email = user.email
 
       state.login = true
     },
