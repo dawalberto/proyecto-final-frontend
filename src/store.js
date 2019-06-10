@@ -11,7 +11,8 @@ export default new Vuex.Store({
     user: {},
     login: false,
     token: null,
-    pageIsMounted: false
+    pageIsMounted: false,
+    iconSearchBar: 'fas fa-user'
   },
   getters: {
     userLoginStore: (state) => {
@@ -36,6 +37,9 @@ export default new Vuex.Store({
     },
     pageIsMounted: (state) => {
       state.pageIsMounted = true
+    },
+    changeIconSearchBar: (state, route) => {
+      route === 'guitarristas' ? state.iconSearchBar = 'fas fa-user' : state.iconSearchBar = 'fas fa-music'
     }
   }
 })

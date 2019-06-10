@@ -68,7 +68,8 @@ export default {
   },
   mounted() {
     this.breakpoint.smAndDown ? this.mobile = true : this.mobile = false
-    this.$store.commit('pageIsMounted')        
+    this.$store.commit('pageIsMounted')   
+    this.$store.commit('changeIconSearchBar', this.$route.name)
   },
   computed: {
     ...mapState(['login']),

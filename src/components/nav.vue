@@ -140,7 +140,7 @@ export default {
         this.changeIcon()
     },
     computed: {
-        ...mapState(['login']),
+        ...mapState(['login', 'iconSearchBar']),
         ...mapGetters(['userLoginStore']),
         icon () {
             this.iconSelected = this.icons[this.iconIndex]
@@ -156,6 +156,9 @@ export default {
         },
         iconIndex(icon) {
             icon === 0 ? this.labelSearch = 'Buscar guitarrista' : this.labelSearch = 'Buscar concierto'
+        },
+        iconSearchBar(icon) {
+            icon === 'fas fa-user' ? this.iconIndex = 0 : this.iconIndex = this.icons.length - 1
         }
     },
     methods: {

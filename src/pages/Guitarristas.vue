@@ -34,6 +34,7 @@ export default {
   },
   mounted() {
     this.$store.commit('pageIsMounted')    
+    this.$store.commit('changeIconSearchBar', this.$route.name)
   },
   methods: {
     getGuitarristas () {
